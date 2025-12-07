@@ -485,8 +485,9 @@
 
         <!-- قسم الامتحان -->
         <div class="section" id="examSection">
-            <div id="studentWelcome" class="student-welcome">
-                <i class="fas fa-user-graduate"></i> مرحباً <span id="studentName"></span>، ابدأ الإجابة الآن
+            <!-- ========== ⚠️ التعديل: إزالة رسالة الترحيب بالاسم ========== -->
+            <div class="student-welcome">
+                <i class="fas fa-user-graduate"></i> مرحباً، ابدأ الإجابة الآن
             </div>
             
             <div class="question-container" id="questionsContainer">
@@ -646,7 +647,7 @@
                         return { success: false, message: '❌ كود الدخول غير صحيح' };
                     }
                     
-                    // التحقق من الصف
+                    // التحقق من الصف (الرابع)
                     const grade = studentCode.charAt(5);
                     if (grade !== this.config.GRADE) {
                         return { 
@@ -655,7 +656,7 @@
                         };
                     }
                     
-                    // ===== 🔒 الجديد: التحقق من استخدام الجهاز =====
+                    // ===== 🔒 التحقق من استخدام الجهاز =====
                     const today = new Date().toISOString().split('T')[0];
                     
                     // التحقق إذا كان هذا الجهاز استخدم اليوم لأي طالب آخر
@@ -665,7 +666,7 @@
                         return deviceCheck;
                     }
                     
-                    // ===== التحقق من بيانات الطالب =====
+                    // ===== التحقق من بيانات الطالب في قاعدة البيانات =====
                     const snapshot = await db.collection('students')
                         .where('studentId', '==', studentCode)
                         .limit(1)
@@ -707,7 +708,8 @@
                         success: true,
                         studentId: studentDoc.id,
                         studentData: studentData,
-                        message: `✅ مرحباً ${studentData.fullName}`
+                        // ========== ⚠️ التعديل: رسالة ترحيب عامة بدون اسم ==========
+                        message: `✅ تم التحقق بنجاح، يمكنك البدء الآن`
                     };
                     
                 } catch (error) {
@@ -719,10 +721,10 @@
                 }
             }
             
-            // ===== 🔒 دالة جديدة: التحقق من استخدام الجهاز =====
+            // ===== 🔒 التحقق من استخدام الجهاز =====
             async checkDeviceUsage(today, studentCode) {
                 try {
-                    // البحث عن أي نتيجة لهذا الجهاز اليوم
+                    // البحث عن أي نتيجة لهذا الجهاز اليوم في نفس المادة
                     const deviceResults = await db.collection('exam_results')
                         .where('deviceId', '==', this.deviceId)
                         .where('examDate', '==', today)
@@ -733,24 +735,11 @@
                     if (!deviceResults.empty) {
                         const existingResult = deviceResults.docs[0].data();
                         
-                        // إذا كان الجهاز استخدم من قبل
+                        // إذا كان الجهاز استخدم من قبل طالب آخر
                         if (existingResult.studentId !== studentCode) {
-                            // الحصول على اسم الطالب الذي استخدم الجهاز
-                            const studentSnapshot = await db.collection('students')
-                                .where('studentId', '==', existingResult.studentId)
-                                .limit(1)
-                                .get();
-                            
-                            let otherStudentName = 'طالب آخر';
-                            if (!studentSnapshot.empty) {
-                                otherStudentName = studentSnapshot.docs[0].data().fullName;
-                            }
-                            
                             return {
                                 success: false,
-                                message: `🚫 هذا الهاتف/الجهاز تم استخدامه اليوم من قبل:<br>
-                                <strong>${otherStudentName}</strong><br>
-                                لا يمكن استخدام نفس الجهاز لأكثر من طالب في اليوم`
+                                message: `🚫 هذا الجهاز مستخدم بالفعل من قبل طالب آخر اليوم`
                             };
                         }
                     }
@@ -759,32 +748,7 @@
                     
                 } catch (error) {
                     console.error('خطأ في التحقق من الجهاز:', error);
-                    return { success: true }; // في حالة الخطأ، نسمح بالدخول
-                }
-            }
-            
-            // ===== 🔒 دالة جديدة: تسجيل جهاز الطالب =====
-            async registerDevice(studentData) {
-                try {
-                    const today = new Date().toISOString().split('T')[0];
-                    const deviceLogId = `${this.deviceId}_${today}`;
-                    
-                    const deviceLog = {
-                        deviceId: this.deviceId,
-                        studentId: studentData.studentId,
-                        studentName: studentData.fullName,
-                        date: today,
-                        subject: this.config.SUBJECT,
-                        timestamp: new Date().toISOString(),
-                        userAgent: navigator.userAgent,
-                        platform: navigator.platform
-                    };
-                    
-                    await db.collection('device_logs').doc(deviceLogId).set(deviceLog);
-                    console.log('📱 تم تسجيل الجهاز:', deviceLogId);
-                    
-                } catch (error) {
-                    console.error('خطأ في تسجيل الجهاز:', error);
+                    return { success: true };
                 }
             }
             
@@ -870,7 +834,7 @@
                         sheetName: studentData.sheetName || null,
                         serialNumber: studentData.serialNumber || null,
                         createdAt: new Date().toISOString(),
-                        version: '2.1.0' // إصدار محدث
+                        version: '2.1.0'
                     };
                     
                     // حفظ النتيجة في Firestore
@@ -902,6 +866,30 @@
                         error: error.message,
                         message: '❌ فشل في حفظ النتيجة'
                     };
+                }
+            }
+            
+            async registerDevice(studentData) {
+                try {
+                    const today = new Date().toISOString().split('T')[0];
+                    const deviceLogId = `${this.deviceId}_${today}`;
+                    
+                    const deviceLog = {
+                        deviceId: this.deviceId,
+                        studentId: studentData.studentId,
+                        studentName: studentData.fullName,
+                        date: today,
+                        subject: this.config.SUBJECT,
+                        timestamp: new Date().toISOString(),
+                        userAgent: navigator.userAgent,
+                        platform: navigator.platform
+                    };
+                    
+                    await db.collection('device_logs').doc(deviceLogId).set(deviceLog);
+                    console.log('📱 تم تسجيل الجهاز:', deviceLogId);
+                    
+                } catch (error) {
+                    console.error('خطأ في تسجيل الجهاز:', error);
                 }
             }
             
@@ -1014,7 +1002,6 @@
                     }
                 }
                 
-                // تحويل إلى 10 درجات
                 const score = Math.round((correctCount / this.config.QUESTIONS_COUNT) * this.config.MAX_SCORE);
                 return Math.min(score, this.config.MAX_SCORE);
             }
@@ -1091,7 +1078,7 @@
                 examDate: examDay.examDate
             };
             
-            // إظهار رسالة الترحيب
+            // إظهار رسالة ترحيب عامة
             showAlert('success', verification.message);
             
             // إظهار تحذير حول الجهاز
@@ -1103,8 +1090,8 @@
             document.getElementById('loginSection').classList.remove('active');
             document.getElementById('examSection').classList.add('active');
             
-            // عرض اسم الطالب
-            document.getElementById('studentName').textContent = verification.studentData.fullName;
+            // ========== ⚠️ التعديل: إزالة عرض اسم الطالب ==========
+            // لم يعد هناك عرض للاسم في الترحيب
             
             // تحميل الأسئلة
             loadExamQuestions();
@@ -1253,10 +1240,6 @@
                     <div style="background: white; padding: 25px; border-radius: 15px; margin: 25px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; text-align: right;">
                             <div>
-                                <p style="color: #757575; font-size: 0.9em;">الطالب:</p>
-                                <p style="font-weight: bold; color: #0d47a1;">${examManager.currentStudent.fullName}</p>
-                            </div>
-                            <div>
                                 <p style="color: #757575; font-size: 0.9em;">المادة:</p>
                                 <p style="font-weight: bold; color: #0d47a1;">اللغة العربية</p>
                             </div>
@@ -1267,6 +1250,10 @@
                             <div>
                                 <p style="color: #757575; font-size: 0.9em;">النسبة:</p>
                                 <p style="font-weight: bold; color: #0d47a1;">${percentage.toFixed(1)}%</p>
+                            </div>
+                            <div>
+                                <p style="color: #757575; font-size: 0.9em;">الدرجة:</p>
+                                <p style="font-weight: bold; color: #0d47a1;">${score}/${SYSTEM_CONFIG.MAX_SCORE}</p>
                             </div>
                         </div>
                     </div>
@@ -1283,15 +1270,6 @@
                     <p style="margin-top: 25px; color: #78909c; font-size: 0.85em;">
                         <i class="fas fa-info-circle"></i> تم حفظ النتيجة في سجلات المدرسة
                     </p>
-                    
-                    ${examManager.deviceBlocked ? `
-                        <div style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 8px; border-right: 4px solid #ff9800;">
-                            <p style="color: #e65100; font-size: 0.9em;">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <strong>ملاحظة:</strong> تم الكشف عن استخدام هذا الجهاز مسبقاً
-                            </p>
-                        </div>
-                    ` : ''}
                 </div>
             `;
             
@@ -1308,7 +1286,7 @@
 
         // ==================== 📄 تهيئة الصفحة ====================
         window.onload = function() {
-            console.log('📚 صفحة امتحان اللغة العربية جاهزة');
+            console.log('📚 صفحة امتحان اللغة العربية للصف الرابع جاهزة');
             
             // تفعيل حقل الإدخال عند التحميل
             document.getElementById('studentCode').focus();
@@ -1319,7 +1297,7 @@
             const lastStudent = localStorage.getItem(deviceKey);
             
             if (lastStudent) {
-                console.log(`📱 هذا الجهتم استخدامه اليوم بواسطة الطالب: ${lastStudent}`);
+                console.log(`📱 هذا الجهاز تم استخدامه اليوم بواسطة الطالب: ${lastStudent}`);
             }
         };
     </script>
