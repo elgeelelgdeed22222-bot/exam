@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>امتحان اللغة العربية - الصف الخامس</title>
+    <title>امتحان اللغة العربية - الصف الرابع</title>
     <style>
         /* ===== إعدادات عامة ===== */
         * {
@@ -385,6 +385,113 @@
             font-size: 1.2em;
         }
 
+        /* ===== تنسيقات الأخطاء ===== */
+        .mistakes-container {
+            margin: 30px 0;
+            text-align: right;
+        }
+
+        .mistakes-title {
+            color: #d32f2f;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mistakes-title::before {
+            content: '⚠️';
+        }
+
+        .mistake-item {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            border-right: 5px solid #d32f2f;
+            box-shadow: 0 8px 20px rgba(211, 47, 47, 0.1);
+        }
+
+        .mistake-question {
+            color: #0d47a1;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .answer-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .answer-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .your-answer, .correct-answer {
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .your-answer {
+            background: #ffebee;
+            color: #d32f2f;
+            border: 2px solid #ffcdd2;
+        }
+
+        .your-answer::before {
+            content: '❌ إجابتك:';
+            display: block;
+            font-size: 0.9em;
+            color: #b71c1c;
+            margin-bottom: 5px;
+        }
+
+        .correct-answer {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 2px solid #c8e6c9;
+        }
+
+        .correct-answer::before {
+            content: '✅ الإجابة الصحيحة:';
+            display: block;
+            font-size: 0.9em;
+            color: #1b5e20;
+            margin-bottom: 5px;
+        }
+
+        .no-mistakes {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .no-mistakes i {
+            font-size: 3em;
+            color: #4caf50;
+            margin-bottom: 15px;
+        }
+
+        .no-mistakes h3 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .no-mistakes p {
+            color: #546e7a;
+        }
+
         /* ===== التكيف مع الهاتف ===== */
         @media (max-width: 480px) {
             .header h1 {
@@ -426,6 +533,14 @@
             .score-display {
                 font-size: 2.8em;
             }
+            
+            .mistake-item {
+                padding: 15px;
+            }
+            
+            .mistake-question {
+                font-size: 1em;
+            }
         }
     </style>
     <!-- خط Amiri أصغر -->
@@ -447,7 +562,7 @@
         <!-- الهيدر -->
         <div class="header">
             <h1><i class="fas fa-book-open"></i> امتحان اللغة العربية</h1>
-            <p>الصف الخامس الابتدائي</p>
+            <p>الصف الرابع الابتدائي</p>
             <p class="school-name">مدرسة الجيل الجديد الخاصة</p>
             <p style="font-size: 0.85em; margin-top: 8px;">أمل نحو المستقبل</p>
         </div>
@@ -477,7 +592,7 @@
                     <div class="info-item">لا يمكنك الرجوع إلى الأسئلة بعد الإجابة</div>
                     <div class="info-item">سيتم حفظ النتيجة تلقائياً</div>
                     <div class="info-item" style="color: #d32f2f; font-weight: bold;">
-                        ⚠️ الامتحان متاح من الساعة 6 مساءً إلى 12 منتصف الليل فقط
+                        ⚠️ كل جهاز يمكنه أداء امتحان واحد فقط يومياً
                     </div>
                 </div>
             </div>
@@ -485,8 +600,8 @@
 
         <!-- قسم الامتحان -->
         <div class="section" id="examSection">
-            <div id="studentWelcome" class="student-welcome">
-                <i class="fas fa-user-graduate"></i> مرحباً <span id="studentName"></span>، ابدأ الإجابة الآن
+            <div class="student-welcome">
+                <i class="fas fa-user-graduate"></i> مرحباً، ابدأ الإجابة الآن
             </div>
             
             <div class="question-container" id="questionsContainer">
@@ -517,7 +632,7 @@
         // ==================== ⚙️ الإعدادات الأساسية ====================
         const SYSTEM_CONFIG = {
             SUBJECT: 'arabic',
-            GRADE: '5',
+            GRADE: '4',
             EXAM_DURATION: 10, // 10 دقائق للغة العربية
             MAX_SCORE: 10,
             QUESTIONS_COUNT: 10
@@ -543,85 +658,81 @@
             db = firebase.firestore();
         }
 
-        // ==================== 📚 أسئلة اللغة العربية للصف الخامس ====================
+        // ==================== 📚 أسئلة اللغة العربية الصحيحة ====================
         const ARABIC_QUESTIONS = [
             {
                 id: 1,
-                question: "حدّد المفعول به في الجملة: 'قرأ الطالبُ القصةَ.'",
-                options: ["الطالب", "القصة", "قرأ"],
+                question: "العامل ماهر - كلمة العامل تعرب:",
+                options: ["فعل", "مبتدأ", "خبر"],
                 correct: 1,
                 type: "اختر"
             },
             {
                 id: 2,
-                question: "المفعول به في جملة: 'كرّم المديرُ المتفوقين.'",
-                options: ["المدير", "كرّم", "المتفوقين"],
-                correct: 2,
-                type: "اختر"
-            },
-            {
-                id: 3,
-                question: "أكمل: المفعول به هو اسم ________.",
-                options: ["يدلّ على سبب حدوث الفعل", "يقع عليه فعل الفاعل", "يدلّ على الزمن"],
+                question: "المهندستان بارعتان - كلمة بارعتان خبر وعلامة رفعه:",
+                options: ["الضمة", "الألف", "الفتحة"],
                 correct: 1,
                 type: "اختر"
             },
             {
+                id: 3,
+                question: "ساهم الأطفال للحفاظ على:",
+                options: ["الشجرة العجوز", "القمامة", "الفصل"],
+                correct: 0,
+                type: "اختر"
+            },
+            {
                 id: 4,
-                question: "في جملة: 'شربتُ الماءَ الباردَ.' ما المفعول به؟",
-                options: ["البارد", "الماء", "شربت"],
+                question: "الأراضي الزراعية في دلتا النيل خصبة - معنى كلمة خصبة:",
+                options: ["رملية", "كثيرة النباتات", "طيبة"],
                 correct: 1,
                 type: "اختر"
             },
             {
                 id: 5,
-                question: "في جملة: 'زارَ السائحُ المتحفَ.' يكون المفعول به:",
-                options: ["السائح", "المتحف", "زار"],
-                correct: 1,
+                question: "....... يحرص على نظافة فناء المدرسة",
+                options: ["هو", "أنا", "نحن"],
+                correct: 0,
                 type: "اختر"
             },
             {
                 id: 6,
-                question: "حدّد المفعول لأجله في الجملة: 'اجتهدَ الطالبُ رغبةً في التفوق.'",
-                options: ["الطالب", "اجتهد", "رغبةً"],
-                correct: 2,
-                type: "اختر"
+                question: "أرمي القمامة على الأرض إذا لم أجد سلة",
+                options: ["صح", "خطأ"],
+                correct: 1,
+                type: "صح/خطأ"
             },
             {
                 id: 7,
-                question: "المفعول لأجله يعبّر عن:",
-                options: ["مكان حدوث الفعل", "سبب حدوث الفعل", "زمن حدوث الفعل"],
+                question: "كتب الأطفال لافتات تقول (ألقوا القمامة هنا)",
+                options: ["صح", "خطأ"],
                 correct: 1,
-                type: "اختر"
+                type: "صح/خطأ"
             },
             {
                 id: 8,
-                question: "في جملة: 'سافرتُ طلبًا للعلم.' المفعول لأجله هو:",
-                options: ["سافرت", "للعلم", "طلبًا"],
-                correct: 2,
-                type: "اختر"
+                question: "علامة رفع المبتدأ هي الضمة إذا كان المبتدأ مفرد",
+                options: ["صح", "خطأ"],
+                correct: 0,
+                type: "صح/خطأ"
             },
             {
                 id: 9,
-                question: "أي الجمل الآتية تحتوي على مفعول لأجله؟",
-                options: [
-                    "أكلتُ التفاحةَ.",
-                    "خرجتُ خوفًا من العاصفة.",
-                    "شاهدتُ المباراةَ."
-                ],
+                question: "الصديقان مخلصان - المبتدأ هو مخلصان",
+                options: ["صح", "خطأ"],
                 correct: 1,
-                type: "اختر"
+                type: "صح/خطأ"
             },
             {
                 id: 10,
-                question: "في جملة: 'وقفتُ احترامًا للمعلم.' ما نوع كلمة 'احترامًا'؟",
-                options: ["مفعول به", "مفعول مطلق", "مفعول لأجله"],
-                correct: 2,
-                type: "اختر"
+                question: "أثرت تغيرات البيئة على الشجرة العجوز",
+                options: ["صح", "خطأ"],
+                correct: 0,
+                type: "صح/خطأ"
             }
         ];
 
-        // ==================== 👤 نظام إدارة الامتحان المتكامل ====================
+        // ==================== 👤 نظام إدارة الامتحان ====================
         class ExamManager {
             constructor(config) {
                 this.config = config;
@@ -650,16 +761,12 @@
                         return { success: false, message: '❌ كود الدخول غير صحيح' };
                     }
                     
-                    // التحقق من الصف (الرقم السادس)
+                    // التحقق من الصف (الرابع)
                     const grade = studentCode.charAt(5);
                     if (grade !== this.config.GRADE) {
-                        const gradeNames = {
-                            '4': 'الرابع', '5': 'الخامس', '6': 'السادس',
-                            '7': 'أول إعدادي', '8': 'ثاني إعدادي'
-                        };
                         return { 
                             success: false, 
-                            message: `⚠️ هذا الامتحان للصف ${gradeNames[this.config.GRADE]} الابتدائي فقط` 
+                            message: '⚠️ هذا الامتحان للصف الرابع الابتدائي فقط' 
                         };
                     }
                     
@@ -690,14 +797,6 @@
                         return { success: false, message: '⛔ حساب الطالب غير نشط' };
                     }
                     
-                    // التحقق من className
-                    const expectedClassName = ['4','5','6'].includes(this.config.GRADE) ? 
-                        'primary' : 'preparatory';
-                    
-                    if (![expectedClassName, 'elementary'].includes(studentData.className)) {
-                        return { success: false, message: '⚠️ خطأ في تصنيف المرحلة الدراسية' };
-                    }
-                    
                     // ===== 🔒 التحقق من أن الطالب لم يمتحن اليوم =====
                     const resultId = `${studentCode}_${this.config.SUBJECT}_${today.replace(/-/g, '')}`;
                     const existingResult = await db.collection('exam_results').doc(resultId).get();
@@ -719,29 +818,11 @@
                         };
                     }
                     
-                    // ===== 🔒 التحقق من أن الطالب لم يستخدم جهازاً آخر =====
-                    const existingResults = await db.collection('exam_results')
-                        .where('studentId', '==', studentCode)
-                        .where('examDate', '==', today)
-                        .where('subject', '==', this.config.SUBJECT)
-                        .limit(1)
-                        .get();
-                    
-                    if (!existingResults.empty) {
-                        const existingResult = existingResults.docs[0].data();
-                        if (existingResult.deviceId !== this.deviceId) {
-                            return {
-                                success: false,
-                                message: '🚫 تم أداء هذا الامتحان من جهاز آخر اليوم'
-                            };
-                        }
-                    }
-                    
                     return {
                         success: true,
                         studentId: studentDoc.id,
                         studentData: studentData,
-                        message: `✅ مرحباً ${studentData.fullName}`
+                        message: `✅ تم التحقق بنجاح، يمكنك البدء الآن`
                     };
                     
                 } catch (error) {
@@ -753,7 +834,7 @@
                 }
             }
             
-            // ===== 🔒 دالة جديدة: التحقق من استخدام الجهاز =====
+            // ===== 🔒 التحقق من استخدام الجهاز =====
             async checkDeviceUsage(today, studentCode) {
                 try {
                     // البحث عن أي نتيجة لهذا الجهاز اليوم في نفس المادة
@@ -769,22 +850,9 @@
                         
                         // إذا كان الجهاز استخدم من قبل طالب آخر
                         if (existingResult.studentId !== studentCode) {
-                            // الحصول على اسم الطالب الذي استخدم الجهاز
-                            const studentSnapshot = await db.collection('students')
-                                .where('studentId', '==', existingResult.studentId)
-                                .limit(1)
-                                .get();
-                            
-                            let otherStudentName = 'طالب آخر';
-                            if (!studentSnapshot.empty) {
-                                otherStudentName = studentSnapshot.docs[0].data().fullName;
-                            }
-                            
                             return {
                                 success: false,
-                                message: `🚫 هذا الهاتف/الجهاز تم استخدامه اليوم من قبل:<br>
-                                <strong>${otherStudentName}</strong><br>
-                                لا يمكن استخدام نفس الجهاز لأكثر من طالب في اليوم`
+                                message: `🚫 هذا الجهاز مستخدم بالفعل من قبل طالب آخر اليوم`
                             };
                         }
                     }
@@ -793,7 +861,7 @@
                     
                 } catch (error) {
                     console.error('خطأ في التحقق من الجهاز:', error);
-                    return { success: true }; // في حالة الخطأ، نسمح بالدخول
+                    return { success: true };
                 }
             }
             
@@ -858,39 +926,26 @@
                     const resultId = `${studentData.studentId}_${this.config.SUBJECT}_${examDate.replace(/-/g, '')}`;
                     
                     const resultData = {
-                        // 🔑 المعرف الأساسي
                         id: resultId,
-                        
-                        // 👤 بيانات الطالب
                         studentId: studentData.studentId,
                         fullName: studentData.fullName,
                         grade: studentData.grade,
                         className: studentData.className,
-                        stage: studentData.stage || (['4','5','6'].includes(studentData.grade) ? 'elementary' : 'preparatory'),
-                        
-                        // 📝 بيانات الامتحان
+                        stage: studentData.stage || 'elementary',
                         subject: this.config.SUBJECT,
                         examDate: examDate,
                         score: score,
                         maxScore: this.config.MAX_SCORE,
                         percentage: (score / this.config.MAX_SCORE) * 100,
-                        
-                        // ⏱️ بيانات الوقت
                         duration: Math.floor((new Date() - this.examSession.startTime) / 1000 / 60),
                         startTime: this.examSession.startTime,
                         endTime: new Date().toISOString(),
-                        
-                        // 📱 بيانات الجهاز والأمان
                         deviceId: this.deviceId,
                         deviceBlocked: this.deviceBlocked,
                         isMock: false,
-                        
-                        // 🏷️ بيانات إضافية
                         rowNumber: studentData.rowNumber || null,
                         sheetName: studentData.sheetName || null,
                         serialNumber: studentData.serialNumber || null,
-                        
-                        // 📊 بيانات النظام
                         createdAt: new Date().toISOString(),
                         version: '2.1.0'
                     };
@@ -914,7 +969,7 @@
                         success: true,
                         resultId: resultId,
                         score: score,
-                        message: `✅ تم حفظ نتيجتك: ${score}/${this.config.MAX_SCORE}`
+                        message: `✅ تم حفظ نتيجتك بنجاح`
                     };
                     
                 } catch (error) {
@@ -927,7 +982,6 @@
                 }
             }
             
-            // تسجيل الجهاز في سجل منفصل
             async registerDevice(studentData) {
                 try {
                     const today = new Date().toISOString().split('T')[0];
@@ -1065,6 +1119,27 @@
                 return Math.min(score, this.config.MAX_SCORE);
             }
             
+            // دالة جديدة: الحصول على قائمة بالأخطاء
+            getMistakesDetails() {
+                const mistakes = [];
+                
+                for (let i = 0; i < ARABIC_QUESTIONS.length; i++) {
+                    const question = ARABIC_QUESTIONS[i];
+                    const answer = this.answers[question.id];
+                    
+                    if (answer && answer.answer != question.correct) {
+                        mistakes.push({
+                            question: question.question,
+                            yourAnswer: question.options[answer.answer],
+                            correctAnswer: question.options[question.correct],
+                            questionNumber: i + 1
+                        });
+                    }
+                }
+                
+                return mistakes;
+            }
+            
             showAlert(type, message) {
                 const alertDiv = document.createElement('div');
                 alertDiv.className = `alert alert-${type}`;
@@ -1137,7 +1212,7 @@
                 examDate: examDay.examDate
             };
             
-            // إظهار رسالة الترحيب
+            // إظهار رسالة ترحيب عامة
             showAlert('success', verification.message);
             
             // إظهار تحذير حول الجهاز
@@ -1148,9 +1223,6 @@
             // الانتقال إلى قسم الامتحان
             document.getElementById('loginSection').classList.remove('active');
             document.getElementById('examSection').classList.add('active');
-            
-            // عرض اسم الطالب
-            document.getElementById('studentName').textContent = verification.studentData.fullName;
             
             // تحميل الأسئلة
             loadExamQuestions();
@@ -1283,6 +1355,49 @@
                 gradeColor = '#f44336';
             }
             
+            // الحصول على تفاصيل الأخطاء
+            const mistakes = examManager.getMistakesDetails();
+            const mistakesCount = mistakes.length;
+            
+            // بناء HTML للأخطاء
+            let mistakesHTML = '';
+            
+            if (mistakesCount > 0) {
+                mistakesHTML = `
+                    <div class="mistakes-container">
+                        <div class="mistakes-title">
+                            الأخطاء التي وقعت فيها (${mistakesCount} خطأ)
+                        </div>
+                `;
+                
+                mistakes.forEach(mistake => {
+                    mistakesHTML += `
+                        <div class="mistake-item">
+                            <div class="mistake-question">
+                                <span style="background: #d32f2f; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.9em; margin-left: 10px;">
+                                    السؤال ${mistake.questionNumber}
+                                </span>
+                                ${mistake.question}
+                            </div>
+                            <div class="answer-comparison">
+                                <div class="your-answer">${mistake.yourAnswer}</div>
+                                <div class="correct-answer">${mistake.correctAnswer}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                mistakesHTML += `</div>`;
+            } else {
+                mistakesHTML = `
+                    <div class="no-mistakes">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>🎉 مبروك! لم ترتكب أي أخطاء</h3>
+                        <p>أجبت على جميع الأسئلة بشكل صحيح</p>
+                    </div>
+                `;
+            }
+            
             const resultHTML = `
                 <div class="result-box">
                     <h2 style="color: #0d47a1; margin-bottom: 20px;">
@@ -1299,23 +1414,25 @@
                     <div style="background: white; padding: 25px; border-radius: 15px; margin: 25px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; text-align: right;">
                             <div>
-                                <p style="color: #757575; font-size: 0.9em;">الطالب:</p>
-                                <p style="font-weight: bold; color: #0d47a1;">${examManager.currentStudent.fullName}</p>
-                            </div>
-                            <div>
                                 <p style="color: #757575; font-size: 0.9em;">المادة:</p>
                                 <p style="font-weight: bold; color: #0d47a1;">اللغة العربية</p>
                             </div>
                             <div>
                                 <p style="color: #757575; font-size: 0.9em;">الصف:</p>
-                                <p style="font-weight: bold; color: #0d47a1;">الخامس الابتدائي</p>
+                                <p style="font-weight: bold; color: #0d47a1;">الرابع الابتدائي</p>
                             </div>
                             <div>
                                 <p style="color: #757575; font-size: 0.9em;">النسبة:</p>
                                 <p style="font-weight: bold; color: #0d47a1;">${percentage.toFixed(1)}%</p>
                             </div>
+                            <div>
+                                <p style="color: #757575; font-size: 0.9em;">الدرجة:</p>
+                                <p style="font-weight: bold; color: #0d47a1;">${score}/${SYSTEM_CONFIG.MAX_SCORE}</p>
+                            </div>
                         </div>
                     </div>
+                    
+                    ${mistakesHTML}
                     
                     <div style="margin-top: 30px;">
                         <button class="btn" onclick="location.reload()" style="margin-right: 10px;">
@@ -1329,15 +1446,6 @@
                     <p style="margin-top: 25px; color: #78909c; font-size: 0.85em;">
                         <i class="fas fa-info-circle"></i> تم حفظ النتيجة في سجلات المدرسة
                     </p>
-                    
-                    ${examManager.deviceBlocked ? `
-                        <div style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 8px; border-right: 4px solid #ff9800;">
-                            <p style="color: #e65100; font-size: 0.9em;">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <strong>ملاحظة:</strong> تم الكشف عن استخدام هذا الجهاز مسبقاً
-                            </p>
-                        </div>
-                    ` : ''}
                 </div>
             `;
             
@@ -1354,7 +1462,7 @@
 
         // ==================== 📄 تهيئة الصفحة ====================
         window.onload = function() {
-            console.log('📚 صفحة امتحان اللغة العربية للصف الخامس جاهزة');
+            console.log('📚 صفحة امتحان اللغة العربية للصف الرابع جاهزة');
             
             // تفعيل حقل الإدخال عند التحميل
             document.getElementById('studentCode').focus();
