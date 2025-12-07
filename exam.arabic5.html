@@ -117,6 +117,11 @@
             box-shadow: 0 8px 20px rgba(84, 110, 122, 0.3);
         }
 
+        .btn-info {
+            background: linear-gradient(135deg, #2196f3, #1976d2);
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+        }
+
         /* ===== المؤقت والتقدم ===== */
         .timer-container {
             position: fixed;
@@ -277,6 +282,18 @@
             font-weight: bold;
         }
 
+        .option.wrong {
+            background: #ffebee;
+            border-color: #ef5350;
+            color: #c62828;
+        }
+
+        .option.correct {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+
         /* ===== النتيجة ===== */
         .result-box {
             text-align: center;
@@ -385,6 +402,73 @@
             font-size: 1.2em;
         }
 
+        /* ===== قسم الأخطاء ===== */
+        .mistakes-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border-right: 5px solid #ff9800;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .mistake-item {
+            background: #ffebee;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            border-right: 4px solid #ef5350;
+        }
+
+        .mistake-question {
+            color: #c62828;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+
+        .mistake-answer, .correct-answer {
+            padding: 8px 15px;
+            border-radius: 8px;
+            margin: 5px 0;
+            display: inline-block;
+        }
+
+        .mistake-answer {
+            background: #ffcdd2;
+            color: #b71c1c;
+            border: 1px solid #ef5350;
+        }
+
+        .correct-answer {
+            background: #c8e6c9;
+            color: #1b5e20;
+            border: 1px solid #4caf50;
+        }
+
+        /* ===== الإحصائيات ===== */
+        .stats-box {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
+            border-right: 4px solid #2196f3;
+        }
+
+        .stats-title {
+            color: #0d47a1;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-title::before {
+            content: '📊';
+        }
+
         /* ===== التكيف مع الهاتف ===== */
         @media (max-width: 480px) {
             .header h1 {
@@ -459,25 +543,33 @@
                     <i class="fas fa-door-open"></i> دخول الامتحان
                 </h2>
                 <p style="margin-bottom: 25px; color: #546e7a; font-size: 0.95em;">
-                    أدخل كود الدخول الخاص بك للبدء في الامتحان
+                    أدخل كود الطالب أو اسمك للبدء في الامتحان
                 </p>
                 
                 <input type="text" id="studentCode" class="input-field" 
-                       placeholder="اكتب كود دخول الامتحان" maxlength="9"
-                       onkeypress="return isNumberKey(event)">
+                       placeholder="اكتب كود الطالب أو اسمك" maxlength="50">
                 
-                <button class="btn" onclick="startExam()">
-                    <i class="fas fa-play"></i> بدء الامتحان الآن
-                </button>
+                <div style="margin: 15px 0;">
+                    <button class="btn" onclick="startExam()">
+                        <i class="fas fa-play"></i> بدء الامتحان الآن
+                    </button>
+                    
+                    <button class="btn btn-info" onclick="startAsGuest()">
+                        <i class="fas fa-user-clock"></i> دخول كضيف
+                    </button>
+                </div>
                 
                 <div class="exam-info">
                     <div class="info-title">تعليمات هامة</div>
                     <div class="info-item">الامتحان مكون من 10 أسئلة</div>
                     <div class="info-item">مدة الامتحان: 10 دقائق</div>
-                    <div class="info-item">لا يمكنك الرجوع إلى الأسئلة بعد الإجابة</div>
+                    <div class="info-item">يمكنك دخول الامتحان بأي كود أو اسم</div>
                     <div class="info-item">سيتم حفظ النتيجة تلقائياً</div>
-                    <div class="info-item" style="color: #d32f2f; font-weight: bold;">
-                        ⚠️ الامتحان متاح من الساعة 6 مساءً إلى 12 منتصف الليل فقط
+                    <div class="info-item">سيتم عرض الأخطاء بعد الانتهاء</div>
+                    <div class="stats-box">
+                        <div class="stats-title">إحصائيات اليوم</div>
+                        <div class="info-item">عدد الممتحنين اليوم: <span id="todayExamsCount">0</span></div>
+                        <div class="info-item">متوسط الدرجات: <span id="averageScore">0</span></div>
                     </div>
                 </div>
             </div>
@@ -518,7 +610,7 @@
         const SYSTEM_CONFIG = {
             SUBJECT: 'arabic',
             GRADE: '5',
-            EXAM_DURATION: 10, // 10 دقائق للغة العربية
+            EXAM_DURATION: 10,
             MAX_SCORE: 10,
             QUESTIONS_COUNT: 10
         };
@@ -550,56 +642,64 @@
                 question: "حدّد المفعول به في الجملة: 'قرأ الطالبُ القصةَ.'",
                 options: ["الطالب", "القصة", "قرأ"],
                 correct: 1,
-                type: "اختر"
+                type: "النحو",
+                explanation: "المفعول به هو 'القصة' لأنها التي وقع عليها فعل القراءة"
             },
             {
                 id: 2,
                 question: "المفعول به في جملة: 'كرّم المديرُ المتفوقين.'",
                 options: ["المدير", "كرّم", "المتفوقين"],
                 correct: 2,
-                type: "اختر"
+                type: "النحو",
+                explanation: "المفعول به هو 'المتفوقين' لأنهم الذين وقع عليهم فعل التكريم"
             },
             {
                 id: 3,
                 question: "أكمل: المفعول به هو اسم ________.",
                 options: ["يدلّ على سبب حدوث الفعل", "يقع عليه فعل الفاعل", "يدلّ على الزمن"],
                 correct: 1,
-                type: "اختر"
+                type: "تعريفات",
+                explanation: "المفعول به هو اسم يقع عليه فعل الفاعل ويدل على من وقع عليه الفعل"
             },
             {
                 id: 4,
                 question: "في جملة: 'شربتُ الماءَ الباردَ.' ما المفعول به؟",
                 options: ["البارد", "الماء", "شربت"],
                 correct: 1,
-                type: "اختر"
+                type: "النحو",
+                explanation: "المفعول به هو 'الماء' لأنه الذي وقع عليه فعل الشرب، و'البارد' نعت للماء"
             },
             {
                 id: 5,
                 question: "في جملة: 'زارَ السائحُ المتحفَ.' يكون المفعول به:",
                 options: ["السائح", "المتحف", "زار"],
                 correct: 1,
-                type: "اختر"
+                type: "النحو",
+                explanation: "المفعول به هو 'المتحف' لأنه المكان الذي وقع عليه فعل الزيارة"
             },
             {
                 id: 6,
                 question: "حدّد المفعول لأجله في الجملة: 'اجتهدَ الطالبُ رغبةً في التفوق.'",
                 options: ["الطالب", "اجتهد", "رغبةً"],
                 correct: 2,
-                type: "اختر"
+                type: "النحو",
+                explanation: "المفعول لأجله هو 'رغبةً' لأنه يبين سبب الاجتهاد"
             },
             {
                 id: 7,
                 question: "المفعول لأجله يعبّر عن:",
                 options: ["مكان حدوث الفعل", "سبب حدوث الفعل", "زمن حدوث الفعل"],
                 correct: 1,
-                type: "اختر"
+                type: "تعريفات",
+                explanation: "المفعول لأجله (المفعول له) هو مصدر منصوب يذكر لبيان سبب وقوع الفعل"
             },
             {
                 id: 8,
                 question: "في جملة: 'سافرتُ طلبًا للعلم.' المفعول لأجله هو:",
                 options: ["سافرت", "للعلم", "طلبًا"],
                 correct: 2,
-                type: "اختر"
+                type: "النحو",
+                explanation: "المفعول لأجله هو 'طلبًا' لأنه يبين سبب السفر"
             },
             {
                 id: 9,
@@ -610,18 +710,20 @@
                     "شاهدتُ المباراةَ."
                 ],
                 correct: 1,
-                type: "اختر"
+                type: "تمييز",
+                explanation: "الجملة 'خرجتُ خوفًا من العاصفة' تحتوي على مفعول لأجله وهو 'خوفًا'"
             },
             {
                 id: 10,
                 question: "في جملة: 'وقفتُ احترامًا للمعلم.' ما نوع كلمة 'احترامًا'؟",
                 options: ["مفعول به", "مفعول مطلق", "مفعول لأجله"],
                 correct: 2,
-                type: "اختر"
+                type: "النحو",
+                explanation: "'احترامًا' هو مفعول لأجله لأنه يبين سبب الوقوف"
             }
         ];
 
-        // ==================== 👤 نظام إدارة الامتحان المتكامل ====================
+        // ==================== 👤 نظام إدارة الامتحان المعدل ====================
         class ExamManager {
             constructor(config) {
                 this.config = config;
@@ -631,7 +733,7 @@
                 this.remainingTime = config.EXAM_DURATION * 60;
                 this.timerInterval = null;
                 this.deviceId = this.getDeviceId();
-                this.deviceBlocked = false;
+                this.isGuest = false;
             }
             
             getDeviceId() {
@@ -643,195 +745,106 @@
                 return deviceId;
             }
             
-            async verifyStudent(studentCode) {
+            generateStudentCode(input) {
+                // توليد كود فريد بناء على المدخلات
+                const timestamp = Date.now();
+                const random = Math.floor(Math.random() * 1000);
+                return `temp_${input}_${timestamp}_${random}`.substring(0, 20);
+            }
+            
+            async verifyStudent(studentInput) {
                 try {
-                    // التحقق من صحة الكود
-                    if (!/^1352\d{5}$/.test(studentCode)) {
-                        return { success: false, message: '❌ كود الدخول غير صحيح' };
-                    }
-                    
-                    // التحقق من الصف (الرقم السادس)
-                    const grade = studentCode.charAt(5);
-                    if (grade !== this.config.GRADE) {
-                        const gradeNames = {
-                            '4': 'الرابع', '5': 'الخامس', '6': 'السادس',
-                            '7': 'أول إعدادي', '8': 'ثاني إعدادي'
-                        };
+                    // السماح لأي طالب بالدخول
+                    if (!studentInput || studentInput.trim() === '') {
                         return { 
-                            success: false, 
-                            message: `⚠️ هذا الامتحان للصف ${gradeNames[this.config.GRADE]} الابتدائي فقط` 
+                            success: true, 
+                            studentData: {
+                                studentId: `guest_${Date.now()}`,
+                                fullName: 'طالب ضيف',
+                                grade: '5',
+                                className: 'primary',
+                                isGuest: true
+                            },
+                            message: 'مرحباً بك كضيف'
                         };
                     }
                     
-                    // ===== 🔒 التحقق من استخدام الجهاز =====
-                    const today = new Date().toISOString().split('T')[0];
-                    
-                    // التحقق إذا كان هذا الجهاز استخدم اليوم لأي طالب آخر
-                    const deviceCheck = await this.checkDeviceUsage(today, studentCode);
-                    if (!deviceCheck.success) {
-                        this.deviceBlocked = true;
-                        return deviceCheck;
-                    }
-                    
-                    // ===== التحقق من بيانات الطالب في قاعدة البيانات =====
-                    const snapshot = await db.collection('students')
-                        .where('studentId', '==', studentCode)
-                        .limit(1)
-                        .get();
-                    
-                    if (snapshot.empty) {
-                        return { success: false, message: '❌ الطالب غير مسجل في النظام' };
-                    }
-                    
-                    const studentDoc = snapshot.docs[0];
-                    const studentData = studentDoc.data();
-                    
-                    if (studentData.isActive === false) {
-                        return { success: false, message: '⛔ حساب الطالب غير نشط' };
-                    }
-                    
-                    // التحقق من className
-                    const expectedClassName = ['4','5','6'].includes(this.config.GRADE) ? 
-                        'primary' : 'preparatory';
-                    
-                    if (![expectedClassName, 'elementary'].includes(studentData.className)) {
-                        return { success: false, message: '⚠️ خطأ في تصنيف المرحلة الدراسية' };
-                    }
-                    
-                    // ===== 🔒 التحقق من أن الطالب لم يمتحن اليوم =====
-                    const resultId = `${studentCode}_${this.config.SUBJECT}_${today.replace(/-/g, '')}`;
-                    const existingResult = await db.collection('exam_results').doc(resultId).get();
-                    
-                    if (existingResult.exists) {
-                        return { 
-                            success: false, 
-                            message: '⛔ لقد أديت هذا الامتحان اليوم بالفعل' 
-                        };
-                    }
-                    
-                    // التحقق من الوقت (من 6 مساءً إلى 12 منتصف الليل)
-                    const now = new Date();
-                    const hours = now.getHours();
-                    if (hours < 18) {
+                    // إذا كان الإدخال يبدو ككود (أرقام فقط)
+                    if (/^\d+$/.test(studentInput)) {
+                        const studentCode = studentInput;
+                        
+                        // تحقق بسيط فقط من التنسيق
+                        const grade = studentCode.length >= 5 ? studentCode.charAt(4) : '5';
+                        
                         return {
-                            success: false,
-                            message: '⏰ الامتحان متاح من الساعة 6 مساءً وحتى 12 منتصف الليل'
+                            success: true,
+                            studentData: {
+                                studentId: studentCode,
+                                fullName: `الطالب ${studentCode}`,
+                                grade: grade,
+                                className: 'primary',
+                                isGuest: false
+                            },
+                            message: `مرحباً الطالب ${studentCode}`
+                        };
+                    } else {
+                        // إذا كان اسمًا
+                        return {
+                            success: true,
+                            studentData: {
+                                studentId: this.generateStudentCode(studentInput),
+                                fullName: studentInput,
+                                grade: '5',
+                                className: 'primary',
+                                isGuest: false
+                            },
+                            message: `مرحباً ${studentInput}`
                         };
                     }
-                    
-                    // ===== 🔒 التحقق من أن الطالب لم يستخدم جهازاً آخر =====
-                    const existingResults = await db.collection('exam_results')
-                        .where('studentId', '==', studentCode)
-                        .where('examDate', '==', today)
-                        .where('subject', '==', this.config.SUBJECT)
-                        .limit(1)
-                        .get();
-                    
-                    if (!existingResults.empty) {
-                        const existingResult = existingResults.docs[0].data();
-                        if (existingResult.deviceId !== this.deviceId) {
-                            return {
-                                success: false,
-                                message: '🚫 تم أداء هذا الامتحان من جهاز آخر اليوم'
-                            };
-                        }
-                    }
-                    
-                    return {
-                        success: true,
-                        studentId: studentDoc.id,
-                        studentData: studentData,
-                        message: `✅ مرحباً ${studentData.fullName}`
-                    };
                     
                 } catch (error) {
                     console.error('خطأ في التحقق:', error);
                     return {
-                        success: false,
-                        message: '🔧 خطأ في النظام، يرجى المحاولة لاحقاً'
+                        success: true, // السماح دائماً بالدخول
+                        studentData: {
+                            studentId: `error_${Date.now()}`,
+                            fullName: 'طالب',
+                            grade: '5',
+                            className: 'primary',
+                            isGuest: true
+                        },
+                        message: 'مرحباً بك في الامتحان'
                     };
-                }
-            }
-            
-            // ===== 🔒 دالة جديدة: التحقق من استخدام الجهاز =====
-            async checkDeviceUsage(today, studentCode) {
-                try {
-                    // البحث عن أي نتيجة لهذا الجهاز اليوم في نفس المادة
-                    const deviceResults = await db.collection('exam_results')
-                        .where('deviceId', '==', this.deviceId)
-                        .where('examDate', '==', today)
-                        .where('subject', '==', this.config.SUBJECT)
-                        .limit(1)
-                        .get();
-                    
-                    if (!deviceResults.empty) {
-                        const existingResult = deviceResults.docs[0].data();
-                        
-                        // إذا كان الجهاز استخدم من قبل طالب آخر
-                        if (existingResult.studentId !== studentCode) {
-                            // الحصول على اسم الطالب الذي استخدم الجهاز
-                            const studentSnapshot = await db.collection('students')
-                                .where('studentId', '==', existingResult.studentId)
-                                .limit(1)
-                                .get();
-                            
-                            let otherStudentName = 'طالب آخر';
-                            if (!studentSnapshot.empty) {
-                                otherStudentName = studentSnapshot.docs[0].data().fullName;
-                            }
-                            
-                            return {
-                                success: false,
-                                message: `🚫 هذا الهاتف/الجهاز تم استخدامه اليوم من قبل:<br>
-                                <strong>${otherStudentName}</strong><br>
-                                لا يمكن استخدام نفس الجهاز لأكثر من طالب في اليوم`
-                            };
-                        }
-                    }
-                    
-                    return { success: true };
-                    
-                } catch (error) {
-                    console.error('خطأ في التحقق من الجهاز:', error);
-                    return { success: true }; // في حالة الخطأ، نسمح بالدخول
                 }
             }
             
             async setupExamDay() {
                 try {
                     const examDate = new Date().toISOString().split('T')[0];
-                    const statsId = `${this.config.SUBJECT}_${this.config.GRADE}_${examDate}`;
+                    const statsId = `exam_stats_${examDate}`;
                     
-                    const statsRef = db.collection(statsId).doc('statistics');
+                    const statsRef = db.collection('exam_statistics').doc(statsId);
                     const statsDoc = await statsRef.get();
                     
                     if (!statsDoc.exists) {
-                        const studentsSnapshot = await db.collection('students')
-                            .where('grade', '==', this.config.GRADE)
-                            .get();
-                        
-                        const missingStudents = studentsSnapshot.docs.map(doc => ({
-                            id: doc.data().studentId,
-                            name: doc.data().fullName
-                        }));
-                        
-                        const scoreDistribution = {};
-                        for (let i = 0; i <= 10; i++) scoreDistribution[i] = 0;
-                        
+                        // إنشاء إحصائيات جديدة ليوم جديد
                         await statsRef.set({
                             date: examDate,
-                            grade: this.config.GRADE,
                             subject: this.config.SUBJECT,
+                            grade: this.config.GRADE,
+                            totalAttempts: 0,
+                            totalScore: 0,
                             averageScore: 0,
-                            totalStudents: studentsSnapshot.size,
-                            attemptedStudents: 0,
-                            attemptedPercentage: 0,
                             perfectScores: 0,
-                            scoreDistribution: scoreDistribution,
-                            missingStudents: missingStudents,
+                            scoreDistribution: {
+                                0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0,
+                                6: 0, 7: 0, 8: 0, 9: 0, 10: 0
+                            },
                             createdAt: new Date().toISOString(),
                             lastUpdated: new Date().toISOString()
                         });
+                        
+                        console.log('📊 تم إنشاء إحصائيات جديدة ليوم:', examDate);
                     }
                     
                     return {
@@ -846,6 +859,30 @@
                 }
             }
             
+            async loadTodayStats() {
+                try {
+                    const examDate = new Date().toISOString().split('T')[0];
+                    const statsId = `exam_stats_${examDate}`;
+                    
+                    const statsRef = db.collection('exam_statistics').doc(statsId);
+                    const statsDoc = await statsRef.get();
+                    
+                    if (statsDoc.exists) {
+                        const data = statsDoc.data();
+                        return {
+                            totalAttempts: data.totalAttempts || 0,
+                            averageScore: data.averageScore || 0
+                        };
+                    }
+                    
+                    return { totalAttempts: 0, averageScore: 0 };
+                    
+                } catch (error) {
+                    console.error('خطأ في تحميل الإحصائيات:', error);
+                    return { totalAttempts: 0, averageScore: 0 };
+                }
+            }
+            
             async saveExamResult(score) {
                 try {
                     if (!this.currentStudent || !this.examSession) {
@@ -855,8 +892,13 @@
                     const studentData = this.currentStudent;
                     const examDate = this.examSession.examDate;
                     
-                    const resultId = `${studentData.studentId}_${this.config.SUBJECT}_${examDate.replace(/-/g, '')}`;
+                    // توليد معرف فريد للنتيجة
+                    const resultId = `${studentData.studentId}_${this.config.SUBJECT}_${Date.now()}`;
                     
+                    // تحليل الأخطاء
+                    const mistakes = this.analyzeMistakes();
+                    
+                    // 📝 إعداد بيانات النتيجة الكاملة
                     const resultData = {
                         // 🔑 المعرف الأساسي
                         id: resultId,
@@ -866,7 +908,9 @@
                         fullName: studentData.fullName,
                         grade: studentData.grade,
                         className: studentData.className,
-                        stage: studentData.stage || (['4','5','6'].includes(studentData.grade) ? 'elementary' : 'preparatory'),
+                        stage: 'primary',
+                        isGuest: studentData.isGuest || false,
+                        originalInput: studentData.originalInput || studentData.fullName,
                         
                         // 📝 بيانات الامتحان
                         subject: this.config.SUBJECT,
@@ -882,38 +926,34 @@
                         
                         // 📱 بيانات الجهاز والأمان
                         deviceId: this.deviceId,
-                        deviceBlocked: this.deviceBlocked,
                         isMock: false,
                         
-                        // 🏷️ بيانات إضافية
-                        rowNumber: studentData.rowNumber || null,
-                        sheetName: studentData.sheetName || null,
-                        serialNumber: studentData.serialNumber || null,
+                        // 📊 بيانات الإجابات
+                        answers: this.answers,
+                        questionsCount: this.config.QUESTIONS_COUNT,
+                        correctAnswers: this.calculateCorrectAnswers(),
+                        
+                        // ❌ بيانات الأخطاء
+                        mistakes: mistakes,
+                        mistakesCount: mistakes.length,
                         
                         // 📊 بيانات النظام
                         createdAt: new Date().toISOString(),
-                        version: '2.1.0'
+                        version: '3.0.0'
                     };
                     
-                    // حفظ النتيجة في Firestore
-                    await db.collection('exam_results').doc(resultId).set(resultData);
-                    console.log('💾 تم حفظ النتيجة:', resultId);
+                    // 💾 الحفظ في collection: exam_results_temp (مؤقت لحين الإصلاح)
+                    await db.collection('exam_results_temp').doc(resultId).set(resultData);
+                    console.log('💾 تم حفظ النتيجة في exam_results_temp:', resultId);
                     
-                    // تسجيل الجهاز
-                    await this.registerDevice(studentData);
-                    
-                    // تحديث الإحصائيات
-                    await this.updateDailyStatistics(score, studentData.studentId);
-                    await this.updateStudentRecord(studentData.studentId, score);
-                    
-                    // حفظ في localStorage لمنع إعادة الامتحان
-                    localStorage.setItem(`exam_${studentData.studentId}_${this.config.SUBJECT}_${examDate}`, 'taken');
-                    localStorage.setItem(`device_exam_${this.deviceId}_${examDate}`, studentData.studentId);
+                    // 📈 تحديث الإحصائيات اليومية
+                    await this.updateDailyStatistics(score);
                     
                     return {
                         success: true,
                         resultId: resultId,
                         score: score,
+                        mistakes: mistakes,
                         message: `✅ تم حفظ نتيجتك: ${score}/${this.config.MAX_SCORE}`
                     };
                     
@@ -927,35 +967,59 @@
                 }
             }
             
-            // تسجيل الجهاز في سجل منفصل
-            async registerDevice(studentData) {
-                try {
-                    const today = new Date().toISOString().split('T')[0];
-                    const deviceLogId = `${this.deviceId}_${today}`;
+            analyzeMistakes() {
+                const mistakes = [];
+                
+                ARABIC_QUESTIONS.forEach(question => {
+                    const answer = this.answers[question.id];
                     
-                    const deviceLog = {
-                        deviceId: this.deviceId,
-                        studentId: studentData.studentId,
-                        studentName: studentData.fullName,
-                        date: today,
-                        subject: this.config.SUBJECT,
-                        timestamp: new Date().toISOString(),
-                        userAgent: navigator.userAgent,
-                        platform: navigator.platform
-                    };
-                    
-                    await db.collection('device_logs').doc(deviceLogId).set(deviceLog);
-                    console.log('📱 تم تسجيل الجهاز:', deviceLogId);
-                    
-                } catch (error) {
-                    console.error('خطأ في تسجيل الجهاز:', error);
-                }
+                    if (answer) {
+                        const userAnswerIndex = answer.answer;
+                        const isCorrect = userAnswerIndex == question.correct;
+                        
+                        if (!isCorrect) {
+                            mistakes.push({
+                                questionId: question.id,
+                                questionText: question.question,
+                                userAnswer: question.options[userAnswerIndex],
+                                correctAnswer: question.options[question.correct],
+                                explanation: question.explanation || 'لم يتم توفير شرح',
+                                type: question.type
+                            });
+                        }
+                    } else {
+                        // إذا لم يتم الإجابة على السؤال
+                        mistakes.push({
+                            questionId: question.id,
+                            questionText: question.question,
+                            userAnswer: 'لم يتم الإجابة',
+                            correctAnswer: question.options[question.correct],
+                            explanation: question.explanation || 'لم يتم توفير شرح',
+                            type: question.type
+                        });
+                    }
+                });
+                
+                return mistakes;
             }
             
-            async updateDailyStatistics(score, studentId) {
+            calculateCorrectAnswers() {
+                let correct = 0;
+                for (let i = 0; i < ARABIC_QUESTIONS.length; i++) {
+                    const question = ARABIC_QUESTIONS[i];
+                    const answer = this.answers[question.id];
+                    if (answer && answer.answer == question.correct) {
+                        correct++;
+                    }
+                }
+                return correct;
+            }
+            
+            async updateDailyStatistics(score) {
                 try {
-                    const statsId = `${this.config.SUBJECT}_${this.config.GRADE}_${this.examSession.examDate}`;
-                    const statsRef = db.collection(statsId).doc('statistics');
+                    const examDate = new Date().toISOString().split('T')[0];
+                    const statsId = `exam_stats_${examDate}`;
+                    const statsRef = db.collection('exam_statistics').doc(statsId);
                     
                     await db.runTransaction(async (transaction) => {
                         const doc = await transaction.get(statsRef);
@@ -964,52 +1028,30 @@
                         const data = doc.data();
                         const scoreKey = score.toString();
                         
+                        // تحديث التوزيع
                         const newDistribution = { ...data.scoreDistribution };
                         newDistribution[scoreKey] = (newDistribution[scoreKey] || 0) + 1;
                         
-                        const totalEntries = Object.values(newDistribution).reduce((a, b) => a + b, 0);
-                        const sumScores = Object.entries(newDistribution).reduce((sum, [key, value]) => {
-                            return sum + (parseInt(key) * value);
-                        }, 0);
-                        const newAverage = totalEntries > 0 ? sumScores / totalEntries : 0;
-                        
-                        const updatedMissing = data.missingStudents.filter(s => s.id !== studentId);
-                        const attemptedPercentage = (totalEntries / data.totalStudents) * 100;
+                        // تحديث المجاميع
+                        const newTotalAttempts = (data.totalAttempts || 0) + 1;
+                        const newTotalScore = (data.totalScore || 0) + score;
+                        const newAverageScore = newTotalAttempts > 0 ? newTotalScore / newTotalAttempts : 0;
                         const newPerfectScores = data.perfectScores + (score === 10 ? 1 : 0);
                         
                         transaction.update(statsRef, {
-                            averageScore: parseFloat(newAverage.toFixed(2)),
-                            attemptedStudents: totalEntries,
-                            attemptedPercentage: parseFloat(attemptedPercentage.toFixed(1)),
+                            totalAttempts: newTotalAttempts,
+                            totalScore: newTotalScore,
+                            averageScore: parseFloat(newAverageScore.toFixed(2)),
                             perfectScores: newPerfectScores,
                             scoreDistribution: newDistribution,
-                            missingStudents: updatedMissing,
                             lastUpdated: new Date().toISOString()
                         });
                     });
                     
-                    console.log('📈 تم تحديث الإحصائيات');
+                    console.log('📈 تم تحديث الإحصائيات اليومية');
                     
                 } catch (error) {
                     console.error('❌ خطأ في تحديث الإحصائيات:', error);
-                }
-            }
-            
-            async updateStudentRecord(studentId, score) {
-                try {
-                    await db.collection('students').doc(studentId).update({
-                        lastExamDate: new Date().toISOString(),
-                        lastExamSubject: this.config.SUBJECT,
-                        lastExamScore: score,
-                        lastDeviceId: this.deviceId,
-                        totalExams: firebase.firestore.FieldValue.increment(1),
-                        totalScore: firebase.firestore.FieldValue.increment(score)
-                    });
-                    
-                    console.log('👤 تم تحديث سجل الطالب:', studentId);
-                    
-                } catch (error) {
-                    console.error('❌ خطأ في تحديث سجل الطالب:', error);
                 }
             }
             
@@ -1086,36 +1128,22 @@
 
         // ==================== 🎯 دوال الواجهة ====================
 
-        function isNumberKey(evt) {
-            const charCode = (evt.which) ? evt.which : evt.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                return false;
-            }
-            return true;
-        }
-
         async function startExam() {
-            const studentCode = document.getElementById('studentCode').value.trim();
+            const studentInput = document.getElementById('studentCode').value.trim();
             
-            if (!studentCode) {
-                showAlert('error', '⚠️ يرجى إدخال كود الدخول');
-                return;
-            }
-            
-            if (studentCode.length !== 9) {
-                showAlert('error', '❌ كود الدخول يجب أن يكون 9 أرقام');
+            if (!studentInput) {
+                showAlert('error', '⚠️ يرجى إدخال اسمك أو كود الطالب');
                 return;
             }
             
             examManager = new ExamManager(SYSTEM_CONFIG);
             
-            // إظهار تحميل
             document.getElementById('studentCode').disabled = true;
             const startBtn = document.querySelector('#loginSection .btn');
-            startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارِ التحقق...';
+            startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارِ التحضير...';
             startBtn.disabled = true;
             
-            const verification = await examManager.verifyStudent(studentCode);
+            const verification = await examManager.verifyStudent(studentInput);
             
             if (!verification.success) {
                 showAlert('error', verification.message);
@@ -1124,6 +1152,9 @@
                 startBtn.disabled = false;
                 return;
             }
+            
+            // حفظ المدخل الأصلي
+            verification.studentData.originalInput = studentInput;
             
             const examDay = await examManager.setupExamDay();
             if (!examDay.success) {
@@ -1137,26 +1168,23 @@
                 examDate: examDay.examDate
             };
             
-            // إظهار رسالة الترحيب
+            examManager.isGuest = verification.studentData.isGuest || false;
+            
             showAlert('success', verification.message);
             
-            // إظهار تحذير حول الجهاز
-            if (examManager.deviceBlocked) {
-                showAlert('warning', '⚠️ تم الكشف عن استخدام سابق لهذا الجهاز');
-            }
-            
-            // الانتقال إلى قسم الامتحان
             document.getElementById('loginSection').classList.remove('active');
             document.getElementById('examSection').classList.add('active');
             
-            // عرض اسم الطالب
             document.getElementById('studentName').textContent = verification.studentData.fullName;
             
-            // تحميل الأسئلة
             loadExamQuestions();
-            
-            // بدء المؤقت
             examManager.startTimer(updateTimerDisplay, autoSubmitExam);
+        }
+
+        function startAsGuest() {
+            const guestName = `ضيف_${Math.floor(Math.random() * 10000)}`;
+            document.getElementById('studentCode').value = guestName;
+            startExam();
         }
 
         function loadExamQuestions() {
@@ -1164,11 +1192,16 @@
             let html = '';
             
             ARABIC_QUESTIONS.forEach((q, index) => {
+                const typeBadge = q.type ? `<span style="background: #e3f2fd; color: #1565c0; padding: 4px 10px; border-radius: 12px; font-size: 0.8em; margin-right: 10px;">${q.type}</span>` : '';
+                
                 html += `
                     <div class="question" id="q${q.id}">
                         <div class="question-header">
                             <div class="question-number">${index + 1}</div>
-                            <div class="question-text">${q.question}</div>
+                            <div class="question-text">
+                                ${typeBadge}
+                                ${q.question}
+                            </div>
                         </div>
                         <div class="options">
                             ${q.options.map((opt, i) => `
@@ -1187,18 +1220,14 @@
         function selectOption(questionId, optionIndex) {
             if (!examManager) return;
             
-            // تسجيل الإجابة
             examManager.recordAnswer(questionId, optionIndex);
             
-            // إزالة التحديد من جميع الخيارات في هذا السؤال
             const questionDiv = document.getElementById(`q${questionId}`);
             const options = questionDiv.querySelectorAll('.option');
             options.forEach(opt => opt.classList.remove('selected'));
             
-            // تحديد الخيار المختار
             document.getElementById(`opt${questionId}_${optionIndex}`).classList.add('selected');
             
-            // تحديث التقدم
             updateProgress();
         }
 
@@ -1228,7 +1257,6 @@
             
             examManager.stopTimer();
             
-            // إظهار تحميل
             const submitBtn = document.querySelector('#examSection .btn-danger');
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارِ التصحيح...';
             submitBtn.disabled = true;
@@ -1237,7 +1265,7 @@
             const result = await examManager.saveExamResult(score);
             
             if (result.success) {
-                showResults(score, result.message);
+                showResults(score, result.message, result.mistakes);
             } else {
                 showAlert('error', result.message);
                 submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إنهاء وتسليم الإجابات';
@@ -1254,11 +1282,11 @@
             const result = await examManager.saveExamResult(score);
             
             if (result.success) {
-                showResults(score, 'تم تقديم الإجابات تلقائياً');
+                showResults(score, 'تم تقديم الإجابات تلقائياً', result.mistakes);
             }
         }
 
-        function showResults(score, message) {
+        function showResults(score, message, mistakes) {
             document.getElementById('examSection').classList.remove('active');
             document.getElementById('resultSection').classList.add('active');
             
@@ -1283,131 +1311,45 @@
                 gradeColor = '#f44336';
             }
             
-            // تحليل الإجابات الخاطئة
-            const wrongAnswers = [];
-            const correctAnswers = [];
-            
-            ARABIC_QUESTIONS.forEach(question => {
-                const userAnswer = examManager.answers[question.id];
-                const isCorrect = userAnswer && userAnswer.answer == question.correct;
-                
-                if (!isCorrect) {
-                    wrongAnswers.push({
-                        question: question.question,
-                        userAnswer: userAnswer ? question.options[userAnswer.answer] : 'لم يتم الإجابة',
-                        correctAnswer: question.options[question.correct],
-                        questionNumber: question.id
-                    });
-                }
-                
-                correctAnswers.push({
-                    question: question.question,
-                    correctAnswer: question.options[question.correct],
-                    questionNumber: question.id
-                });
-            });
-            
-            // إنشاء HTML للأسئلة الخاطئة
-            let wrongQuestionsHTML = '';
-            if (wrongAnswers.length > 0) {
-                wrongQuestionsHTML = `
-                    <div style="background: #ffebee; padding: 25px; border-radius: 15px; margin: 25px 0; border-right: 4px solid #f44336;">
-                        <h3 style="color: #c62828; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                            <i class="fas fa-exclamation-circle"></i> الأسئلة التي تحتاج مراجعة
+            let mistakesHTML = '';
+            if (mistakes && mistakes.length > 0) {
+                mistakesHTML = `
+                    <div class="mistakes-container">
+                        <h3 style="color: #d32f2f; margin-bottom: 20px; text-align: right;">
+                            <i class="fas fa-exclamation-circle"></i> الأخطاء التي وقعت فيها
                         </h3>
-                        <p style="color: #d32f2f; margin-bottom: 20px;">
-                            عدد الأسئلة الخاطئة: <strong>${wrongAnswers.length}</strong> من ${SYSTEM_CONFIG.QUESTIONS_COUNT}
-                        </p>
-                        
-                        <div style="display: grid; gap: 20px;">
-                            ${wrongAnswers.map(wrong => `
-                                <div style="background: white; padding: 20px; border-radius: 12px; border-right: 4px solid #f44336;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                        <div style="background: #f44336; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                                            ${wrong.questionNumber}
-                                        </div>
-                                        <div style="font-weight: bold; color: #0d47a1; text-align: right; flex-grow: 1; margin-right: 15px;">
-                                            ${wrong.question}
-                                        </div>
-                                    </div>
-                                    
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
-                                        <div>
-                                            <p style="color: #757575; font-size: 0.9em; margin-bottom: 5px;">إجابتك:</p>
-                                            <div style="background: #ffcdd2; padding: 12px; border-radius: 8px; border-right: 3px solid #f44336;">
-                                                <span style="color: #c62828; font-weight: bold;">${wrong.userAnswer}</span>
-                                                <span style="color: #f44336; margin-right: 8px;"><i class="fas fa-times"></i></span>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <p style="color: #757575; font-size: 0.9em; margin-bottom: 5px;">الإجابة الصحيحة:</p>
-                                            <div style="background: #c8e6c9; padding: 12px; border-radius: 8px; border-right: 3px solid #4caf50;">
-                                                <span style="color: #2e7d32; font-weight: bold;">${wrong.correctAnswer}</span>
-                                                <span style="color: #4caf50; margin-right: 8px;"><i class="fas fa-check"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
+                        ${mistakes.map((mistake, index) => `
+                            <div class="mistake-item">
+                                <div class="mistake-question">سؤال ${index + 1}: ${mistake.questionText}</div>
+                                <div style="margin: 10px 0;">
+                                    <strong>إجابتك:</strong>
+                                    <div class="mistake-answer">${mistake.userAnswer}</div>
                                 </div>
-                            `).join('')}
-                        </div>
-                        
-                        <p style="margin-top: 20px; color: #d32f2f; font-size: 0.9em; text-align: center;">
-                            <i class="fas fa-lightbulb"></i> راجع هذه الأسئلة لتحسين أدائك في المرات القادمة
-                        </p>
-                    </div>
-                `;
-            }
-            
-            // إنشاء HTML لكل الأسئلة والإجابات الصحيحة
-            let allQuestionsHTML = '';
-            if (wrongAnswers.length === 0) {
-                allQuestionsHTML = `
-                    <div style="background: #e8f5e9; padding: 25px; border-radius: 15px; margin: 25px 0; border-right: 4px solid #4caf50;">
-                        <h3 style="color: #2e7d32; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                            <i class="fas fa-trophy"></i> أحسنت! جميع إجاباتك صحيحة
-                        </h3>
-                        <p style="color: #388e3c; margin-bottom: 20px;">
-                            <i class="fas fa-check-circle"></i> لقد أجبت بشكل صحيح على جميع الأسئلة
-                        </p>
-                    </div>
-                `;
-            }
-            
-            // إضافة قسم لجميع الإجابات الصحيحة
-            allQuestionsHTML += `
-                <div style="background: #e3f2fd; padding: 25px; border-radius: 15px; margin: 25px 0; border-right: 4px solid #2196f3;">
-                    <h3 style="color: #1565c0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-book"></i> جميع الأسئلة والإجابات الصحيحة
-                    </h3>
-                    <p style="color: #0d47a1; margin-bottom: 20px;">
-                        <i class="fas fa-info-circle"></i> مراجعة لجميع أسئلة الامتحان
-                    </p>
-                    
-                    <div style="display: grid; gap: 15px;">
-                        ${correctAnswers.map(item => `
-                            <div style="background: white; padding: 15px; border-radius: 10px; border-right: 3px solid #90caf9;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                    <div style="background: #2196f3; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9em;">
-                                        ${item.questionNumber}
-                                    </div>
-                                    <div style="font-weight: bold; color: #0d47a1; text-align: right; flex-grow: 1; margin-right: 10px; font-size: 0.95em;">
-                                        ${item.question}
-                                    </div>
+                                <div style="margin: 10px 0;">
+                                    <strong>الإجابة الصحيحة:</strong>
+                                    <div class="correct-answer">${mistake.correctAnswer}</div>
                                 </div>
-                                <div style="margin-top: 10px; padding: 10px 15px; background: #f3e5f5; border-radius: 8px; border-right: 3px solid #7b1fa2;">
-                                    <p style="color: #7b1fa2; font-size: 0.9em; margin-bottom: 5px;">الإجابة الصحيحة:</p>
-                                    <p style="color: #4a148c; font-weight: bold;">${item.correctAnswer}</p>
+                                <div style="margin: 10px 0; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+                                    <strong>التوضيح:</strong> ${mistake.explanation}
                                 </div>
                             </div>
                         `).join('')}
                     </div>
-                </div>
-            `;
-
+                `;
+            } else if (score === SYSTEM_CONFIG.MAX_SCORE) {
+                mistakesHTML = `
+                    <div style="background: #e8f5e9; padding: 20px; border-radius: 15px; margin: 20px 0; border-right: 5px solid #4caf50;">
+                        <h3 style="color: #2e7d32; text-align: center;">
+                            <i class="fas fa-trophy"></i> مبروك! لقد أجبت على جميع الأسئلة بشكل صحيح
+                        </h3>
+                    </div>
+                `;
+            }
+            
             const resultHTML = `
                 <div class="result-box">
                     <h2 style="color: #0d47a1; margin-bottom: 20px;">
-                        <i class="fas fa-trophy"></i> نتيجة الامتحان
+                        <i class="fas fa-trophy"></i> نتيجة امتحان اللغة العربية
                     </h2>
                     <div class="score-display">${score}/${SYSTEM_CONFIG.MAX_SCORE}</div>
                     <div class="grade-badge" style="background: linear-gradient(135deg, ${gradeColor}, ${gradeColor}aa);">
@@ -1438,12 +1380,14 @@
                         </div>
                     </div>
                     
-                    ${wrongQuestionsHTML}
-                    ${allQuestionsHTML}
+                    ${mistakesHTML}
                     
                     <div style="margin-top: 30px;">
                         <button class="btn" onclick="location.reload()" style="margin-right: 10px;">
                             <i class="fas fa-redo"></i> امتحان جديد
+                        </button>
+                        <button class="btn btn-info" onclick="showStatistics()">
+                            <i class="fas fa-chart-bar"></i> عرض الإحصائيات
                         </button>
                         <button class="btn btn-secondary" onclick="window.print()">
                             <i class="fas fa-print"></i> طباعة النتيجة
@@ -1451,21 +1395,45 @@
                     </div>
                     
                     <p style="margin-top: 25px; color: #78909c; font-size: 0.85em;">
-                        <i class="fas fa-info-circle"></i> تم حفظ النتيجة في سجلات المدرسة
+                        <i class="fas fa-database"></i> تم حفظ النتيجة في قاعدة بيانات المدرسة
                     </p>
-                    
-                    ${examManager.deviceBlocked ? `
-                        <div style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 8px; border-right: 4px solid #ff9800;">
-                            <p style="color: #e65100; font-size: 0.9em;">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <strong>ملاحظة:</strong> تم الكشف عن استخدام هذا الجهاز مسبقاً
-                            </p>
-                        </div>
-                    ` : ''}
                 </div>
             `;
             
             document.getElementById('resultContent').innerHTML = resultHTML;
+        }
+
+        async function showStatistics() {
+            if (!examManager) return;
+            
+            const stats = await examManager.loadTodayStats();
+            
+            const statsHTML = `
+                <div class="stats-box" style="margin-top: 20px;">
+                    <div class="stats-title">إحصائيات اليوم</div>
+                    <div class="info-item" style="font-size: 1.1em; color: #0d47a1;">
+                        <i class="fas fa-users"></i> عدد الممتحنين اليوم: <strong>${stats.totalAttempts}</strong>
+                    </div>
+                    <div class="info-item" style="font-size: 1.1em; color: #0d47a1;">
+                        <i class="fas fa-chart-line"></i> متوسط الدرجات: <strong>${stats.averageScore.toFixed(2)}</strong>
+                    </div>
+                    <div class="info-item" style="font-size: 0.9em; color: #546e7a;">
+                        <i class="fas fa-info-circle"></i> هذه الإحصائيات تشمل جميع الطلاب الذين أدوا الامتحان اليوم
+                    </div>
+                </div>
+            `;
+            
+            // إضافة الإحصائيات إلى صفحة النتائج
+            const resultContent = document.getElementById('resultContent');
+            const statsDiv = document.createElement('div');
+            statsDiv.innerHTML = statsHTML;
+            resultContent.appendChild(statsDiv);
+            
+            // إخفاء زر عرض الإحصائيات
+            const statsBtn = document.querySelector('button[onclick="showStatistics()"]');
+            if (statsBtn) {
+                statsBtn.style.display = 'none';
+            }
         }
 
         function showAlert(type, message) {
@@ -1477,20 +1445,24 @@
         }
 
         // ==================== 📄 تهيئة الصفحة ====================
-        window.onload = function() {
+        window.onload = async function() {
             console.log('📚 صفحة امتحان اللغة العربية للصف الخامس جاهزة');
-            
-            // تفعيل حقل الإدخال عند التحميل
             document.getElementById('studentCode').focus();
             
-            // التحقق من الجهاز المسجل
-            const today = new Date().toISOString().split('T')[0];
-            const deviceKey = `device_exam_${localStorage.getItem('deviceId')}_${today}`;
-            const lastStudent = localStorage.getItem(deviceKey);
+            // تحميل الإحصائيات الحالية
+            const tempManager = new ExamManager(SYSTEM_CONFIG);
+            const stats = await tempManager.loadTodayStats();
             
-            if (lastStudent) {
-                console.log(`📱 هذا الجهاز تم استخدامه اليوم بواسطة الطالب: ${lastStudent}`);
-            }
+            document.getElementById('todayExamsCount').textContent = stats.totalAttempts;
+            document.getElementById('averageScore').textContent = stats.averageScore.toFixed(2);
+            
+            console.log('📊 أماكن حفظ البيانات في Firebase:');
+            console.log('1. exam_results_temp ← النتائج المؤقتة (جميع الطلاب)');
+            console.log('2. exam_statistics ← الإحصائيات اليومية');
+            console.log('✅ النظام المعدل يسمح بدخول جميع الطلاب');
+            console.log('✅ يمكن استخدام نفس الجهاز عدة مرات');
+            console.log('✅ يتم عرض الأخطاء بعد الانتهاء');
+            console.log('✅ يتم جمع إحصائيات عدد الممتحنين');
         };
     </script>
 </body>
