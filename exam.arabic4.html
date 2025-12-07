@@ -385,6 +385,113 @@
             font-size: 1.2em;
         }
 
+        /* ===== تنسيقات الأخطاء ===== */
+        .mistakes-container {
+            margin: 30px 0;
+            text-align: right;
+        }
+
+        .mistakes-title {
+            color: #d32f2f;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mistakes-title::before {
+            content: '⚠️';
+        }
+
+        .mistake-item {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            border-right: 5px solid #d32f2f;
+            box-shadow: 0 8px 20px rgba(211, 47, 47, 0.1);
+        }
+
+        .mistake-question {
+            color: #0d47a1;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .answer-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .answer-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .your-answer, .correct-answer {
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .your-answer {
+            background: #ffebee;
+            color: #d32f2f;
+            border: 2px solid #ffcdd2;
+        }
+
+        .your-answer::before {
+            content: '❌ إجابتك:';
+            display: block;
+            font-size: 0.9em;
+            color: #b71c1c;
+            margin-bottom: 5px;
+        }
+
+        .correct-answer {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 2px solid #c8e6c9;
+        }
+
+        .correct-answer::before {
+            content: '✅ الإجابة الصحيحة:';
+            display: block;
+            font-size: 0.9em;
+            color: #1b5e20;
+            margin-bottom: 5px;
+        }
+
+        .no-mistakes {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .no-mistakes i {
+            font-size: 3em;
+            color: #4caf50;
+            margin-bottom: 15px;
+        }
+
+        .no-mistakes h3 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .no-mistakes p {
+            color: #546e7a;
+        }
+
         /* ===== التكيف مع الهاتف ===== */
         @media (max-width: 480px) {
             .header h1 {
@@ -425,6 +532,14 @@
             
             .score-display {
                 font-size: 2.8em;
+            }
+            
+            .mistake-item {
+                padding: 15px;
+            }
+            
+            .mistake-question {
+                font-size: 1em;
             }
         }
     </style>
@@ -485,7 +600,6 @@
 
         <!-- قسم الامتحان -->
         <div class="section" id="examSection">
-            <!-- ========== ⚠️ التعديل: إزالة رسالة الترحيب بالاسم ========== -->
             <div class="student-welcome">
                 <i class="fas fa-user-graduate"></i> مرحباً، ابدأ الإجابة الآن
             </div>
@@ -708,7 +822,6 @@
                         success: true,
                         studentId: studentDoc.id,
                         studentData: studentData,
-                        // ========== ⚠️ التعديل: رسالة ترحيب عامة بدون اسم ==========
                         message: `✅ تم التحقق بنجاح، يمكنك البدء الآن`
                     };
                     
@@ -1006,6 +1119,27 @@
                 return Math.min(score, this.config.MAX_SCORE);
             }
             
+            // دالة جديدة: الحصول على قائمة بالأخطاء
+            getMistakesDetails() {
+                const mistakes = [];
+                
+                for (let i = 0; i < ARABIC_QUESTIONS.length; i++) {
+                    const question = ARABIC_QUESTIONS[i];
+                    const answer = this.answers[question.id];
+                    
+                    if (answer && answer.answer != question.correct) {
+                        mistakes.push({
+                            question: question.question,
+                            yourAnswer: question.options[answer.answer],
+                            correctAnswer: question.options[question.correct],
+                            questionNumber: i + 1
+                        });
+                    }
+                }
+                
+                return mistakes;
+            }
+            
             showAlert(type, message) {
                 const alertDiv = document.createElement('div');
                 alertDiv.className = `alert alert-${type}`;
@@ -1089,9 +1223,6 @@
             // الانتقال إلى قسم الامتحان
             document.getElementById('loginSection').classList.remove('active');
             document.getElementById('examSection').classList.add('active');
-            
-            // ========== ⚠️ التعديل: إزالة عرض اسم الطالب ==========
-            // لم يعد هناك عرض للاسم في الترحيب
             
             // تحميل الأسئلة
             loadExamQuestions();
@@ -1224,6 +1355,49 @@
                 gradeColor = '#f44336';
             }
             
+            // الحصول على تفاصيل الأخطاء
+            const mistakes = examManager.getMistakesDetails();
+            const mistakesCount = mistakes.length;
+            
+            // بناء HTML للأخطاء
+            let mistakesHTML = '';
+            
+            if (mistakesCount > 0) {
+                mistakesHTML = `
+                    <div class="mistakes-container">
+                        <div class="mistakes-title">
+                            الأخطاء التي وقعت فيها (${mistakesCount} خطأ)
+                        </div>
+                `;
+                
+                mistakes.forEach(mistake => {
+                    mistakesHTML += `
+                        <div class="mistake-item">
+                            <div class="mistake-question">
+                                <span style="background: #d32f2f; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.9em; margin-left: 10px;">
+                                    السؤال ${mistake.questionNumber}
+                                </span>
+                                ${mistake.question}
+                            </div>
+                            <div class="answer-comparison">
+                                <div class="your-answer">${mistake.yourAnswer}</div>
+                                <div class="correct-answer">${mistake.correctAnswer}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                mistakesHTML += `</div>`;
+            } else {
+                mistakesHTML = `
+                    <div class="no-mistakes">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>🎉 مبروك! لم ترتكب أي أخطاء</h3>
+                        <p>أجبت على جميع الأسئلة بشكل صحيح</p>
+                    </div>
+                `;
+            }
+            
             const resultHTML = `
                 <div class="result-box">
                     <h2 style="color: #0d47a1; margin-bottom: 20px;">
@@ -1257,6 +1431,8 @@
                             </div>
                         </div>
                     </div>
+                    
+                    ${mistakesHTML}
                     
                     <div style="margin-top: 30px;">
                         <button class="btn" onclick="location.reload()" style="margin-right: 10px;">
