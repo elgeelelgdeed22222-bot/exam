@@ -1,1485 +1,1486 @@
-‏<!DOCTYPE html>
-‏<html lang="ar" dir="rtl">
-‏<head>
-‏    <meta charset="UTF-8">
-‏    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-‏    <title>امتحان اللغة العربية - الصف السادس الابتدائي</title>
-‏    <style>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>امتحان اللغة العربية - الصف السادس الابتدائي</title>
+    <style>
         /* ===== إعدادات عامة ===== */
         * {
-‏            margin: 0;
-‏            padding: 0;
-‏            box-sizing: border-box;
-‏            font-family: 'Amiri', serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Amiri', serif;
         }
         
-‏        body {
-‏            background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
-‏            min-height: 100vh;
-‏            padding: 15px;
-‏            color: #2c3e50;
+        body {
+            background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+            min-height: 100vh;
+            padding: 15px;
+            color: #2c3e50;
         }
 
         /* ===== الحاوية الرئيسية ===== */
-‏        .container {
-‏            max-width: 100%;
-‏            margin: 0 auto;
-‏            background: linear-gradient(to bottom, #ffffff, #f8f9fa);
-‏            border-radius: 25px;
-‏            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-‏            overflow: hidden;
-‏            position: relative;
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            position: relative;
         }
 
         /* ===== الهيدر ===== */
-‏        .header {
-‏            background: linear-gradient(135deg, #0a3d62, #1e5799);
-‏            color: white;
-‏            padding: 25px 20px;
-‏            text-align: center;
-‏            position: relative;
-‏            overflow: hidden;
+        .header {
+            background: linear-gradient(135deg, #0a3d62, #1e5799);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-‏        .header::before {
-‏            content: '';
-‏            position: absolute;
-‏            top: 0;
-‏            left: 0;
-‏            right: 0;
-‏            height: 4px;
-‏            background: linear-gradient(90deg, #ff9800, #ff5722);
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff9800, #ff5722);
         }
 
-‏        .header h1 {
-‏            font-size: 1.5em;
-‏            margin-bottom: 10px;
-‏            font-weight: bold;
-‏            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        .header h1 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-‏        .header p {
-‏            font-size: 0.9em;
-‏            opacity: 0.95;
-‏            line-height: 1.5;
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.95;
+            line-height: 1.5;
         }
 
-‏        .school-name {
-‏            color: #ffc107;
-‏            font-weight: bold;
+        .school-name {
+            color: #ffc107;
+            font-weight: bold;
         }
 
         /* ===== أقسام الصفحة ===== */
-‏        .section {
-‏            display: none;
-‏            padding: 25px 20px;
-‏            min-height: 60vh;
+        .section {
+            display: none;
+            padding: 25px 20px;
+            min-height: 60vh;
         }
 
-‏        .section.active {
-‏            display: block;
+        .section.active {
+            display: block;
         }
 
         /* ===== الأزرار ===== */
-‏        .btn {
-‏            display: inline-block;
-‏            padding: 14px 35px;
-‏            background: linear-gradient(135deg, #00c853, #64dd17);
-‏            color: white;
-‏            border: none;
-‏            border-radius: 50px;
-‏            font-size: 16px;
-‏            font-weight: bold;
-‏            cursor: pointer;
-‏            margin: 10px 5px;
-‏            transition: all 0.3s ease;
-‏            box-shadow: 0 8px 20px rgba(0, 200, 83, 0.3);
-‏            position: relative;
-‏            overflow: hidden;
+        .btn {
+            display: inline-block;
+            padding: 14px 35px;
+            background: linear-gradient(135deg, #00c853, #64dd17);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 200, 83, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
-‏        .btn:hover {
-‏            transform: translateY(-3px);
-‏            box-shadow: 0 12px 25px rgba(0, 200, 83, 0.4);
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 200, 83, 0.4);
         }
 
-‏        .btn:active {
-‏            transform: translateY(1px);
+        .btn:active {
+            transform: translateY(1px);
         }
 
-‏        .btn-danger {
-‏            background: linear-gradient(135deg, #ff3d00, #ff6d00);
-‏            box-shadow: 0 8px 20px rgba(255, 61, 0, 0.3);
+        .btn-danger {
+            background: linear-gradient(135deg, #ff3d00, #ff6d00);
+            box-shadow: 0 8px 20px rgba(255, 61, 0, 0.3);
         }
 
-‏        .btn-secondary {
-‏            background: linear-gradient(135deg, #546e7a, #37474f);
-‏            box-shadow: 0 8px 20px rgba(84, 110, 122, 0.3);
+        .btn-secondary {
+            background: linear-gradient(135deg, #546e7a, #37474f);
+            box-shadow: 0 8px 20px rgba(84, 110, 122, 0.3);
         }
 
-‏        .btn-info {
-‏            background: linear-gradient(135deg, #2196f3, #1976d2);
-‏            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+        .btn-info {
+            background: linear-gradient(135deg, #2196f3, #1976d2);
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
         }
 
         /* ===== المؤقت والتقدم ===== */
-‏        .timer-container {
-‏            position: fixed;
-‏            top: 15px;
-‏            left: 15px;
-‏            background: linear-gradient(135deg, #d32f2f, #b71c1c);
-‏            color: white;
-‏            padding: 10px 20px;
-‏            border-radius: 50px;
-‏            font-size: 1em;
-‏            font-weight: bold;
-‏            z-index: 1000;
-‏            box-shadow: 0 5px 15px rgba(211, 47, 47, 0.3);
-‏            border: 2px solid white;
+        .timer-container {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(211, 47, 47, 0.3);
+            border: 2px solid white;
         }
 
-‏        .progress-container {
-‏            position: fixed;
-‏            top: 15px;
-‏            right: 15px;
-‏            background: linear-gradient(135deg, #1565c0, #0d47a1);
-‏            color: white;
-‏            padding: 10px 20px;
-‏            border-radius: 50px;
-‏            font-weight: bold;
-‏            z-index: 1000;
-‏            box-shadow: 0 5px 15px rgba(21, 101, 192, 0.3);
-‏            border: 2px solid white;
+        .progress-container {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #1565c0, #0d47a1);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(21, 101, 192, 0.3);
+            border: 2px solid white;
         }
 
         /* ===== حقل الإدخال ===== */
-‏        .input-field {
-‏            width: 100%;
-‏            padding: 16px 20px;
-‏            margin: 20px 0;
-‏            border: 2px solid #1565c0;
-‏            border-radius: 15px;
-‏            font-size: 16px;
-‏            text-align: center;
-‏            background: #f8f9fa;
-‏            transition: all 0.3s ease;
-‏            font-family: 'Amiri', serif;
+        .input-field {
+            width: 100%;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border: 2px solid #1565c0;
+            border-radius: 15px;
+            font-size: 16px;
+            text-align: center;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            font-family: 'Amiri', serif;
         }
 
-‏        .input-field:focus {
-‏            outline: none;
-‏            border-color: #ff9800;
-‏            box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
-‏            background: white;
+        .input-field:focus {
+            outline: none;
+            border-color: #ff9800;
+            box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
+            background: white;
         }
 
         /* ===== ترحيب الطالب ===== */
-‏        .student-welcome {
-‏            text-align: center;
-‏            font-size: 1.3em;
-‏            color: #0d47a1;
-‏            margin: 20px 0;
-‏            padding: 15px;
-‏            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
-‏            border-radius: 15px;
-‏            border-right: 5px solid #ff9800;
-‏            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        .student-welcome {
+            text-align: center;
+            font-size: 1.3em;
+            color: #0d47a1;
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            border-radius: 15px;
+            border-right: 5px solid #ff9800;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
         /* ===== الأسئلة ===== */
-‏        .question-container {
-‏            max-width: 800px;
-‏            margin: 0 auto;
+        .question-container {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-‏        .question {
-‏            background: white;
-‏            border-radius: 15px;
-‏            padding: 25px;
-‏            margin: 25px 0;
-‏            border-right: 5px solid #1565c0;
-‏            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-‏            transition: all 0.3s ease;
-‏            position: relative;
+        .question {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            border-right: 5px solid #1565c0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-‏        .question:hover {
-‏            transform: translateY(-5px);
-‏            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        .question:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
         }
 
-‏        .question-header {
-‏            display: flex;
-‏            justify-content: space-between;
-‏            align-items: center;
-‏            margin-bottom: 15px;
-‏            padding-bottom: 10px;
-‏            border-bottom: 2px solid #e3f2fd;
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e3f2fd;
         }
 
-‏        .question-number {
-‏            background: #1565c0;
-‏            color: white;
-‏            width: 40px;
-‏            height: 40px;
-‏            border-radius: 50%;
-‏            display: flex;
-‏            align-items: center;
-‏            justify-content: center;
-‏            font-weight: bold;
-‏            font-size: 1.1em;
+        .question-number {
+            background: #1565c0;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1em;
         }
 
-‏        .question-text {
-‏            color: #0d47a1;
-‏            font-size: 1.1em;
-‏            line-height: 1.6;
-‏            font-weight: bold;
-‏            flex-grow: 1;
-‏            margin-right: 15px;
-‏            text-align: right;
+        .question-text {
+            color: #0d47a1;
+            font-size: 1.1em;
+            line-height: 1.6;
+            font-weight: bold;
+            flex-grow: 1;
+            margin-right: 15px;
+            text-align: right;
         }
 
-‏        .options {
-‏            display: grid;
-‏            gap: 12px;
-‏            margin-top: 20px;
+        .options {
+            display: grid;
+            gap: 12px;
+            margin-top: 20px;
         }
 
-‏        .option {
-‏            background: #f8f9fa;
-‏            border: 2px solid #e0e0e0;
-‏            border-radius: 12px;
-‏            padding: 16px 20px;
-‏            cursor: pointer;
-‏            transition: all 0.3s ease;
-‏            font-size: 0.95em;
-‏            position: relative;
-‏            text-align: right;
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+            position: relative;
+            text-align: right;
         }
 
-‏        .option:hover {
-‏            background: #e3f2fd;
-‏            border-color: #90caf9;
-‏            transform: translateX(-5px);
+        .option:hover {
+            background: #e3f2fd;
+            border-color: #90caf9;
+            transform: translateX(-5px);
         }
 
-‏        .option.selected {
-‏            background: #e8f5e9;
-‏            border-color: #4caf50;
-‏            color: #2e7d32;
-‏            font-weight: bold;
-‏            transform: translateX(-10px);
+        .option.selected {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+            font-weight: bold;
+            transform: translateX(-10px);
         }
 
-‏        .option.selected::before {
-‏            content: '✓';
-‏            position: absolute;
-‏            left: 15px;
-‏            top: 50%;
-‏            transform: translateY(-50%);
-‏            color: #4caf50;
-‏            font-weight: bold;
+        .option.selected::before {
+            content: '✓';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4caf50;
+            font-weight: bold;
         }
 
-‏        .option.wrong {
-‏            background: #ffebee;
-‏            border-color: #ef5350;
-‏            color: #c62828;
+        .option.wrong {
+            background: #ffebee;
+            border-color: #ef5350;
+            color: #c62828;
         }
 
-‏        .option.correct {
-‏            background: #e8f5e9;
-‏            border-color: #4caf50;
-‏            color: #2e7d32;
+        .option.correct {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
         }
 
         /* ===== النتيجة ===== */
-‏        .result-box {
-‏            text-align: center;
-‏            padding: 40px 20px;
-‏            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
-‏            border-radius: 20px;
-‏            margin: 20px 0;
-‏            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        .result-box {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border-radius: 20px;
+            margin: 20px 0;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
 
-‏        .score-display {
-‏            font-size: 3.5em;
-‏            margin: 20px 0;
-‏            font-weight: bold;
-‏            background: linear-gradient(135deg, #00c853, #64dd17);
-‏            -webkit-background-clip: text;
-‏            -webkit-text-fill-color: transparent;
-‏            text-shadow: 0 5px 15px rgba(0, 200, 83, 0.2);
+        .score-display {
+            font-size: 3.5em;
+            margin: 20px 0;
+            font-weight: bold;
+            background: linear-gradient(135deg, #00c853, #64dd17);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 200, 83, 0.2);
         }
 
-‏        .grade-badge {
-‏            display: inline-block;
-‏            padding: 10px 25px;
-‏            background: linear-gradient(135deg, #ff9800, #ff5722);
-‏            color: white;
-‏            border-radius: 50px;
-‏            font-weight: bold;
-‏            margin: 15px 0;
-‏            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+        .grade-badge {
+            display: inline-block;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #ff9800, #ff5722);
+            color: white;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
         }
 
         /* ===== التنبيهات ===== */
-‏        .alert {
-‏            position: fixed;
-‏            top: 20px;
-‏            right: 20px;
-‏            left: 20px;
-‏            padding: 15px 20px;
-‏            border-radius: 12px;
-‏            color: white;
-‏            font-weight: bold;
-‏            text-align: center;
-‏            z-index: 2000;
-‏            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-‏            animation: slideIn 0.3s ease;
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            left: 20px;
+            padding: 15px 20px;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            z-index: 2000;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease;
         }
 
-‏        @keyframes slideIn {
-‏            from {
-‏                transform: translateY(-100px);
-‏                opacity: 0;
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
             }
-‏            to {
-‏                transform: translateY(0);
-‏                opacity: 1;
+            to {
+                transform: translateY(0);
+                opacity: 1;
             }
         }
 
-‏        .alert-success {
-‏            background: linear-gradient(135deg, #00c853, #64dd17);
+        .alert-success {
+            background: linear-gradient(135deg, #00c853, #64dd17);
         }
 
-‏        .alert-warning {
-‏            background: linear-gradient(135deg, #ff9800, #ff5722);
+        .alert-warning {
+            background: linear-gradient(135deg, #ff9800, #ff5722);
         }
 
-‏        .alert-error {
-‏            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+        .alert-error {
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
         }
 
         /* ===== معلومات إضافية ===== */
-‏        .exam-info {
-‏            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
-‏            border-radius: 15px;
-‏            padding: 20px;
-‏            margin: 25px 0;
-‏            border-right: 4px solid #ff9800;
+        .exam-info {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
+            border-right: 4px solid #ff9800;
         }
 
-‏        .info-title {
-‏            color: #0d47a1;
-‏            margin-bottom: 15px;
-‏            font-weight: bold;
-‏            font-size: 1.1em;
-‏            display: flex;
-‏            align-items: center;
-‏            gap: 10px;
+        .info-title {
+            color: #0d47a1;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-‏        .info-title::before {
-‏            content: '📌';
+        .info-title::before {
+            content: '📌';
         }
 
-‏        .info-item {
-‏            display: flex;
-‏            align-items: center;
-‏            margin: 10px 0;
-‏            color: #546e7a;
-‏            font-size: 0.9em;
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            color: #546e7a;
+            font-size: 0.9em;
         }
 
-‏        .info-item::before {
-‏            content: '•';
-‏            color: #ff9800;
-‏            margin-left: 10px;
-‏            font-size: 1.2em;
+        .info-item::before {
+            content: '•';
+            color: #ff9800;
+            margin-left: 10px;
+            font-size: 1.2em;
         }
 
         /* ===== قسم الأخطاء ===== */
-‏        .mistakes-container {
-‏            background: white;
-‏            border-radius: 15px;
-‏            padding: 25px;
-‏            margin: 30px 0;
-‏            border-right: 5px solid #ff9800;
-‏            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        .mistakes-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border-right: 5px solid #ff9800;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         }
 
-‏        .mistake-item {
-‏            background: #ffebee;
-‏            border-radius: 12px;
-‏            padding: 20px;
-‏            margin: 15px 0;
-‏            border-right: 4px solid #ef5350;
+        .mistake-item {
+            background: #ffebee;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            border-right: 4px solid #ef5350;
         }
 
-‏        .mistake-question {
-‏            color: #c62828;
-‏            font-weight: bold;
-‏            margin-bottom: 10px;
-‏            font-size: 1.05em;
+        .mistake-question {
+            color: #c62828;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.05em;
         }
 
-‏        .mistake-answer, .correct-answer {
-‏            padding: 8px 15px;
-‏            border-radius: 8px;
-‏            margin: 5px 0;
-‏            display: inline-block;
+        .mistake-answer, .correct-answer {
+            padding: 8px 15px;
+            border-radius: 8px;
+            margin: 5px 0;
+            display: inline-block;
         }
 
-‏        .mistake-answer {
-‏            background: #ffcdd2;
-‏            color: #b71c1c;
-‏            border: 1px solid #ef5350;
+        .mistake-answer {
+            background: #ffcdd2;
+            color: #b71c1c;
+            border: 1px solid #ef5350;
         }
 
-‏        .correct-answer {
-‏            background: #c8e6c9;
-‏            color: #1b5e20;
-‏            border: 1px solid #4caf50;
+        .correct-answer {
+            background: #c8e6c9;
+            color: #1b5e20;
+            border: 1px solid #4caf50;
         }
 
         /* ===== الإحصائيات ===== */
-‏        .stats-box {
-‏            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
-‏            border-radius: 15px;
-‏            padding: 20px;
-‏            margin: 25px 0;
-‏            border-right: 4px solid #2196f3;
+        .stats-box {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
+            border-right: 4px solid #2196f3;
         }
 
-‏        .stats-title {
-‏            color: #0d47a1;
-‏            margin-bottom: 15px;
-‏            font-weight: bold;
-‏            font-size: 1.1em;
-‏            display: flex;
-‏            align-items: center;
-‏            gap: 10px;
+        .stats-title {
+            color: #0d47a1;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-‏        .stats-title::before {
-‏            content: '📊';
+        .stats-title::before {
+            content: '📊';
         }
 
         /* ===== التكيف مع الهاتف ===== */
-‏        @media (max-width: 480px) {
-‏            .header h1 {
-‏                font-size: 1.3em;
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.3em;
             }
             
-‏            .header p {
-‏                font-size: 0.85em;
+            .header p {
+                font-size: 0.85em;
             }
             
-‏            .btn {
-‏                width: 100%;
-‏                margin: 10px 0;
+            .btn {
+                width: 100%;
+                margin: 10px 0;
             }
             
-‏            .timer-container, .progress-container {
-‏                position: relative;
-‏                top: auto;
-‏                left: auto;
-‏                right: auto;
-‏                display: block;
-‏                margin: 10px auto;
-‏                width: fit-content;
+            .timer-container, .progress-container {
+                position: relative;
+                top: auto;
+                left: auto;
+                right: auto;
+                display: block;
+                margin: 10px auto;
+                width: fit-content;
             }
             
-‏            .question {
-‏                padding: 20px 15px;
+            .question {
+                padding: 20px 15px;
             }
             
-‏            .question-text {
-‏                font-size: 1em;
+            .question-text {
+                font-size: 1em;
             }
             
-‏            .option {
-‏                padding: 14px 15px;
-‏                font-size: 0.9em;
+            .option {
+                padding: 14px 15px;
+                font-size: 0.9em;
             }
             
-‏            .score-display {
-‏                font-size: 2.8em;
+            .score-display {
+                font-size: 2.8em;
             }
         }
-‏    </style>
+    </style>
     <!-- خط Amiri أصغر -->
-‏    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <!-- أيقونات -->
-‏    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-‏</head>
-‏<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
     <!-- المؤقت والتقدم -->
-‏    <div class="timer-container">
-‏        <i class="fas fa-clock"></i> الوقت: <span id="timer">10:00</span>
-‏    </div>
-‏    <div class="progress-container">
-‏        <i class="fas fa-list-check"></i> التقدم: <span id="progress">0/10</span>
-‏    </div>
+    <div class="timer-container">
+        <i class="fas fa-clock"></i> الوقت: <span id="timer">10:00</span>
+    </div>
+    <div class="progress-container">
+        <i class="fas fa-list-check"></i> التقدم: <span id="progress">0/10</span>
+    </div>
 
     <!-- الحاوية الرئيسية -->
-‏    <div class="container">
+    <div class="container">
         <!-- الهيدر -->
-‏        <div class="header">
-‏            <h1><i class="fas fa-book-open"></i> امتحان اللغة العربية</h1>
-‏            <p>الصف السادس الابتدائي</p>
-‏            <p class="school-name">مدرسة الجيل الجديد الخاصة</p>
-‏            <p style="font-size: 0.85em; margin-top: 8px;">أمل نحو المستقبل</p>
-‏        </div>
+        <div class="header">
+            <h1><i class="fas fa-book-open"></i> امتحان اللغة العربية</h1>
+            <p>الصف السادس الابتدائي</p>
+            <p class="school-name">مدرسة الجيل الجديد الخاصة</p>
+            <p style="font-size: 0.85em; margin-top: 8px;">أمل نحو المستقبل</p>
+        </div>
 
         <!-- قسم الدخول -->
-‏        <div class="section active" id="loginSection">
-‏            <div style="text-align: center; padding: 30px 20px;">
-‏                <h2 style="color: #0d47a1; margin-bottom: 10px;">
-‏                    <i class="fas fa-door-open"></i> دخول الامتحان
-‏                </h2>
-‏                <p style="margin-bottom: 25px; color: #546e7a; font-size: 0.95em;">
+        <div class="section active" id="loginSection">
+            <div style="text-align: center; padding: 30px 20px;">
+                <h2 style="color: #0d47a1; margin-bottom: 10px;">
+                    <i class="fas fa-door-open"></i> دخول الامتحان
+                </h2>
+                <p style="margin-bottom: 25px; color: #546e7a; font-size: 0.95em;">
                     أدخل اسمك أو كود الطالب للبدء في الامتحان
-‏                </p>
+                </p>
                 
-‏                <input type="text" id="studentCode" class="input-field" 
-‏                       placeholder="اكتب اسمك أو كود الطالب" maxlength="50">
+                <input type="text" id="studentCode" class="input-field" 
+                       placeholder="اكتب اسمك أو كود الطالب" maxlength="50">
                 
-‏                <div style="margin: 15px 0;">
-‏                    <button class="btn" onclick="startExam()">
-‏                        <i class="fas fa-play"></i> بدء الامتحان الآن
-‏                    </button>
+                <div style="margin: 15px 0;">
+                    <button class="btn" onclick="startExam()">
+                        <i class="fas fa-play"></i> بدء الامتحان الآن
+                    </button>
                     
-‏                    <button class="btn btn-info" onclick="<>
-‏                </div>
+                    <button class="btn btn-info" onclick="generateRandomCode()">
+                        <i class="fas fa-random"></i> توليد كود عشوائي
+                    </button>
+                </div>
                 
-‏     i class="fas fa-random"></i> توليد كود عشوائي
-                    </button>           <div class="exam-info">
-‏                    <div class="info-title">تعليمات هامة</div>
-‏                    <div class="info-item">الامتحان مكون من 10 أسئلة</div>
-‏                    <div class="info-item">مدة الامتحان: 10 دقائق</div>
-‏                    <div class="info-item">يمكن استخدام نفس الهاتف عدة مرات</div>
-‏                    <div class="info-item">لكل كود/اسم محاولة واحدة فقط</div>
-‏                    <div class="info-item">سيتم حفظ النتيجة تلقائياً</div>
-‏                    <div class="info-item">سيتم عرض الأخطاء بعد الانتهاء</div>
-‏                    <div class="info-item">الامتحان للصف السادس الابتدائي فقط</div>
-‏                    <<>div class="stats-box">
-‏                        <div class="stats-title">إحصائيات اليوم</div>
-‏                        <div class="info-item">عدد الممتحنين اليوم: <span id="todayExamsCount">0</span></div>
-‏                       div class="info-item">الكود الممتحن سابقاً: <span id="usedCodesCount">0</span></div> 
-‏                        <>div class="info-item">متوسط الدرجات: <span id="averageScore">0</span></div>
-‏                    </div>
-‏                </div>
-‏            </div>
-‏        </div>
+                <div class="exam-info">
+                    <div class="info-title">تعليمات هامة</div>
+                    <div class="info-item">الامتحان مكون من 10 أسئلة</div>
+                    <div class="info-item">مدة الامتحان: 10 دقائق</div>
+                    <div class="info-item">يمكن استخدام نفس الهاتف عدة مرات</div>
+                    <div class="info-item">لكل كود/اسم محاولة واحدة فقط</div>
+                    <div class="info-item">سيتم حفظ النتيجة تلقائياً</div>
+                    <div class="info-item">سيتم عرض الأخطاء بعد الانتهاء</div>
+                    <div class="info-item">الامتحان للصف السادس الابتدائي فقط</div>
+                    <div class="stats-box">
+                        <div class="stats-title">إحصائيات اليوم</div>
+                        <div class="info-item">عدد الممتحنين اليوم: <span id="todayExamsCount">0</span></div>
+                        <div class="info-item">الكود الممتحن سابقاً: <span id="usedCodesCount">0</span></div>
+                        <div class="info-item">متوسط الدرجات: <span id="averageScore">0</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- قسم الامتحان -->
-‏        <div class="section" id="examSection">
-‏            <div id="studentWelcome" class="student-welcome">
-‏                <i class="fas fa-user-graduate"></i> مرحباً <span id="studentIdentifier"></span>، ابدأ الإجابة الآن
-‏            </div>
+        <div class="section" id="examSection">
+            <div id="studentWelcome" class="student-welcome">
+                <i class="fas fa-user-graduate"></i> مرحباً <span id="studentIdentifier"></span>، ابدأ الإجابة الآن
+            </div>
             
-‏            <div class="question-container" id="questionsContainer">
+            <div class="question-container" id="questionsContainer">
                 <!-- سيتم تحميل الأسئلة هنا -->
-‏            </div>
+            </div>
             
-‏            <div style="text-align: center; margin-top: 30px; padding: 20px;">
-‏                <button class="btn btn-danger" onclick="submitExam()">
-‏                    <i class="fas fa-paper-plane"></i> إنهاء وتسليم الإجابات
-‏                </button>
-‏                <p style="margin-top: 15px; color: #757575; font-size: 0.85em;">
+            <div style="text-align: center; margin-top: 30px; padding: 20px;">
+                <button class="btn btn-danger" onclick="submitExam()">
+                    <i class="fas fa-paper-plane"></i> إنهاء وتسليم الإجابات
+                </button>
+                <p style="margin-top: 15px; color: #757575; font-size: 0.85em;">
                     ⚠️ بعد النقر لا يمكنك تعديل الإجابات
-‏                </p>
-‏            </div>
-‏        </div>
+                </p>
+            </div>
+        </div>
 
         <!-- قسم النتائج -->
-‏        <div class="section" id="resultSection">
-‏            <div id="resultContent"></div>
-‏        </div>
-‏    </div>
+        <div class="section" id="resultSection">
+            <div id="resultContent"></div>
+        </div>
+    </div>
 
-‏    <!-- Firebase -->
-‏    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-‏    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 
-‏    <script>
+    <script>
         // ==================== ⚙️ الإعدادات الأساسية ====================
-‏        const SYSTEM_CONFIG = {
-‏            SUBJECT: 'arabic',
-‏            GRADE: '6',
-‏            EXAM_DURATION: 10,
-‏            MAX_SCORE: 10,
-‏            QUESTIONS_COUNT: 10
+        const SYSTEM_CONFIG = {
+            SUBJECT: 'arabic',
+            GRADE: '6',
+            EXAM_DURATION: 10,
+            MAX_SCORE: 10,
+            QUESTIONS_COUNT: 10
         };
 
         // ==================== 🔥 إعداد Firebase ====================
-‏        const firebaseConfig = {
-‏            apiKey: "AIzaSyCtxkYnDVupiJz8iyAzI_oqaZGBaKYYIhY",
-‏            authDomain: "elgeelelgdeed-1.firebaseapp.com",
-‏            projectId: "elgeelelgdeed-1",
-‏            storageBucket: "elgeelelgdeed-1.firebasestorage.app",
-‏            messagingSenderId: "1031644675136",
-‏            appId: "1:1031644675136:web:d1acdcfa1530bee72e33a5"
+        const firebaseConfig = {
+            apiKey: "AIzaSyCtxkYnDVupiJz8iyAzI_oqaZGBaKYYIhY",
+            authDomain: "elgeelelgdeed-1.firebaseapp.com",
+            projectId: "elgeelelgdeed-1",
+            storageBucket: "elgeelelgdeed-1.firebasestorage.app",
+            messagingSenderId: "1031644675136",
+            appId: "1:1031644675136:web:d1acdcfa1530bee72e33a5"
         };
 
-‏        let db;
-‏        try {
-‏            firebase.initializeApp(firebaseConfig);
-‏            db = firebase.firestore();
-‏            console.log('✅ Firebase جاهز');
-‏        } catch (error) {
-‏            console.log('Firebase متهيء مسبقاً');
-‏            db = firebase.firestore();
+        let db;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            console.log('✅ Firebase جاهز');
+        } catch (error) {
+            console.log('Firebase متهيء مسبقاً');
+            db = firebase.firestore();
         }
 
         // ==================== 📚 أسئلة اللغة العربية للصف السادس ====================
-‏        const ARABIC_QUESTIONS = [
+        const ARABIC_QUESTIONS = [
             {
-‏                id: 1,
-‏                question: "الجملة الصحيحة هي: 'أصبح المعلمين مخلصون'",
-‏                options: ["صح", "خطأ"],
-‏                correct: 1,
-‏                type: "صح/خطأ",
-‏                explanation: "الجملة خاطئة، الصحيح: 'أصبح المعلمون مخلصين' لأن 'أصبح' من أخوات كان ترفع المبتدأ وتنصب الخبر"
+                id: 1,
+                question: "الجملة الصحيحة هي: 'أصبح المعلمين مخلصون'",
+                options: ["صح", "خطأ"],
+                correct: 1,
+                type: "صح/خطأ",
+                explanation: "الجملة خاطئة، الصحيح: 'أصبح المعلمون مخلصين' لأن 'أصبح' من أخوات كان ترفع المبتدأ وتنصب الخبر"
             },
             {
-‏                id: 2,
-‏                question: "في الجملة: 'التلاميذ مجتهدون' - الخبر هنا مفرد",
-‏                options: ["صح", "خطأ"],
-‏                correct: 1,
-‏                type: "صح/خطأ",
-‏                explanation: "خاطئة، الخبر هنا جمع مذكر سالم (مجتهدون) وليس مفرد"
+                id: 2,
+                question: "في الجملة: 'التلاميذ مجتهدون' - الخبر هنا مفرد",
+                options: ["صح", "خطأ"],
+                correct: 1,
+                type: "صح/خطأ",
+                explanation: "خاطئة، الخبر هنا جمع مذكر سالم (مجتهدون) وليس مفرد"
             },
             {
-‏                id: 3,
-‏                question: "أقوى الحركات في اللغة العربية هي السكون",
-‏                options: ["صح", "خطأ"],
-‏                correct: 1,
-‏                type: "صح/خطأ",
-‏                explanation: "خاطئة، أقوى الحركات هي الكسرة، ثم الضمة، ثم الفتحة، ثم السكون"
+                id: 3,
+                question: "أقوى الحركات في اللغة العربية هي السكون",
+                options: ["صح", "خطأ"],
+                correct: 1,
+                type: "صح/خطأ",
+                explanation: "خاطئة، أقوى الحركات هي الكسرة، ثم الضمة، ثم الفتحة، ثم السكون"
             },
             {
-‏                id: 4,
-‏                question: "كان وأخواتها ترفع المبتدأ وتنصب الخبر",
-‏                options: ["صح", "خطأ"],
-‏                correct: 0,
-‏                type: "صح/خطأ",
-‏                explanation: "صحيحة، كان وأخواتها تدخل على الجملة الاسمية فترفع المبتدأ ويسمى اسمها وتنصب الخبر ويسمى خبرها"
+                id: 4,
+                question: "كان وأخواتها ترفع المبتدأ وتنصب الخبر",
+                options: ["صح", "خطأ"],
+                correct: 0,
+                type: "صح/خطأ",
+                explanation: "صحيحة، كان وأخواتها تدخل على الجملة الاسمية فترفع المبتدأ ويسمى اسمها وتنصب الخبر ويسمى خبرها"
             },
             {
-‏                id: 5,
-‏                question: "الجملة الصحيحة إعرابياً هي: 'كانت فكرة الطيران مستحيلة'",
-‏                options: ["صح", "خطأ"],
-‏                correct: 0,
-‏                type: "صح/خطأ",
-‏                explanation: "صحيحة، الجملة صحيحة إعرابياً"
+                id: 5,
+                question: "الجملة الصحيحة إعرابياً هي: 'كانت فكرة الطيران مستحيلة'",
+                options: ["صح", "خطأ"],
+                correct: 0,
+                type: "صح/خطأ",
+                explanation: "صحيحة، الجملة صحيحة إعرابياً"
             },
             {
-‏                id: 6,
-‏                question: "الناجح يحيب......",
-‏                options: ["بالتفاؤل", "التفاعل"],
-‏                correct: 0,
-‏                type: "اختيار من متعدد",
-‏                explanation: "الإجابة الصحيحة: 'بالتفاؤل'، لأن الناجح يتفاءل دائماً"
+                id: 6,
+                question: "الناجح يحيب......",
+                options: ["بالتفاؤل", "التفاعل"],
+                correct: 0,
+                type: "اختيار من متعدد",
+                explanation: "الإجابة الصحيحة: 'بالتفاؤل'، لأن الناجح يتفاءل دائماً"
             },
             {
-‏                id: 7,
-‏                question: "صار السفر...... سهلاً في عصرنا الحالي",
-‏                options: ["ذا", "ذو", "ذي"],
-‏                correct: 2,
-‏                type: "اختيار من متعدد",
-‏                explanation: "الإجابة الصحيحة: 'ذي'، لأن 'ذي' اسم إشارة للقريب المؤنث"
+                id: 7,
+                question: "صار السفر...... سهلاً في عصرنا الحالي",
+                options: ["ذا", "ذو", "ذي"],
+                correct: 2,
+                type: "اختيار من متعدد",
+                explanation: "الإجابة الصحيحة: 'ذي'، لأن 'ذي' اسم إشارة للقريب المؤنث"
             },
             {
-‏                id: 8,
-‏                question: "حسن بن الهيثم...... في علم البصريات",
-‏                options: ["ميسور", "ميسوراً", "ميسور"],
-‏                correct: 1,
-‏                type: "اختيار من متعدد",
-‏                explanation: "الإجابة الصحيحة: 'ميسوراً'، لأنها منصوبة على الحال"
+                id: 8,
+                question: "حسن بن الهيثم...... في علم البصريات",
+                options: ["ميسور", "ميسوراً", "ميسور"],
+                correct: 1,
+                type: "اختيار من متعدد",
+                explanation: "الإجابة الصحيحة: 'ميسوراً'، لأنها منصوبة على الحال"
             },
             {
-‏                id: 9,
-‏                question: "يرفع الأذان......",
-‏                options: ["الماذن", "المؤذن", "المؤذنون"],
-‏                correct: 1,
-‏                type: "اختيار من متعدد",
-‏                explanation: "الإجابة الصحيحة: 'المؤذن'، وهو الذي يقوم برفع الأذان"
+                id: 9,
+                question: "يرفع الأذان......",
+                options: ["الماذن", "المؤذن", "المؤذنون"],
+                correct: 1,
+                type: "اختيار من متعدد",
+                explanation: "الإجابة الصحيحة: 'المؤذن'، وهو الذي يقوم برفع الأذان"
             },
             {
-‏                id: 10,
-‏                question: "ما إعراب كلمة 'المعلمين' في الجملة: 'يكرم المدير المعلمين'؟",
-‏                options: ["مفعول به منصوب", "فاعل مرفوع", "مبتدأ مرفوع"],
-‏                correct: 0,
-‏                type: "اختيار من متعدد",
-‏                explanation: "الإجابة الصحيحة: 'مفعول به منصوب'، لأن المعلمين منصوب بالياء لأنه جمع مذكر سالم"
+                id: 10,
+                question: "ما إعراب كلمة 'المعلمين' في الجملة: 'يكرم المدير المعلمين'؟",
+                options: ["مفعول به منصوب", "فاعل مرفوع", "مبتدأ مرفوع"],
+                correct: 0,
+                type: "اختيار من متعدد",
+                explanation: "الإجابة الصحيحة: 'مفعول به منصوب'، لأن المعلمين منصوب بالياء لأنه جمع مذكر سالم"
             }
         ];
 
         // ==================== 👤 نظام إدارة الامتحان المعدل ====================
-‏        class ExamManager {
-‏            constructor(config) {
-‏                this.config = config;
-‏                this.currentStudent = null;
-‏                this.examSession = null;
-‏                this.answers = {};
-‏                this.remainingTime = config.EXAM_DURATION * 60;
-‏                this.timerInterval = null;
-‏                this.deviceId = this.getDeviceId();
-‏                this.isGuest = false;
-‏                this.studentIdentifier = ''; // الكود أو الاسم المدخل
+        class ExamManager {
+            constructor(config) {
+                this.config = config;
+                this.currentStudent = null;
+                this.examSession = null;
+                this.answers = {};
+                this.remainingTime = config.EXAM_DURATION * 60;
+                this.timerInterval = null;
+                this.deviceId = this.getDeviceId();
+                this.isGuest = false;
+                this.studentIdentifier = ''; // الكود أو الاسم المدخل
             }
             
-‏            getDeviceId() {
-‏                let deviceId = localStorage.getItem('deviceId');
-‏                if (!deviceId) {
-‏                    deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-‏                    localStorage.setItem('deviceId', deviceId);
+            getDeviceId() {
+                let deviceId = localStorage.getItem('deviceId');
+                if (!deviceId) {
+                    deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    localStorage.setItem('deviceId', deviceId);
                 }
-‏                return deviceId;
+                return deviceId;
             }
             
-‏            generateRandomCode() {
+            generateRandomCode() {
                 // توليد كود عشوائي مكون من 6 أرقام
-‏                const code = Math.floor(100000 + Math.random() * 900000);
-‏                return `طالب_${code}`;
+                const code = Math.floor(100000 + Math.random() * 900000);
+                return `طالب_${code}`;
             }
             
-‏            async verifyStudent(studentInput) {
-‏                try {
+            async verifyStudent(studentInput) {
+                try {
                     // السماح لأي طالب بالدخول
-‏                    if (!studentInput || studentInput.trim() === '') {
-‏                        return { 
-‏                            success: false, 
-‏                            message: '⚠️ يرجى إدخال اسم أو كود' 
+                    if (!studentInput || studentInput.trim() === '') {
+                        return { 
+                            success: false, 
+                            message: '⚠️ يرجى إدخال اسم أو كود' 
                         };
                     }
                     
                     // حفظ المعرف المدخل
-‏                    this.studentIdentifier = studentInput.trim();
+                    this.studentIdentifier = studentInput.trim();
                     
-‏                    const today = new Date().toISOString().split('T')[0];
+                    const today = new Date().toISOString().split('T')[0];
                     
                     // 🔒 التحقق من أن هذا الكود/اسم لم يستخدم من قبل
-‏                    const codeUsed = await this.checkCodeUsage(this.studentIdentifier, today);
-‏                    if (codeUsed) {
-‏                        return {
-‏                            success: false,
-‏                            message: '⛔ هذا الاسم/الكود تم استخدامه مسبقاً اليوم<br>يرجى استخدام اسم أو كود مختلف'
+                    const codeUsed = await this.checkCodeUsage(this.studentIdentifier, today);
+                    if (codeUsed) {
+                        return {
+                            success: false,
+                            message: '⛔ هذا الاسم/الكود تم استخدامه مسبقاً اليوم<br>يرجى استخدام اسم أو كود مختلف'
                         };
                     }
                     
                     // ✅ السماح بالدخول
-‏                    return {
-‏                        success: true,
-‏                        studentData: {
-‏                            studentId: this.generateStudentId(this.studentIdentifier),
-‏                            identifier: this.studentIdentifier,
-‏                            fullName: this.studentIdentifier,
-‏                            grade: '6',
-‏                            className: 'primary',
-‏                            isGuest: false
+                    return {
+                        success: true,
+                        studentData: {
+                            studentId: this.generateStudentId(this.studentIdentifier),
+                            identifier: this.studentIdentifier,
+                            fullName: this.studentIdentifier,
+                            grade: '6',
+                            className: 'primary',
+                            isGuest: false
                         },
-‏                        message: `✅ تم التحقق، مرحباً ${this.studentIdentifier}`
+                        message: `✅ تم التحقق، مرحباً ${this.studentIdentifier}`
                     };
                     
-‏                } catch (error) {
-‏                    console.error('خطأ في التحقق:', error);
-‏                    return {
-‏                        success: false,
-‏                        message: '🔧 خطأ في النظام، يرجى المحاولة لاحقاً'
+                } catch (error) {
+                    console.error('خطأ في التحقق:', error);
+                    return {
+                        success: false,
+                        message: '🔧 خطأ في النظام، يرجى المحاولة لاحقاً'
                     };
                 }
             }
             
-‏            generateStudentId(identifier) {
+            generateStudentId(identifier) {
                 // توليد معرف فريد يجمع بين المعرف والتاريخ
-‏                const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
-‏                const random = Math.floor(Math.random() * 1000);
-‏                return `s6_${identifier}_${today}_${random}`;
+                const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
+                const random = Math.floor(Math.random() * 1000);
+                return `s6_${identifier}_${today}_${random}`;
             }
             
-‏            async checkCodeUsage(identifier, today) {
-‏                try {
+            async checkCodeUsage(identifier, today) {
+                try {
                     // البحث في exam_results_temp عن هذا المعرف اليوم
-‏                    const results = await db.collection('exam_results_temp')
-‏                        .where('originalInput', '==', identifier)
-‏                        .where('examDate', '==', today)
-‏                        .where('subject', '==', this.config.SUBJECT)
-‏                        .limit(1)
-‏                        .get();
+                    const results = await db.collection('exam_results_temp')
+                        .where('originalInput', '==', identifier)
+                        .where('examDate', '==', today)
+                        .where('subject', '==', this.config.SUBJECT)
+                        .limit(1)
+                        .get();
                     
-‏                    return !results.empty; // إذا كان هناك نتائج، فالرمز مستخدم
+                    return !results.empty; // إذا كان هناك نتائج، فالرمز مستخدم
                     
-‏                } catch (error) {
-‏                    console.error('خطأ في التحقق من استخدام الكود:', error);
-‏                    return false;
+                } catch (error) {
+                    console.error('خطأ في التحقق من استخدام الكود:', error);
+                    return false;
                 }
             }
             
-‏            async setupExamDay() {
-‏                try {
-‏                    const examDate = new Date().toISOString().split('T')[0];
-‏                    const statsId = `exam_stats_${examDate}`;
+            async setupExamDay() {
+                try {
+                    const examDate = new Date().toISOString().split('T')[0];
+                    const statsId = `exam_stats_${examDate}`;
                     
-‏                    const statsRef = db.collection('exam_statistics').doc(statsId);
-‏                    const statsDoc = await statsRef.get();
+                    const statsRef = db.collection('exam_statistics').doc(statsId);
+                    const statsDoc = await statsRef.get();
                     
-‏                    if (!statsDoc.exists) {
+                    if (!statsDoc.exists) {
                         // إنشاء إحصائيات جديدة ليوم جديد
-‏                        await statsRef.set({
-‏                            date: examDate,
-‏                            subject: this.config.SUBJECT,
-‏                            grade: this.config.GRADE,
-‏                            totalAttempts: 0,
-‏                            totalScore: 0,
-‏                            averageScore: 0,
-‏                            perfectScores: 0,
-‏                            usedCodes: [], // قائمة بالأكواد المستخدمة
-‏                            scoreDistribution: {
+                        await statsRef.set({
+                            date: examDate,
+                            subject: this.config.SUBJECT,
+                            grade: this.config.GRADE,
+                            totalAttempts: 0,
+                            totalScore: 0,
+                            averageScore: 0,
+                            perfectScores: 0,
+                            usedCodes: [], // قائمة بالأكواد المستخدمة
+                            scoreDistribution: {
                                 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0,
                                 6: 0, 7: 0, 8: 0, 9: 0, 10: 0
                             },
-‏                            createdAt: new Date().toISOString(),
-‏                            lastUpdated: new Date().toISOString()
+                            createdAt: new Date().toISOString(),
+                            lastUpdated: new Date().toISOString()
                         });
                         
-‏                        console.log('📊 تم إنشاء إحصائيات جديدة ليوم:', examDate);
+                        console.log('📊 تم إنشاء إحصائيات جديدة ليوم:', examDate);
                     }
                     
-‏                    return {
-‏                        success: true,
-‏                        examDate: examDate,
-‏                        statsId: statsId
+                    return {
+                        success: true,
+                        examDate: examDate,
+                        statsId: statsId
                     };
                     
-‏                } catch (error) {
-‏                    console.error('خطأ في إعداد اليوم:', error);
-‏                    return { success: false, error: error.message };
+                } catch (error) {
+                    console.error('خطأ في إعداد اليوم:', error);
+                    return { success: false, error: error.message };
                 }
             }
             
-‏            async loadTodayStats() {
-‏                try {
-‏                    const examDate = new Date().toISOString().split('T')[0];
-‏                    const statsId = `exam_stats_${examDate}`;
+            async loadTodayStats() {
+                try {
+                    const examDate = new Date().toISOString().split('T')[0];
+                    const statsId = `exam_stats_${examDate}`;
                     
-‏                    const statsRef = db.collection('exam_statistics').doc(statsId);
-‏                    const statsDoc = await statsRef.get();
+                    const statsRef = db.collection('exam_statistics').doc(statsId);
+                    const statsDoc = await statsRef.get();
                     
-‏                    if (statsDoc.exists) {
-‏                        const data = statsDoc.data();
-‏                        return {
-‏                            totalAttempts: data.totalAttempts || 0,
-‏                            usedCodes: data.usedCodes || [],
-‏                            averageScore: data.averageScore || 0
+                    if (statsDoc.exists) {
+                        const data = statsDoc.data();
+                        return {
+                            totalAttempts: data.totalAttempts || 0,
+                            usedCodes: data.usedCodes || [],
+                            averageScore: data.averageScore || 0
                         };
                     }
                     
-‏                    return { totalAttempts: 0, usedCodes: [], averageScore: 0 };
+                    return { totalAttempts: 0, usedCodes: [], averageScore: 0 };
                     
-‏                } catch (error) {
-‏                    console.error('خطأ في تحميل الإحصائيات:', error);
-‏                    return { totalAttempts: 0, usedCodes: [], averageScore: 0 };
+                } catch (error) {
+                    console.error('خطأ في تحميل الإحصائيات:', error);
+                    return { totalAttempts: 0, usedCodes: [], averageScore: 0 };
                 }
             }
             
-‏            async saveExamResult(score) {
-‏                try {
-‏                    if (!this.currentStudent || !this.examSession) {
-‏                        throw new Error('بيانات الجلسة غير مكتملة');
+            async saveExamResult(score) {
+                try {
+                    if (!this.currentStudent || !this.examSession) {
+                        throw new Error('بيانات الجلسة غير مكتملة');
                     }
                     
-‏                    const studentData = this.currentStudent;
-‏                    const examDate = this.examSession.examDate;
+                    const studentData = this.currentStudent;
+                    const examDate = this.examSession.examDate;
                     
                     // توليد معرف فريد للنتيجة
-‏                    const resultId = `${studentData.studentId}_${Date.now()}`;
+                    const resultId = `${studentData.studentId}_${Date.now()}`;
                     
                     // تحليل الأخطاء
-‏                    const mistakes = this.analyzeMistakes();
+                    const mistakes = this.analyzeMistakes();
                     
                     // 📝 إعداد بيانات النتيجة الكاملة
-‏                    const resultData = {
+                    const resultData = {
                         // 🔑 المعرف الأساسي
-‏                        id: resultId,
+                        id: resultId,
                         
                         // 👤 بيانات الطالب
-‏                        studentId: studentData.studentId,
-‏                        identifier: this.studentIdentifier,
-‏                        fullName: this.studentIdentifier,
-‏                        originalInput: this.studentIdentifier,
-‏                        grade: studentData.grade,
-‏                        className: studentData.className,
-‏                        stage: 'primary',
+                        studentId: studentData.studentId,
+                        identifier: this.studentIdentifier,
+                        fullName: this.studentIdentifier,
+                        originalInput: this.studentIdentifier,
+                        grade: studentData.grade,
+                        className: studentData.className,
+                        stage: 'primary',
                         
                         // 📝 بيانات الامتحان
-‏                        subject: this.config.SUBJECT,
-‏                        examDate: examDate,
-‏                        score: score,
-‏                        maxScore: this.config.MAX_SCORE,
-‏                        percentage: (score / this.config.MAX_SCORE) * 100,
+                        subject: this.config.SUBJECT,
+                        examDate: examDate,
+                        score: score,
+                        maxScore: this.config.MAX_SCORE,
+                        percentage: (score / this.config.MAX_SCORE) * 100,
                         
                         // ⏱️ بيانات الوقت
-‏                        duration: Math.floor((new Date() - this.examSession.startTime) / 1000 / 60),
-‏                        startTime: this.examSession.startTime,
-‏                        endTime: new Date().toISOString(),
+                        duration: Math.floor((new Date() - this.examSession.startTime) / 1000 / 60),
+                        startTime: this.examSession.startTime,
+                        endTime: new Date().toISOString(),
                         
                         // 📱 بيانات الجهاز
-‏                        deviceId: this.deviceId,
+                        deviceId: this.deviceId,
                         
                         // 📊 بيانات الإجابات
-‏                        answers: this.answers,
-‏                        questionsCount: this.config.QUESTIONS_COUNT,
-‏                        correctAnswers: this.calculateCorrectAnswers(),
+                        answers: this.answers,
+                        questionsCount: this.config.QUESTIONS_COUNT,
+                        correctAnswers: this.calculateCorrectAnswers(),
                         
                         // ❌ بيانات الأخطاء
-‏                        mistakes: mistakes,
-‏                        mistakesCount: mistakes.length,
+                        mistakes: mistakes,
+                        mistakesCount: mistakes.length,
                         
                         // 📊 بيانات النظام
-‏                        createdAt: new Date().toISOString(),
-‏                        version: '3.0.0'
+                        createdAt: new Date().toISOString(),
+                        version: '3.0.0'
                     };
                     
                     // 💾 الحفظ في collection: exam_results_temp
-‏                    await db.collection('exam_results_temp').doc(resultId).set(resultData);
-‏                    console.log('💾 تم حفظ النتيجة:', resultId);
+                    await db.collection('exam_results_temp').doc(resultId).set(resultData);
+                    console.log('💾 تم حفظ النتيجة:', resultId);
                     
                     // 📈 تحديث الإحصائيات اليومية
-‏                    await this.updateDailyStatistics(score, this.studentIdentifier);
+                    await this.updateDailyStatistics(score, this.studentIdentifier);
                     
-‏                    return {
-‏                        success: true,
-‏                        resultId: resultId,
-‏                        score: score,
-‏                        mistakes: mistakes,
-‏                        message: `✅ تم حفظ نتيجتك: ${score}/${this.config.MAX_SCORE}`
+                    return {
+                        success: true,
+                        resultId: resultId,
+                        score: score,
+                        mistakes: mistakes,
+                        message: `✅ تم حفظ نتيجتك: ${score}/${this.config.MAX_SCORE}`
                     };
                     
-‏                } catch (error) {
-‏                    console.error('❌ خطأ في حفظ النتيجة:', error);
-‏                    return {
-‏                        success: false,
-‏                        error: error.message,
-‏                        message: '❌ فشل في حفظ النتيجة'
+                } catch (error) {
+                    console.error('❌ خطأ في حفظ النتيجة:', error);
+                    return {
+                        success: false,
+                        error: error.message,
+                        message: '❌ فشل في حفظ النتيجة'
                     };
                 }
             }
             
-‏            analyzeMistakes() {
-‏                const mistakes = [];
+            analyzeMistakes() {
+                const mistakes = [];
                 
-‏                ARABIC_QUESTIONS.forEach(question => {
-‏                    const answer = this.answers[question.id];
+                ARABIC_QUESTIONS.forEach(question => {
+                    const answer = this.answers[question.id];
                     
-‏                    if (answer) {
-‏                        const userAnswerIndex = answer.answer;
-‏                        const isCorrect = userAnswerIndex == question.correct;
+                    if (answer) {
+                        const userAnswerIndex = answer.answer;
+                        const isCorrect = userAnswerIndex == question.correct;
                         
-‏                        if (!isCorrect) {
-‏                            mistakes.push({
-‏                                questionId: question.id,
-‏                                questionText: question.question,
-‏                                userAnswer: question.options[userAnswerIndex],
-‏                                correctAnswer: question.options[question.correct],
-‏                                explanation: question.explanation || 'لم يتم توفير شرح',
-‏                                type: question.type
+                        if (!isCorrect) {
+                            mistakes.push({
+                                questionId: question.id,
+                                questionText: question.question,
+                                userAnswer: question.options[userAnswerIndex],
+                                correctAnswer: question.options[question.correct],
+                                explanation: question.explanation || 'لم يتم توفير شرح',
+                                type: question.type
                             });
                         }
-‏                    } else {
+                    } else {
                         // إذا لم يتم الإجابة على السؤال
-‏                        mistakes.push({
-‏                            questionId: question.id,
-‏                            questionText: question.question,
-‏                            userAnswer: 'لم يتم الإجابة',
-‏                            correctAnswer: question.options[question.correct],
-‏                            explanation: question.explanation || 'لم يتم توفير شرح',
-‏                            type: question.type
+                        mistakes.push({
+                            questionId: question.id,
+                            questionText: question.question,
+                            userAnswer: 'لم يتم الإجابة',
+                            correctAnswer: question.options[question.correct],
+                            explanation: question.explanation || 'لم يتم توفير شرح',
+                            type: question.type
                         });
                     }
                 });
                 
-‏                return mistakes;
+                return mistakes;
             }
             
-‏            calculateCorrectAnswers() {
-‏                let correct = 0;
-‏                for (let i = 0; i < ARABIC_QUESTIONS.length; i++) {
-‏                    const question = ARABIC_QUESTIONS[i];
-‏                    const answer = this.answers[question.id];
-‏                    if (answer && answer.answer == question.correct) {
-‏                        correct++;
+            calculateCorrectAnswers() {
+                let correct = 0;
+                for (let i = 0; i < ARABIC_QUESTIONS.length; i++) {
+                    const question = ARABIC_QUESTIONS[i];
+                    const answer = this.answers[question.id];
+                    if (answer && answer.answer == question.correct) {
+                        correct++;
                     }
                 }
-‏                return correct;
+                return correct;
             }
             
-‏            async updateDailyStatistics(score, identifier) {
-‏                try {
-‏                    const examDate = new Date().toISOString().split('T')[0];
-‏                    const statsId = `exam_stats_${examDate}`;
-‏                    const statsRef = db.collection('exam_statistics').doc(statsId);
+            async updateDailyStatistics(score, identifier) {
+                try {
+                    const examDate = new Date().toISOString().split('T')[0];
+                    const statsId = `exam_stats_${examDate}`;
+                    const statsRef = db.collection('exam_statistics').doc(statsId);
                     
-‏                    await db.runTransaction(async (transaction) => {
-‏                        const doc = await transaction.get(statsRef);
-‏                        if (!doc.exists) return;
+                    await db.runTransaction(async (transaction) => {
+                        const doc = await transaction.get(statsRef);
+                        if (!doc.exists) return;
                         
-‏                        const data = doc.data();
-‏                        const scoreKey = score.toString();
+                        const data = doc.data();
+                        const scoreKey = score.toString();
                         
                         // تحديث التوزيع
-‏                        const newDistribution = { ...data.scoreDistribution };
-‏                        newDistribution[scoreKey] = (newDistribution[scoreKey] || 0) + 1;
+                        const newDistribution = { ...data.scoreDistribution };
+                        newDistribution[scoreKey] = (newDistribution[scoreKey] || 0) + 1;
                         
                         // تحديث المجاميع
-‏                        const newTotalAttempts = (data.totalAttempts || 0) + 1;
-‏                        const newTotalScore = (data.totalScore || 0) + score;
-‏                        const newAverageScore = newTotalAttempts > 0 ? newTotalScore / newTotalAttempts : 0;
-‏                        const newPerfectScores = data.perfectScores + (score === 10 ? 1 : 0);
+                        const newTotalAttempts = (data.totalAttempts || 0) + 1;
+                        const newTotalScore = (data.totalScore || 0) + score;
+                        const newAverageScore = newTotalAttempts > 0 ? newTotalScore / newTotalAttempts : 0;
+                        const newPerfectScores = data.perfectScores + (score === 10 ? 1 : 0);
                         
                         // إضافة الكود/الاسم إلى قائمة المستخدمين
-‏                        const usedCodes = [...(data.usedCodes || [])];
-‏                        if (!usedCodes.includes(identifier)) {
-‏                            usedCodes.push(identifier);
+                        const usedCodes = [...(data.usedCodes || [])];
+                        if (!usedCodes.includes(identifier)) {
+                            usedCodes.push(identifier);
                         }
                         
-‏                        transaction.update(statsRef, {
-‏                            totalAttempts: newTotalAttempts,
-‏                            totalScore: newTotalScore,
-‏                            averageScore: parseFloat(newAverageScore.toFixed(2)),
-‏                            perfectScores: newPerfectScores,
-‏                            usedCodes: usedCodes,
-‏                            scoreDistribution: newDistribution,
-‏                            lastUpdated: new Date().toISOString()
+                        transaction.update(statsRef, {
+                            totalAttempts: newTotalAttempts,
+                            totalScore: newTotalScore,
+                            averageScore: parseFloat(newAverageScore.toFixed(2)),
+                            perfectScores: newPerfectScores,
+                            usedCodes: usedCodes,
+                            scoreDistribution: newDistribution,
+                            lastUpdated: new Date().toISOString()
                         });
                     });
                     
-‏                    console.log('📈 تم تحديث الإحصائيات اليومية');
+                    console.log('📈 تم تحديث الإحصائيات اليومية');
                     
-‏                } catch (error) {
-‏                    console.error('❌ خطأ في تحديث الإحصائيات:', error);
+                } catch (error) {
+                    console.error('❌ خطأ في تحديث الإحصائيات:', error);
                 }
             }
             
-‏            startTimer(onTimeUpdate, onTimeEnd) {
-‏                if (this.timerInterval) clearInterval(this.timerInterval);
+            startTimer(onTimeUpdate, onTimeEnd) {
+                if (this.timerInterval) clearInterval(this.timerInterval);
                 
-‏                this.timerInterval = setInterval(() => {
-‏                    this.remainingTime--;
+                this.timerInterval = setInterval(() => {
+                    this.remainingTime--;
                     
-‏                    if (onTimeUpdate) {
-‏                        const minutes = Math.floor(this.remainingTime / 60);
-‏                        const seconds = this.remainingTime % 60;
-‏                        onTimeUpdate(minutes, seconds);
+                    if (onTimeUpdate) {
+                        const minutes = Math.floor(this.remainingTime / 60);
+                        const seconds = this.remainingTime % 60;
+                        onTimeUpdate(minutes, seconds);
                     }
                     
-‏                    if (this.remainingTime === 5 * 60) {
-‏                        this.showAlert('warning', '⏰ تبقى 5 دقائق فقط!');
+                    if (this.remainingTime === 5 * 60) {
+                        this.showAlert('warning', '⏰ تبقى 5 دقائق فقط!');
                     }
                     
-‏                    if (this.remainingTime === 60) {
-‏                        this.showAlert('warning', '⏰ تبقى دقيقة واحدة فقط!');
+                    if (this.remainingTime === 60) {
+                        this.showAlert('warning', '⏰ تبقى دقيقة واحدة فقط!');
                     }
                     
-‏                    if (this.remainingTime <= 0) {
-‏                        clearInterval(this.timerInterval);
-‏                        if (onTimeEnd) onTimeEnd();
+                    if (this.remainingTime <= 0) {
+                        clearInterval(this.timerInterval);
+                        if (onTimeEnd) onTimeEnd();
                     }
                 }, 1000);
             }
             
-‏            recordAnswer(questionId, answer) {
-‏                this.answers[questionId] = {
-‏                    answer: answer,
-‏                    timestamp: new Date()
+            recordAnswer(questionId, answer) {
+                this.answers[questionId] = {
+                    answer: answer,
+                    timestamp: new Date()
                 };
                 
-‏                return this.answers[questionId];
+                return this.answers[questionId];
             }
             
-‏            calculateScore() {
-‏                let correctCount = 0;
+            calculateScore() {
+                let correctCount = 0;
                 
-‏                for (let i = 0; i < ARABIC_QUESTIONS.length; i++) {
-‏                    const question = ARABIC_QUESTIONS[i];
-‏                    const answer = this.answers[question.id];
+                for (let i = 0; i < ARABIC_QUESTIONS.length; i++) {
+                    const question = ARABIC_QUESTIONS[i];
+                    const answer = this.answers[question.id];
                     
-‏                    if (answer && answer.answer == question.correct) {
-‏                        correctCount++;
+                    if (answer && answer.answer == question.correct) {
+                        correctCount++;
                     }
                 }
                 
-‏                const score = Math.round((correctCount / this.config.QUESTIONS_COUNT) * this.config.MAX_SCORE);
-‏                return Math.min(score, this.config.MAX_SCORE);
+                const score = Math.round((correctCount / this.config.QUESTIONS_COUNT) * this.config.MAX_SCORE);
+                return Math.min(score, this.config.MAX_SCORE);
             }
             
-‏            showAlert(type, message) {
-‏                const alertDiv = document.createElement('div');
-‏                alertDiv.className = `alert alert-${type}`;
-‏                alertDiv.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'times-circle'}"></i> ${message}`;
-‏                document.body.appendChild(alertDiv);
-‏                setTimeout(() => alertDiv.remove(), 5000);
+            showAlert(type, message) {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type}`;
+                alertDiv.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'times-circle'}"></i> ${message}`;
+                document.body.appendChild(alertDiv);
+                setTimeout(() => alertDiv.remove(), 5000);
             }
             
-‏            stopTimer() {
-‏                if (this.timerInterval) {
-‏                    clearInterval(this.timerInterval);
-‏                    this.timerInterval = null;
+            stopTimer() {
+                if (this.timerInterval) {
+                    clearInterval(this.timerInterval);
+                    this.timerInterval = null;
                 }
             }
         }
 
         // ==================== 🌐 المتغيرات العامة ====================
-‏        let examManager = null;
+        let examManager = null;
 
         // ==================== 🎯 دوال الواجهة ====================
 
-‏        async function startExam() {
-‏            const studentInput = document.getElementById('studentCode').value.trim();
+        async function startExam() {
+            const studentInput = document.getElementById('studentCode').value.trim();
             
-‏            if (!studentInput) {
-‏                showAlert('error', '⚠️ يرجى إدخال اسمك أو كود الطالب');
-‏                return;
+            if (!studentInput) {
+                showAlert('error', '⚠️ يرجى إدخال اسمك أو كود الطالب');
+                return;
             }
             
-‏            examManager = new ExamManager(SYSTEM_CONFIG);
+            examManager = new ExamManager(SYSTEM_CONFIG);
             
-‏            document.getElementById('studentCode').disabled = true;
-‏            const startBtn = document.querySelector('#loginSection .btn');
-‏            startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارِ التحقق...';
-‏            startBtn.disabled = true;
+            document.getElementById('studentCode').disabled = true;
+            const startBtn = document.querySelector('#loginSection .btn');
+            startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارِ التحقق...';
+            startBtn.disabled = true;
             
-‏            const verification = await examManager.verifyStudent(studentInput);
+            const verification = await examManager.verifyStudent(studentInput);
             
-‏            if (!verification.success) {
-‏                showAlert('error', verification.message);
-‏                document.getElementById('studentCode').disabled = false;
-‏                startBtn.innerHTML = '<i class="fas fa-play"></i> بدء الامتحان الآن';
-‏                startBtn.disabled = false;
-‏                return;
+            if (!verification.success) {
+                showAlert('error', verification.message);
+                document.getElementById('studentCode').disabled = false;
+                startBtn.innerHTML = '<i class="fas fa-play"></i> بدء الامتحان الآن';
+                startBtn.disabled = false;
+                return;
             }
             
-‏            const examDay = await examManager.setupExamDay();
-‏            if (!examDay.success) {
-‏                showAlert('error', 'خطأ في إعداد النظام');
-‏                return;
+            const examDay = await examManager.setupExamDay();
+            if (!examDay.success) {
+                showAlert('error', 'خطأ في إعداد النظام');
+                return;
             }
             
-‏            examManager.currentStudent = verification.studentData;
-‏            examManager.examSession = {
-‏                startTime: new Date(),
-‏                examDate: examDay.examDate
+            examManager.currentStudent = verification.studentData;
+            examManager.examSession = {
+                startTime: new Date(),
+                examDate: examDay.examDate
             };
             
-‏            showAlert('success', verification.message);
+            showAlert('success', verification.message);
             
-‏            document.getElementById('loginSection').classList.remove('active');
-‏            document.getElementById('examSection').classList.add('active');
+            document.getElementById('loginSection').classList.remove('active');
+            document.getElementById('examSection').classList.add('active');
             
             // عرض المعرف في الترحيب
-‏            document.getElementById('studentIdentifier').textContent = studentInput;
+            document.getElementById('studentIdentifier').textContent = studentInput;
             
-‏            loadExamQuestions();
-‏            examManager.startTimer(updateTimerDisplay, autoSubmitExam);
+            loadExamQuestions();
+            examManager.startTimer(updateTimerDisplay, autoSubmitExam);
         }
 
-‏        function generateRandomCode() {
+        function generateRandomCode() {
             // توليد كود عشوائي جديد
-‏            if (!examManager) {
-‏                examManager = new ExamManager(SYSTEM_CONFIG);
+            if (!examManager) {
+                examManager = new ExamManager(SYSTEM_CONFIG);
             }
-‏            const randomCode = examManager.generateRandomCode();
-‏            document.getElementById('studentCode').value = randomCode;
-‏            showAlert('success', `تم توليد كود جديد: ${randomCode}`);
+            const randomCode = examManager.generateRandomCode();
+            document.getElementById('studentCode').value = randomCode;
+            showAlert('success', `تم توليد كود جديد: ${randomCode}`);
         }
 
-‏        function loadExamQuestions() {
-‏            const container = document.getElementById('questionsContainer');
-‏            let html = '';
+        function loadExamQuestions() {
+            const container = document.getElementById('questionsContainer');
+            let html = '';
             
-‏            ARABIC_QUESTIONS.forEach((q, index) => {
-‏                const typeBadge = q.type ? `<span style="background: #e3f2fd; color: #1565c0; padding: 4px 10px; border-radius: 12px; font-size: 0.8em; margin-right: 10px;">${q.type}</span>` : '';
+            ARABIC_QUESTIONS.forEach((q, index) => {
+                const typeBadge = q.type ? `<span style="background: #e3f2fd; color: #1565c0; padding: 4px 10px; border-radius: 12px; font-size: 0.8em; margin-right: 10px;">${q.type}</span>` : '';
                 
-‏                html += `
-‏                    <div class="question" id="q${q.id}">
-‏                        <div class="question-header">
-‏                            <div class="question-number">${index + 1}</div>
-‏                            <div class="question-text">
-‏                                ${typeBadge}
-‏                                ${q.question}
-‏                            </div>
-‏                        </div>
-‏                        <div class="options">
-‏                            ${q.options.map((opt, i) => `
-‏                                <div class="option" onclick="selectOption(${q.id}, ${i})" id="opt${q.id}_${i}">
-‏                                    ${opt}
-‏                                </div>
-‏                            `).join('')}
-‏                        </div>
-‏                    </div>
+                html += `
+                    <div class="question" id="q${q.id}">
+                        <div class="question-header">
+                            <div class="question-number">${index + 1}</div>
+                            <div class="question-text">
+                                ${typeBadge}
+                                ${q.question}
+                            </div>
+                        </div>
+                        <div class="options">
+                            ${q.options.map((opt, i) => `
+                                <div class="option" onclick="selectOption(${q.id}, ${i})" id="opt${q.id}_${i}">
+                                    ${opt}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
                 `;
             });
             
-‏            container.innerHTML = html;
+            container.innerHTML = html;
         }
 
-‏        function selectOption(questionId, optionIndex) {
-‏            if (!examManager) return;
+        function selectOption(questionId, optionIndex) {
+            if (!examManager) return;
             
-‏            examManager.recordAnswer(questionId, optionIndex);
+            examManager.recordAnswer(questionId, optionIndex);
             
-‏            const questionDiv = document.getElementById(`q${questionId}`);
-‏            const options = questionDiv.querySelectorAll('.option');
-‏            options.forEach(opt => opt.classList.remove('selected'));
+            const questionDiv = document.getElementById(`q${questionId}`);
+            const options = questionDiv.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
             
-‏            document.getElementById(`opt${questionId}_${optionIndex}`).classList.add('selected');
+            document.getElementById(`opt${questionId}_${optionIndex}`).classList.add('selected');
             
-‏            updateProgress();
+            updateProgress();
         }
 
-‏        function updateProgress() {
-‏            if (!examManager) return;
+        function updateProgress() {
+            if (!examManager) return;
             
-‏            const answered = Object.keys(examManager.answers).length;
-‏            document.getElementById('progress').textContent = `${answered}/${SYSTEM_CONFIG.QUESTIONS_COUNT}`;
+            const answered = Object.keys(examManager.answers).length;
+            document.getElementById('progress').textContent = `${answered}/${SYSTEM_CONFIG.QUESTIONS_COUNT}`;
         }
 
-‏        function updateTimerDisplay(minutes, seconds) {
-‏            document.getElementById('timer').textContent = 
-‏                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        function updateTimerDisplay(minutes, seconds) {
+            document.getElementById('timer').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
         }
 
-‏        async function submitExam() {
-‏            if (!examManager || !examManager.currentStudent) {
-‏                showAlert('error', '❌ لا يوجد امتحان نشط');
-‏                return;
+        async function submitExam() {
+            if (!examManager || !examManager.currentStudent) {
+                showAlert('error', '❌ لا يوجد امتحان نشط');
+                return;
             }
             
-‏            const answered = Object.keys(examManager.answers).length;
-‏            if (answered < SYSTEM_CONFIG.QUESTIONS_COUNT) {
-‏                const confirmSubmit = confirm(`⚠️ لقد أجبت على ${answered} من ${SYSTEM_CONFIG.QUESTIONS_COUNT} سؤالاً.\nهل تريد التقديم الآن؟`);
-‏                if (!confirmSubmit) return;
+            const answered = Object.keys(examManager.answers).length;
+            if (answered < SYSTEM_CONFIG.QUESTIONS_COUNT) {
+                const confirmSubmit = confirm(`⚠️ لقد أجبت على ${answered} من ${SYSTEM_CONFIG.QUESTIONS_COUNT} سؤالاً.\nهل تريد التقديم الآن؟`);
+                if (!confirmSubmit) return;
             }
             
-‏            examManager.stopTimer();
+            examManager.stopTimer();
             
-‏            const submitBtn = document.querySelector('#examSection .btn-danger');
-‏            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارِ التصحيح...';
-‏            submitBtn.disabled = true;
+            const submitBtn = document.querySelector('#examSection .btn-danger');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارِ التصحيح...';
+            submitBtn.disabled = true;
             
-‏            const score = examManager.calculateScore();
-‏            const result = await examManager.saveExamResult(score);
+            const score = examManager.calculateScore();
+            const result = await examManager.saveExamResult(score);
             
-‏            if (result.success) {
-‏                showResults(score, result.message, result.mistakes);
-‏            } else {
-‏                showAlert('error', result.message);
-‏                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إنهاء وتسليم الإجابات';
-‏                submitBtn.disabled = false;
-            }
-        }
-
-‏        async function autoSubmitExam() {
-‏            if (!examManager) return;
-            
-‏            showAlert('warning', '⏰ انتهى الوقت! تم تقديم الإجابات تلقائياً');
-            
-‏            const score = examManager.calculateScore();
-‏            const result = await examManager.saveExamResult(score);
-            
-‏            if (result.success) {
-‏                showResults(score, 'تم تقديم الإجابات تلقائياً', result.mistakes);
+            if (result.success) {
+                showResults(score, result.message, result.mistakes);
+            } else {
+                showAlert('error', result.message);
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إنهاء وتسليم الإجابات';
+                submitBtn.disabled = false;
             }
         }
 
-‏        function showResults(score, message, mistakes) {
-‏            document.getElementById('examSection').classList.remove('active');
-‏            document.getElementById('resultSection').classList.add('active');
+        async function autoSubmitExam() {
+            if (!examManager) return;
             
-‏            const percentage = (score / SYSTEM_CONFIG.MAX_SCORE) * 100;
-‏            let grade = '';
-‏            let gradeColor = '';
+            showAlert('warning', '⏰ انتهى الوقت! تم تقديم الإجابات تلقائياً');
             
-‏            if (percentage >= 90) {
-‏                grade = 'امتياز';
-‏                gradeColor = '#00c853';
-‏            } else if (percentage >= 80) {
-‏                grade = 'جيد جداً';
-‏                gradeColor = '#2196f3';
-‏            } else if (percentage >= 70) {
-‏                grade = 'جيد';
-‏                gradeColor = '#ff9800';
-‏            } else if (percentage >= 50) {
-‏                grade = 'مقبول';
-‏                gradeColor = '#ff9800';
-‏            } else {
-‏                grade = 'ضعيف';
-‏                gradeColor = '#f44336';
+            const score = examManager.calculateScore();
+            const result = await examManager.saveExamResult(score);
+            
+            if (result.success) {
+                showResults(score, 'تم تقديم الإجابات تلقائياً', result.mistakes);
+            }
+        }
+
+        function showResults(score, message, mistakes) {
+            document.getElementById('examSection').classList.remove('active');
+            document.getElementById('resultSection').classList.add('active');
+            
+            const percentage = (score / SYSTEM_CONFIG.MAX_SCORE) * 100;
+            let grade = '';
+            let gradeColor = '';
+            
+            if (percentage >= 90) {
+                grade = 'امتياز';
+                gradeColor = '#00c853';
+            } else if (percentage >= 80) {
+                grade = 'جيد جداً';
+                gradeColor = '#2196f3';
+            } else if (percentage >= 70) {
+                grade = 'جيد';
+                gradeColor = '#ff9800';
+            } else if (percentage >= 50) {
+                grade = 'مقبول';
+                gradeColor = '#ff9800';
+            } else {
+                grade = 'ضعيف';
+                gradeColor = '#f44336';
             }
             
-‏            let mistakesHTML = '';
-‏            if (mistakes && mistakes.length > 0) {
-‏                mistakesHTML = `
-‏                    <div class="mistakes-container">
-‏                        <h3 style="color: #d32f2f; margin-bottom: 20px; text-align: right;">
-‏                            <i class="fas fa-exclamation-circle"></i> الأخطاء التي وقعت فيها
-‏                        </h3>
-‏                        ${mistakes.map((mistake, index) => `
-‏                            <div class="mistake-item">
-‏                                <div class="mistake-question">سؤال ${index + 1}: ${mistake.questionText}</div>
-‏                                <div style="margin: 10px 0;">
-‏                                    <strong>إجابتك:</strong>
-‏                                    <div class="mistake-answer">${mistake.userAnswer}</div>
-‏                                </div>
-‏                                <div style="margin: 10px 0;">
-‏                                    <strong>الإجابة الصحيحة:</strong>
-‏                                    <div class="correct-answer">${mistake.correctAnswer}</div>
-‏                                </div>
-‏                                <div style="margin: 10px 0; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-‏                                    <strong>التوضيح:</strong> ${mistake.explanation}
-‏                                </div>
-‏                            </div>
-‏                        `).join('')}
-‏                    </div>
+            let mistakesHTML = '';
+            if (mistakes && mistakes.length > 0) {
+                mistakesHTML = `
+                    <div class="mistakes-container">
+                        <h3 style="color: #d32f2f; margin-bottom: 20px; text-align: right;">
+                            <i class="fas fa-exclamation-circle"></i> الأخطاء التي وقعت فيها
+                        </h3>
+                        ${mistakes.map((mistake, index) => `
+                            <div class="mistake-item">
+                                <div class="mistake-question">سؤال ${index + 1}: ${mistake.questionText}</div>
+                                <div style="margin: 10px 0;">
+                                    <strong>إجابتك:</strong>
+                                    <div class="mistake-answer">${mistake.userAnswer}</div>
+                                </div>
+                                <div style="margin: 10px 0;">
+                                    <strong>الإجابة الصحيحة:</strong>
+                                    <div class="correct-answer">${mistake.correctAnswer}</div>
+                                </div>
+                                <div style="margin: 10px 0; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+                                    <strong>التوضيح:</strong> ${mistake.explanation}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
                 `;
-‏            } else if (score === SYSTEM_CONFIG.MAX_SCORE) {
-‏                mistakesHTML = `
-‏                    <div style="background: #e8f5e9; padding: 20px; border-radius: 15px; margin: 20px 0; border-right: 5px solid #4caf50;">
-‏                        <h3 style="color: #2e7d32; text-align: center;">
-‏                            <i class="fas fa-trophy"></i> مبروك! لقد أجبت على جميع الأسئلة بشكل صحيح
-‏                        </h3>
-‏                    </div>
+            } else if (score === SYSTEM_CONFIG.MAX_SCORE) {
+                mistakesHTML = `
+                    <div style="background: #e8f5e9; padding: 20px; border-radius: 15px; margin: 20px 0; border-right: 5px solid #4caf50;">
+                        <h3 style="color: #2e7d32; text-align: center;">
+                            <i class="fas fa-trophy"></i> مبروك! لقد أجبت على جميع الأسئلة بشكل صحيح
+                        </h3>
+                    </div>
                 `;
             }
             
-‏            const resultHTML = `
-‏                <div class="result-box">
-‏                    <h2 style="color: #0d47a1; margin-bottom: 20px;">
-‏                        <i class="fas fa-trophy"></i> نتيجة امتحان اللغة العربية
-‏                    </h2>
-‏                    <div class="score-display">${score}/${SYSTEM_CONFIG.MAX_SCORE}</div>
-‏                    <div class="grade-badge" style="background: linear-gradient(135deg, ${gradeColor}, ${gradeColor}aa);">
-‏                        ${grade}
-‏                    </div>
-‏                    <p style="font-size: 1.1em; margin: 20px 0; color: #546e7a;">
-‏                        <i class="fas fa-check-circle" style="color: #4caf50;"></i> ${message}
-‏                    </p>
+            const resultHTML = `
+                <div class="result-box">
+                    <h2 style="color: #0d47a1; margin-bottom: 20px;">
+                        <i class="fas fa-trophy"></i> نتيجة امتحان اللغة العربية
+                    </h2>
+                    <div class="score-display">${score}/${SYSTEM_CONFIG.MAX_SCORE}</div>
+                    <div class="grade-badge" style="background: linear-gradient(135deg, ${gradeColor}, ${gradeColor}aa);">
+                        ${grade}
+                    </div>
+                    <p style="font-size: 1.1em; margin: 20px 0; color: #546e7a;">
+                        <i class="fas fa-check-circle" style="color: #4caf50;"></i> ${message}
+                    </p>
                     
-‏                    <div style="background: white; padding: 25px; border-radius: 15px; margin: 25px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
-‏                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; text-align: right;">
-‏                            <div>
-‏                                <p style="color: #757575; font-size: 0.9em;">الاسم/الكود:</p>
-‏                                <p style="font-weight: bold; color: #0d47a1;">${examManager.studentIdentifier}</p>
-‏                            </div>
-‏                            <div>
-‏                                <p style="color: #757575; font-size: 0.9em;">المادة:</p>
-‏                                <p style="font-weight: bold; color: #0d47a1;">اللغة العربية</p>
-‏                            </div>
-‏                            <div>
-‏                                <p style="color: #757575; font-size: 0.9em;">الصف:</p>
-‏                                <p style="font-weight: bold; color: #0d47a1;">السادس الابتدائي</p>
-‏                            </div>
-‏                            <div>
-‏                                <p style="color: #757575; font-size: 0.9em;">النسبة:</p>
-‏                                <p style="font-weight: bold; color: #0d47a1;">${percentage.toFixed(1)}%</p>
-‏                            </div>
-‏                        </div>
-‏                    </div>
+                    <div style="background: white; padding: 25px; border-radius: 15px; margin: 25px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; text-align: right;">
+                            <div>
+                                <p style="color: #757575; font-size: 0.9em;">الاسم/الكود:</p>
+                                <p style="font-weight: bold; color: #0d47a1;">${examManager.studentIdentifier}</p>
+                            </div>
+                            <div>
+                                <p style="color: #757575; font-size: 0.9em;">المادة:</p>
+                                <p style="font-weight: bold; color: #0d47a1;">اللغة العربية</p>
+                            </div>
+                            <div>
+                                <p style="color: #757575; font-size: 0.9em;">الصف:</p>
+                                <p style="font-weight: bold; color: #0d47a1;">السادس الابتدائي</p>
+                            </div>
+                            <div>
+                                <p style="color: #757575; font-size: 0.9em;">النسبة:</p>
+                                <p style="font-weight: bold; color: #0d47a1;">${percentage.toFixed(1)}%</p>
+                            </div>
+                        </div>
+                    </div>
                     
-‏                    ${mistakesHTML}
+                    ${mistakesHTML}
                     
-‏                    <div style="margin-top: 30px;">
-‏                        <button class="btn" onclick="location.reload()" style="margin-right: 10px;">
-‏                            <i class="fas fa-redo"></i> امتحان جديد
-‏                        </button>
-‏                        <button class="btn btn-info" onclick="showStatistics()">
-‏                            <i class="fas fa-chart-bar"></i> عرض الإحصائيات
-‏                        </button>
-‏                        <button class="btn btn-secondary" onclick="window.print()">
-‏                            <i class="fas fa-print"></i> طباعة النتيجة
-‏                        </button>
-‏                    </div>
+                    <div style="margin-top: 30px;">
+                        <button class="btn" onclick="location.reload()" style="margin-right: 10px;">
+                            <i class="fas fa-redo"></i> امتحان جديد
+                        </button>
+                        <button class="btn btn-info" onclick="showStatistics()">
+                            <i class="fas fa-chart-bar"></i> عرض الإحصائيات
+                        </button>
+                        <button class="btn btn-secondary" onclick="window.print()">
+                            <i class="fas fa-print"></i> طباعة النتيجة
+                        </button>
+                    </div>
                     
-‏                    <p style="margin-top: 25px; color: #78909c; font-size: 0.85em;">
-‏                        <i class="fas fa-info-circle"></i> هذا الاسم/الكود تم استخدامه ولا يمكن استخدامه مرة أخرى اليوم
-‏                    </p>
-‏                </div>
+                    <p style="margin-top: 25px; color: #78909c; font-size: 0.85em;">
+                        <i class="fas fa-info-circle"></i> هذا الاسم/الكود تم استخدامه ولا يمكن استخدامه مرة أخرى اليوم
+                    </p>
+                </div>
             `;
             
-‏            document.getElementById('resultContent').innerHTML = resultHTML;
+            document.getElementById('resultContent').innerHTML = resultHTML;
         }
 
-‏        async function showStatistics() {
-‏            if (!examManager) return;
+        async function showStatistics() {
+            if (!examManager) return;
             
-‏            const stats = await examManager.loadTodayStats();
+            const stats = await examManager.loadTodayStats();
             
-‏            const statsHTML = `
-‏                <div class="stats-box" style="margin-top: 20px;">
-‏                    <div class="stats-title">إحصائيات اليوم</div>
-‏                    <div class="info-item" style="font-size: 1.1em; color: #0d47a1;">
-‏                        <i class="fas fa-users"></i> عدد الممتحنين اليوم: <strong>${stats.totalAttempts}</strong>
-‏                    </div>
-‏                    <div class="info-item" style="font-size: 1.1em; color: #0d47a1;">
-‏                        <i class="fas fa-key"></i> عدد الأكواد/الأسماء المستخدمة: <strong>${stats.usedCodes.length}</strong>
-‏                    </div>
-‏                    <div class="info-item" style="font-size: 1.1em; color: #0d47a1;">
-‏                        <i class="fas fa-chart-line"></i> متوسط الدرجات: <strong>${stats.averageScore.toFixed(2)}</strong>
-‏                    </div>
-‏                    <div class="info-item" style="font-size: 0.9em; color: #546e7a;">
-‏                        <i class="fas fa-info-circle"></i> يمكن استخدام نفس الهاتف عدة مرات، ولكن لا يمكن إعادة استخدام نفس الكود/الاسم
-‏                    </div>
-‏                </div>
+            const statsHTML = `
+                <div class="stats-box" style="margin-top: 20px;">
+                    <div class="stats-title">إحصائيات اليوم</div>
+                    <div class="info-item" style="font-size: 1.1em; color: #0d47a1;">
+                        <i class="fas fa-users"></i> عدد الممتحنين اليوم: <strong>${stats.totalAttempts}</strong>
+                    </div>
+                    <div class="info-item" style="font-size: 1.1em; color: #0d47a1;">
+                        <i class="fas fa-key"></i> عدد الأكواد/الأسماء المستخدمة: <strong>${stats.usedCodes.length}</strong>
+                    </div>
+                    <div class="info-item" style="font-size: 1.1em; color: #0d47a1;">
+                        <i class="fas fa-chart-line"></i> متوسط الدرجات: <strong>${stats.averageScore.toFixed(2)}</strong>
+                    </div>
+                    <div class="info-item" style="font-size: 0.9em; color: #546e7a;">
+                        <i class="fas fa-info-circle"></i> يمكن استخدام نفس الهاتف عدة مرات، ولكن لا يمكن إعادة استخدام نفس الكود/الاسم
+                    </div>
+                </div>
             `;
             
             // إضافة الإحصائيات إلى صفحة النتائج
-‏            const resultContent = document.getElementById('resultContent');
-‏            const statsDiv = document.createElement('div');
-‏            statsDiv.innerHTML = statsHTML;
-‏            resultContent.appendChild(statsDiv);
+            const resultContent = document.getElementById('resultContent');
+            const statsDiv = document.createElement('div');
+            statsDiv.innerHTML = statsHTML;
+            resultContent.appendChild(statsDiv);
             
             // إخفاء زر عرض الإحصائيات
-‏            const statsBtn = document.querySelector('button[onclick="showStatistics()"]');
-‏            if (statsBtn) {
-‏                statsBtn.style.display = 'none';
+            const statsBtn = document.querySelector('button[onclick="showStatistics()"]');
+            if (statsBtn) {
+                statsBtn.style.display = 'none';
             }
         }
 
-‏        function showAlert(type, message) {
-‏            const alertDiv = document.createElement('div');
-‏            alertDiv.className = `alert alert-${type}`;
-‏            alertDiv.innerHTML = `${message}`;
-‏            document.body.appendChild(alertDiv);
-‏            setTimeout(() => alertDiv.remove(), 5000);
+        function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerHTML = `${message}`;
+            document.body.appendChild(alertDiv);
+            setTimeout(() => alertDiv.remove(), 5000);
         }
 
         // ==================== 📄 تهيئة الصفحة ====================
-‏        window.onload = async function() {
-‏            console.log('📚 صفحة امتحان اللغة العربية للصف السادس جاهزة');
-‏            document.getElementById('studentCode').focus();
+        window.onload = async function() {
+            console.log('📚 صفحة امتحان اللغة العربية للصف السادس جاهزة');
+            document.getElementById('studentCode').focus();
             
             // تحميل الإحصائيات الحالية
-‏            const tempManager = new ExamManager(SYSTEM_CONFIG);
-‏            const stats = await tempManager.loadTodayStats();
+            const tempManager = new ExamManager(SYSTEM_CONFIG);
+            const stats = await tempManager.loadTodayStats();
             
-‏            document.getElementById('todayExamsCount').textContent = stats.totalAttempts;
-‏            document.getElementById('usedCodesCount').textContent = stats.usedCodes.length;
-‏            document.getElementById('averageScore').textContent = stats.averageScore.toFixed(2);
+            document.getElementById('todayExamsCount').textContent = stats.totalAttempts;
+            document.getElementById('usedCodesCount').textContent = stats.usedCodes.length;
+            document.getElementById('averageScore').textContent = stats.averageScore.toFixed(2);
             
-‏            console.log('📊 أماكن حفظ البيانات في Firebase:');
-‏            console.log('1. exam_results_temp ← النتائج المؤقتة');
-‏            console.log('2. exam_statistics ← الإحصائيات اليومية');
-‏            console.log('✅ النظام المعدل يسمح باستخدام نفس الهاتف عدة مرات');
-‏            console.log('✅ لا يسمح بإعادة استخدام نفس الكود/الاسم');
-‏            console.log('✅ يتم عرض الأخطاء بعد الانتهاء');
-‏            console.log('✅ يتم جمع إحصائيات عدد الممتحنين والأكواد المستخدمة');
+            console.log('📊 أماكن حفظ البيانات في Firebase:');
+            console.log('1. exam_results_temp ← النتائج المؤقتة');
+            console.log('2. exam_statistics ← الإحصائيات اليومية');
+            console.log('✅ النظام المعدل يسمح باستخدام نفس الهاتف عدة مرات');
+            console.log('✅ لا يسمح بإعادة استخدام نفس الكود/الاسم');
+            console.log('✅ يتم عرض الأخطاء بعد الانتهاء');
+            console.log('✅ يتم جمع إحصائيات عدد الممتحنين والأكواد المستخدمة');
         };
-‏    </script>
-‏</body>
-‏</html>
+    </script>
+</body>
+</html>
