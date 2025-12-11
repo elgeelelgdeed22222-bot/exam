@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>امتحان الدراسات الاجتماعية - الصف الخامس الابتدائي</title>
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            getDocs, 
+            query, 
+            where, 
+            doc, 
+            setDoc, 
+            getDoc,
+            updateDoc,
+            runTransaction,
+            serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyBPgtF_GqT95QkMwwoJMGiZWFPjHFdA_N0",
+            authDomain: "manassa-oloom.firebaseapp.com",
+            projectId: "manassa-oloom",
+            storageBucket: "manassa-oloom.firebasestorage.app",
+            messagingSenderId: "475047988456",
+            appId: "1:475047988456:web:ab25a9b01b5c77483b0d5d",
+            measurementId: "G-F0N011WQB9"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        window.firebaseServices = {
+            db,
+            collection,
+            addDoc,
+            getDocs,
+            query,
+            where,
+            doc,
+            setDoc,
+            getDoc,
+            updateDoc,
+            runTransaction,
+            serverTimestamp
+        };
+        
+        console.log("Firebase initialized for Grade 5 Social Studies");
+        window.firebaseReady = true;
+        window.dispatchEvent(new Event('firebaseReady'));
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-color: #4527a0;
+            --secondary-color: #5e35b1;
+            --accent-color: #7e57c2;
+            --light-color: #ede7f6;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+            --text-color: #333;
+            --light-text: #fff;
+            --shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ede7f6 0%, #d1c4e9 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 10px;
+            direction: rtl;
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        /* تحسينات للهواتف */
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                border-radius: 8px;
+            }
+        }
+        
+        /* Header Styles */
+        .exam-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: var(--light-text);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            .exam-header {
+                padding: 15px;
+            }
+            
+            .exam-title {
+                font-size: 1.8rem !important;
+            }
+            
+            .school-name {
+                font-size: 1.3rem !important;
+            }
+            
+            .motto {
+                font-size: 1rem !important;
+            }
+        }
+        
+        .exam-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+        }
+        
+        .exam-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(-30%, 30%);
+        }
+        
+        .exam-title {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .school-name {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #d1c4e9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .motto {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #ede7f6;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Login Form */
+        .login-section {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        @media (max-width: 768px) {
+            .login-section {
+                padding: 15px;
+            }
+        }
+        
+        .form-container {
+            width: 100%;
+            max-width: 450px;
+            background: var(--light-color);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+        
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 20px;
+            }
+        }
+        
+        .form-title {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 8px;
+        }
+        
+        .input-group {
+            margin-bottom: 16px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 0.95rem;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .input-group input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(126, 87, 194, 0.2);
+        }
+        
+        .code-hint {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+            background: #f5f5f5;
+            padding: 8px;
+            border-radius: 5px;
+            border-right: 3px solid var(--accent-color);
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            touch-action: manipulation;
+            min-height: 44px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* Exam Section */
+        .exam-section {
+            padding: 20px;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .exam-section {
+                padding: 15px;
+            }
+        }
+        
+        .exam-info-bar {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        @media (max-width: 480px) {
+            .exam-info-bar {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .student-info {
+                font-size: 1rem !important;
+                width: 100%;
+            }
+            
+            .timer-container {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        .student-info {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .timer-container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .timer-icon {
+            font-size: 1.3rem;
+        }
+        
+        .time-warning {
+            color: #ffcc00;
+        }
+        
+        .time-danger {
+            color: #ff3333;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .question-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            border-right: 4px solid var(--accent-color);
+            padding-right: 12px;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        
+        .question-item {
+            background: #f9f9ff;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+        
+        .question-item:hover {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--secondary-color);
+            line-height: 1.5;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        
+        @media (min-width: 480px) {
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+            line-height: 1.4;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            touch-action: manipulation;
+        }
+        
+        .option:hover {
+            border-color: var(--accent-color);
+            background: #f5f1ff;
+        }
+        
+        .option.selected {
+            border-color: var(--primary-color);
+            background: #ede7f6;
+            font-weight: 600;
+        }
+        
+        /* Result Section */
+        .result-section {
+            padding: 20px;
+            display: none;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .result-section {
+                padding: 15px;
+            }
+        }
+        
+        .result-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 480px) {
+            .result-card {
+                padding: 20px;
+            }
+        }
+        
+        .result-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .result-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        .score-display {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 20px 0;
+            position: relative;
+            display: inline-block;
+        }
+        
+        @media (max-width: 768px) {
+            .score-display {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .score-display::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            border-radius: 4px;
+        }
+        
+        .result-details {
+            text-align: right;
+            margin: 20px 0;
+            background: #f9f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-right: 4px solid var(--accent-color);
+        }
+        
+        .detail-item {
+            margin-bottom: 12px;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .answers-review {
+            text-align: right;
+            margin-top: 30px;
+        }
+        
+        .review-title {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+        }
+        
+        .review-item {
+            background: #f9f9ff;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            border-right: 4px solid #ddd;
+        }
+        
+        .review-item.correct {
+            border-right-color: var(--success-color);
+            background: #f1f8e9;
+        }
+        
+        .review-item.incorrect {
+            border-right-color: var(--danger-color);
+            background: #ffebee;
+        }
+        
+        .question-review {
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 1rem;
+        }
+        
+        .student-answer {
+            color: var(--danger-color);
+            font-weight: 600;
+            display: block;
+            margin: 4px 0;
+        }
+        
+        .correct-answer {
+            color: var(--success-color);
+            font-weight: 600;
+            display: block;
+            margin: 4px 0;
+        }
+        
+        .daily-ranking {
+            background: linear-gradient(135deg, #4527a0 0%, #5e35b1 100%);
+            color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 25px;
+            text-align: center;
+        }
+        
+        @media (max-width: 480px) {
+            .daily-ranking {
+                padding: 15px;
+            }
+        }
+        
+        .daily-ranking h3 {
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+        
+        .rank-badge {
+            background: #ff9800;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 12px;
+        }
+        
+        /* Messages */
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin: 12px 0;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .error-message {
+            background: #ffebee;
+            color: var(--danger-color);
+            border: 1px solid #ffcdd2;
+        }
+        
+        .success-message {
+            background: #e8f5e9;
+            color: var(--success-color);
+            border: 1px solid #c8e6c9;
+        }
+        
+        .info-message {
+            background: #e3f2fd;
+            color: var(--primary-color);
+            border: 1px solid #bbdefb;
+        }
+        
+        /* Footer */
+        .exam-footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.8rem;
+            margin-top: 30px;
+            line-height: 1.4;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* تحسينات للهواتف الصغيرة */
+        @media (max-width: 360px) {
+            .exam-title {
+                font-size: 1.6rem !important;
+            }
+            
+            .form-title {
+                font-size: 1.3rem;
+            }
+            
+            .result-title {
+                font-size: 1.4rem;
+            }
+            
+            .score-display {
+                font-size: 2.2rem;
+            }
+        }
+        
+        /* تحسينات لشاشات كبيرة */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1000px;
+            }
+        }
+        
+        /* Grade 5 Specific */
+        .grade-badge {
+            background: #4527a0;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="exam-header">
+            <h1 class="exam-title">امتحان الدراسات الاجتماعية - الصف الخامس</h1>
+            <h2 class="school-name">مدرسة الجيل الجديد الخاصة</h2>
+            <p class="motto">نحو التميز العلمي</p>
+        </header>
+        
+        <!-- Login Section -->
+        <section class="login-section" id="loginSection">
+            <div class="form-container">
+                <h2 class="form-title">تسجيل الدخول للامتحان <span class="grade-badge">الصف الخامس</span></h2>
+                
+                <div id="loginMessage" class="message" style="display: none;"></div>
+                
+                <div class="input-group">
+                    <label for="studentName">الاسم الثلاثي (عربي)</label>
+                    <input type="text" id="studentName" placeholder="أدخل اسمك ثلاثي باللغة العربية" dir="rtl">
+                </div>
+                
+                <div class="input-group">
+                    <label for="studentCode">الكود المدرسي (9 أرقام)</label>
+                    <input type="text" id="studentCode" placeholder="أدخل الكود المكون من 9 أرقام" maxlength="9" dir="ltr" inputmode="numeric">
+                    <div class="code-hint">
+                        <p>الكود المدرسي الخاص بك مكون من 9 أرقام</p>
+                        <p>)</p>
+                    </div>
+                </div>
+                
+                <button class="btn" id="startExamBtn">بدء الامتحان</button>
+                
+                <div class="info-message" style="margin-top: 20px;">
+                    <p><strong>مدة الامتحان:</strong> 15 دقيقة</p>
+                    <p><strong>عدد الأسئلة:</strong> 10 أسئلة</p>
+                    <p><strong>ملاحظة:</strong> لا يمكن إعادة الامتحان بنفس الاسم أو الكود</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Exam Section -->
+        <section class="exam-section" id="examSection">
+            <div class="exam-info-bar">
+                <div class="student-info">
+                    <span id="examStudentName"></span> - <span id="examStudentCode"></span>
+                    <span class="grade-badge" style="margin-right: 5px;">الصف الخامس</span>
+                </div>
+                <div class="timer-container">
+                    <span class="timer-icon">⏱️</span>
+                    <span id="timer">15:00</span>
+                </div>
+            </div>
+            
+            <form id="examForm">
+                <!-- Multiple Choice Questions -->
+                <div class="question-section">
+                    <h3 class="section-title">اختر الإجابة الصحيحة</h3>
+                    
+                    <!-- Question 1 -->
+                    <div class="question-item" id="q1">
+                        <div class="question-text">١- قائد الجيش المصري في معركة قادش هو الملك</div>
+                        <div class="options-container">
+                            <div class="option" data-value="تحتمس الثالث">(أ) تحتمس الثالث</div>
+                            <div class="option" data-value="رمسيس الثاني">(ب) رمسيس الثاني</div>
+                            <div class="option" data-value="احمس">(ج) احمس</div>
+                            <div class="option" data-value="سنفرو">(د) سنفرو</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 2 -->
+                    <div class="question-item" id="q2">
+                        <div class="question-text">٢- أول معاهدة سلام موثوقة في التاريخ كانت بين رمسيس الثاني و</div>
+                        <div class="options-container">
+                            <div class="option" data-value="الحيثين">(أ) الحيثين</div>
+                            <div class="option" data-value="الهكسوس">(ب) الهكسوس</div>
+                            <div class="option" data-value="الليبيين">(ج) الليبيين</div>
+                            <div class="option" data-value="الاشوريين">(د) الاشوريين</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 3 -->
+                    <div class="question-item" id="q3">
+                        <div class="question-text">٣- بدأت العصور التاريخية بالعصر</div>
+                        <div class="options-container">
+                            <div class="option" data-value="الحجري الحديث">(أ) الحجري الحديث</div>
+                            <div class="option" data-value="العتيق">(ب) العتيق</div>
+                            <div class="option" data-value="المعدات">(ج) المعدات</div>
+                            <div class="option" data-value="ما قبل الأسرات">(د) ما قبل الأسرات</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 4 -->
+                    <div class="question-item" id="q4">
+                        <div class="question-text">٤- يعود تمثال أبو الهول إلى عصر الملك</div>
+                        <div class="options-container">
+                            <div class="option" data-value="نعرمر">(أ) نعرمر</div>
+                            <div class="option" data-value="زوسر">(ب) زوسر</div>
+                            <div class="option" data-value="خوفو">(ج) خوفو</div>
+                            <div class="option" data-value="خفرع">(د) خفرع</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 5 -->
+                    <div class="question-item" id="q5">
+                        <div class="question-text">٥- كانت عاصمة مصر في العصر العتيق</div>
+                        <div class="options-container">
+                            <div class="option" data-value="طيبة">(أ) طيبة</div>
+                            <div class="option" data-value="من نفر">(ب) من نفر</div>
+                            <div class="option" data-value="الأقصر">(ج) الأقصر</div>
+                            <div class="option" data-value="الإسكندرية">(د) الإسكندرية</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- More Questions -->
+                <div class="question-section">
+                    <h3 class="section-title">اختر الإجابة الصحيحة (تابع)</h3>
+                    
+                    <!-- Question 6 -->
+                    <div class="question-item" id="q6">
+                        <div class="question-text">٦- قام الملك بحفر قناة سيزوستريس</div>
+                        <div class="options-container">
+                            <div class="option" data-value="امنمحات الثالث">(أ) امنمحات الثالث</div>
+                            <div class="option" data-value="رمسيس الثاني">(ب) رمسيس الثاني</div>
+                            <div class="option" data-value="سنوسرت الثالث">(ج) سنوسرت الثالث</div>
+                            <div class="option" data-value="احمس">(د) احمس</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 7 -->
+                    <div class="question-item" id="q7">
+                        <div class="question-text">٧- شهد عصر الدولة الوسطى</div>
+                        <div class="options-container">
+                            <div class="option" data-value="معارك حربية">(أ) معارك حربية</div>
+                            <div class="option" data-value="نهضة اقتصادية">(ب) نهضة اقتصادية</div>
+                            <div class="option" data-value="توحيد القطرين">(ج) توحيد القطرين</div>
+                            <div class="option" data-value="بناء الأهرامات">(د) بناء الأهرامات</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 8 -->
+                    <div class="question-item" id="q8">
+                        <div class="question-text">٨- كانت عاصمة الوحدة الأولى لمصر</div>
+                        <div class="options-container">
+                            <div class="option" data-value="بوتو">(أ) بوتو</div>
+                            <div class="option" data-value="نخب">(ب) نخب</div>
+                            <div class="option" data-value="اون هليوبوليس">(ج) اون هليوبوليس</div>
+                            <div class="option" data-value="من نفر">(د) من نفر</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 9 -->
+                    <div class="question-item" id="q9">
+                        <div class="question-text">٩- ملكة كان لها دور عظيم في حرب التحرير وطرد الهكسوس</div>
+                        <div class="options-container">
+                            <div class="option" data-value="كليوباترا السابعة">(أ) كليوباترا السابعة</div>
+                            <div class="option" data-value="حتشبسوت">(ب) حتشبسوت</div>
+                            <div class="option" data-value="نيفرتيتي">(ج) نيفرتيتي</div>
+                            <div class="option" data-value="اياح حتب">(د) اياح حتب</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 10 -->
+                    <div class="question-item" id="q10">
+                        <div class="question-text">١٠- ربطت قناة سيزوستريس بين النيل و</div>
+                        <div class="options-container">
+                            <div class="option" data-value="البحر المتوسط">(أ) البحر المتوسط</div>
+                            <div class="option" data-value="البحر الأحمر">(ب) البحر الأحمر</div>
+                            <div class="option" data-value="الفيوم">(ج) الفيوم</div>
+                            <div class="option" data-value="الدلتا">(د) الدلتا</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn" id="submitExamBtn">إنهاء الامتحان</button>
+            </form>
+        </section>
+        
+        <!-- Result Section -->
+        <section class="result-section" id="resultSection">
+            <div class="result-card">
+                <div id="loadingResult" class="loading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>جاري حساب النتيجة والتقييم...</p>
+                </div>
+                
+                <div id="resultContent" style="display: none;">
+                    <h2 class="result-title">نتيجة امتحان الدراسات الاجتماعية - الصف الخامس</h2>
+                    
+                    <div class="student-info" style="text-align: right; background: #f5f1ff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <p style="margin-bottom: 8px;"><strong>الاسم:</strong> <span id="resultStudentName"></span></p>
+                        <p style="margin-bottom: 8px;"><strong>الكود:</strong> <span id="resultStudentCode"></span></p>
+                        <p><strong>وقت الإنهاء:</strong> <span id="completionTime"></span></p>
+                        <p><strong>الصف:</strong> <span class="grade-badge">الخامس الابتدائي</span></p>
+                    </div>
+                    
+                    <div class="score-display">
+                        <span id="finalScore">0</span>/10
+                    </div>
+                    
+                    <div class="result-details">
+                        <div class="detail-item">
+                            <span class="detail-label">عدد الأسئلة الصحيحة:</span>
+                            <span id="correctCount">0</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">عدد الأسئلة الخاطئة:</span>
+                            <span id="wrongCount">0</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">الدرجة الأساسية:</span>
+                            <span id="baseScore">0</span> نقطة
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">نقاط المكافأة:</span>
+                            <span id="bonusPoints" class="bonus-points">0</span> نقطة
+                        </div>
+                        <div class="detail-item" style="font-size: 1.1rem; font-weight: 700; color: var(--primary-color); padding-top: 12px; border-top: 2px solid #eee; margin-top: 8px;">
+                            <span class="detail-label">إجمالي النقاط:</span>
+                            <span id="totalPoints">0</span> نقطة
+                        </div>
+                    </div>
+                    
+                    <div class="daily-ranking" id="dailyRanking">
+                        <h3>تصنيف اليوم - الصف الخامس</h3>
+                        <div class="rank-badge" id="rankBadge">?</div>
+                        <p style="margin-bottom: 8px;">ترتيبك اليوم بين طلاب الصف الخامس: <strong><span id="dailyRank">يتم الحساب...</span></strong></p>
+                        <p id="bonusInfo" style="font-size: 0.95rem;"></p>
+                    </div>
+                    
+                    <div class="answers-review">
+                        <h3 class="review-title">مراجعة الإجابات</h3>
+                        <div id="answersReview"></div>
+                    </div>
+                    
+                    <div class="info-message" style="margin-top: 25px; font-size: 0.9rem;">
+                        <p>شكراً لأداء الامتحان. لا يمكن إعادة الامتحان بنفس الاسم أو الكود.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="exam-footer">
+            <p>© 2025 مدرسة الجيل الجديد الخاصة - امتحان الدراسات الاجتماعية للصف الخامس الابتدائي</p>
+            <p>جميع الحقوق محفوظة</p>
+        </footer>
+    </div>
+
+    <script>
+        // Global variables
+        let firebaseServices = null;
+        let firebaseInitialized = false;
+        
+        // DOM Elements
+        const loginSection = document.getElementById('loginSection');
+        const examSection = document.getElementById('examSection');
+        const resultSection = document.getElementById('resultSection');
+        const startExamBtn = document.getElementById('startExamBtn');
+        const submitExamBtn = document.getElementById('submitExamBtn');
+        const studentNameInput = document.getElementById('studentName');
+        const studentCodeInput = document.getElementById('studentCode');
+        const loginMessage = document.getElementById('loginMessage');
+        const timerElement = document.getElementById('timer');
+        const examForm = document.getElementById('examForm');
+        
+        // Correct answers for Grade 5 Social Studies
+        const correctAnswers = {
+            q1: "رمسيس الثاني",
+            q2: "الحيثين",
+            q3: "العتيق",
+            q4: "خفرع",
+            q5: "من نفر",
+            q6: "سنوسرت الثالث",
+            q7: "نهضة اقتصادية",
+            q8: "اون هليوبوليس",
+            q9: "اياح حتب",
+            q10: "البحر الأحمر"
+        };
+        
+        // Exam variables
+        let examTimer;
+        let timeLeft = 15 * 60; // 15 minutes in seconds
+        let currentStudent = {};
+        let examStarted = false;
+        let startTime;
+        let endTime;
+        
+        // Firebase collection names - UNIQUE FOR SOCIAL STUDIES
+        const FIREBASE_COLLECTIONS = {
+            STUDENTS: "students_grade_5_social_studies",
+            DAILY_RANKINGS: "daily_rankings_grade_5_social_studies"
+        };
+        
+        // LocalStorage keys - UNIQUE FOR SOCIAL STUDIES
+        const STORAGE_KEYS = {
+            CURRENT_STUDENT: "currentStudent_social_studies_grade5",
+            EXAM_ANSWERS: "examAnswers_social_studies_grade5",
+            EXAM_START_TIME: "examStartTime_social_studies_grade5",
+            TIME_LEFT: "timeLeft_social_studies_grade5",
+            EXAM_RESULTS: "examResults_social_studies_grade5",
+            EXAM_SCORE: "examScore_social_studies_grade5",
+            EXAM_BONUS: "examBonus_social_studies_grade5",
+            EXAM_TOTAL: "examTotal_social_studies_grade5",
+            EXAM_TIME_TAKEN: "examTimeTaken_social_studies_grade5",
+            EXAM_COMPLETED: "examCompleted_social_studies_grade5"
+        };
+        
+        // Function to wait for Firebase
+        async function waitForFirebase() {
+            return new Promise((resolve) => {
+                if (window.firebaseReady && window.firebaseServices) {
+                    firebaseServices = window.firebaseServices;
+                    firebaseInitialized = true;
+                    console.log("Firebase loaded for Grade 5 Social Studies");
+                    resolve(true);
+                } else {
+                    window.addEventListener('firebaseReady', () => {
+                        if (window.firebaseServices) {
+                            firebaseServices = window.firebaseServices;
+                            firebaseInitialized = true;
+                            console.log("Firebase loaded via event for Grade 5 Social Studies");
+                            resolve(true);
+                        } else {
+                            resolve(false);
+                        }
+                    });
+                    
+                    setTimeout(() => {
+                        if (!firebaseInitialized) {
+                            console.warn("Firebase timeout - using localStorage only for Grade 5 Social Studies");
+                            resolve(false);
+                        }
+                    }, 3000);
+                }
+            });
+        }
+        
+        // Initialize Firebase
+        async function initializeFirebase() {
+            try {
+                const success = await waitForFirebase();
+                return success;
+            } catch (error) {
+                console.error("Firebase init error for Grade 5 Social Studies:", error);
+                return false;
+            }
+        }
+        
+        // Event Listeners
+        startExamBtn.addEventListener('click', startExam);
+        submitExamBtn.addEventListener('click', submitExam);
+        
+        // Add event listeners for options
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                const questionId = this.closest('.question-item').id;
+                this.parentElement.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                saveAnswerLocally(questionId, this.getAttribute('data-value'));
+            });
+        });
+        
+        // Prevent form submission
+        examForm.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+        
+        // Validate Arabic name
+        studentNameInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^\u0600-\u06FF\s]/g, '');
+            const nameParts = this.value.trim().split(/\s+/).filter(part => part.length > 0);
+            this.style.borderColor = nameParts.length >= 3 ? '#4caf50' : '#f44336';
+        });
+        
+        // Validate code - FIXED: Check 4th digit from RIGHT (should be 5 for Grade 5)
+        studentCodeInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+            
+            if (this.value.length === 9) {
+                // الرقم الرابع من اليمين (المكان 5 من اليسار) يجب أن يكون 5 للصف الخامس
+                const fourthFromRight = this.value.charAt(5); // المؤشر 5 هو الرقم الرابع من اليمين
+                if (fourthFromRight === '5') {
+                    this.style.borderColor = '#4caf50';
+                } else {
+                    this.style.borderColor = '#f44336';
+                    showLoginMessage('الكود غير صحيح للصف الخامس. يجب أن يكون الرقم الرابع من اليمين هو 5', 'error');
+                }
+            } else {
+                this.style.borderColor = '#ddd';
+            }
+        });
+        
+        // Save answer locally with UNIQUE key
+        function saveAnswerLocally(questionId, answer) {
+            const savedAnswers = JSON.parse(localStorage.getItem(STORAGE_KEYS.EXAM_ANSWERS) || '{}');
+            savedAnswers[questionId] = answer;
+            localStorage.setItem(STORAGE_KEYS.EXAM_ANSWERS, JSON.stringify(savedAnswers));
+        }
+        
+        // Show login message
+        function showLoginMessage(message, type = 'error') {
+            loginMessage.textContent = message;
+            loginMessage.className = `message ${type}-message`;
+            loginMessage.style.display = 'block';
+            
+            if (type === 'error') {
+                setTimeout(() => {
+                    loginMessage.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        // Start exam function
+        async function startExam() {
+            const studentName = studentNameInput.value.trim();
+            const studentCode = studentCodeInput.value.trim();
+            
+            // Validate name
+            if (!studentName || studentName.split(/\s+/).filter(part => part.length > 0).length < 3) {
+                showLoginMessage('الرجاء إدخال الاسم الثلاثي باللغة العربية', 'error');
+                studentNameInput.focus();
+                return;
+            }
+            
+            // Validate code
+            if (studentCode.length !== 9) {
+                showLoginMessage('الكود يجب أن يتكون من 9 أرقام', 'error');
+                studentCodeInput.focus();
+                return;
+            }
+            
+            // التحقق من الرقم الرابع من اليمين = 5 للصف الخامس
+            const fourthFromRight = studentCode.charAt(5);
+            if (fourthFromRight !== '5') {
+                showLoginMessage('الكود غير صحيح للصف الخامس. يجب أن يكون الرقم الرابع من اليمين هو 5', 'error');
+                studentCodeInput.focus();
+                return;
+            }
+            
+            // Disable button
+            startExamBtn.disabled = true;
+            startExamBtn.textContent = 'جاري التحقق...';
+            
+            try {
+                // Initialize Firebase
+                const firebaseAvailable = await initializeFirebase();
+                
+                if (firebaseAvailable && firebaseServices) {
+                    // Check if student already exists - using UNIQUE collection
+                    const studentsRef = firebaseServices.collection(firebaseServices.db, FIREBASE_COLLECTIONS.STUDENTS);
+                    const nameQuery = firebaseServices.query(studentsRef, firebaseServices.where("name", "==", studentName));
+                    const codeQuery = firebaseServices.query(studentsRef, firebaseServices.where("code", "==", studentCode));
+                    
+                    const [nameSnapshot, codeSnapshot] = await Promise.all([
+                        firebaseServices.getDocs(nameQuery),
+                        firebaseServices.getDocs(codeQuery)
+                    ]);
+                    
+                    if (!nameSnapshot.empty) {
+                        showLoginMessage('هذا الاسم قد أدى امتحان الدراسات الاجتماعية من قبل', 'error');
+                        startExamBtn.disabled = false;
+                        startExamBtn.textContent = 'بدء الامتحان';
+                        return;
+                    }
+                    
+                    if (!codeSnapshot.empty) {
+                        showLoginMessage('هذا الكود قد استخدم في امتحان الدراسات الاجتماعية من قبل', 'error');
+                        startExamBtn.disabled = false;
+                        startExamBtn.textContent = 'بدء الامتحان';
+                        return;
+                    }
+                }
+                
+                // Save student info
+                currentStudent = {
+                    name: studentName,
+                    code: studentCode,
+                    grade: 5,
+                    subject: "الدراسات الاجتماعية",
+                    startTime: new Date().toISOString(),
+                    status: 'in_progress',
+                    examDate: new Date().toLocaleDateString('ar-EG')
+                };
+                
+                // Save to localStorage with UNIQUE keys
+                localStorage.setItem(STORAGE_KEYS.CURRENT_STUDENT, JSON.stringify(currentStudent));
+                localStorage.setItem(STORAGE_KEYS.EXAM_ANSWERS, JSON.stringify({}));
+                localStorage.setItem(STORAGE_KEYS.EXAM_START_TIME, Date.now().toString());
+                localStorage.setItem(STORAGE_KEYS.TIME_LEFT, timeLeft.toString());
+                
+                // Show exam section
+                loginSection.style.display = 'none';
+                examSection.style.display = 'block';
+                
+                // Update student info
+                document.getElementById('examStudentName').textContent = studentName;
+                document.getElementById('examStudentCode').textContent = studentCode;
+                
+                // Start timer
+                startExamTimer();
+                
+                // Mark as started
+                examStarted = true;
+                startTime = Date.now();
+                
+                // Save to Firestore with UNIQUE collection
+                if (firebaseAvailable && firebaseServices) {
+                    try {
+                        await firebaseServices.addDoc(
+                            firebaseServices.collection(firebaseServices.db, FIREBASE_COLLECTIONS.STUDENTS), 
+                            {
+                                ...currentStudent,
+                                answers: {},
+                                score: 0,
+                                bonusPoints: 0,
+                                totalPoints: 0,
+                                timeTaken: 0,
+                                completed: false,
+                                dailyRank: 0,
+                                timestamp: firebaseServices.serverTimestamp()
+                            }
+                        );
+                        console.log("Grade 5 Social Studies student saved to Firestore");
+                    } catch (error) {
+                        console.error("Error saving Grade 5 Social Studies student to Firestore:", error);
+                    }
+                }
+                
+            } catch (error) {
+                console.error("Start exam error for Grade 5 Social Studies:", error);
+                showLoginMessage('حدث خطأ. الرجاء المحاولة مرة أخرى', 'error');
+                startExamBtn.disabled = false;
+                startExamBtn.textContent = 'بدء الامتحان';
+            }
+        }
+        
+        // Start exam timer
+        function startExamTimer() {
+            const savedTimeLeft = localStorage.getItem(STORAGE_KEYS.TIME_LEFT);
+            if (savedTimeLeft) {
+                timeLeft = parseInt(savedTimeLeft);
+            }
+            
+            updateTimerDisplay();
+            
+            examTimer = setInterval(() => {
+                timeLeft--;
+                localStorage.setItem(STORAGE_KEYS.TIME_LEFT, timeLeft.toString());
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(examTimer);
+                    submitExam();
+                }
+            }, 1000);
+        }
+        
+        // Update timer display
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 300) {
+                timerElement.classList.add('time-warning');
+            }
+            if (timeLeft <= 60) {
+                timerElement.classList.add('time-danger');
+                timerElement.classList.remove('time-warning');
+            }
+        }
+        
+        // Collect answers
+        function collectAnswers() {
+            const answers = {};
+            const savedAnswers = JSON.parse(localStorage.getItem(STORAGE_KEYS.EXAM_ANSWERS) || '{}');
+            Object.assign(answers, savedAnswers);
+            
+            document.querySelectorAll('.question-item').forEach(question => {
+                const questionId = question.id;
+                
+                const selectedOption = question.querySelector('.option.selected');
+                if (selectedOption && !answers[questionId]) {
+                    answers[questionId] = selectedOption.getAttribute('data-value');
+                }
+            });
+            
+            return answers;
+        }
+        
+        // Update daily ranking in Firestore for Grade 5 Social Studies
+        async function updateDailyRanking(studentData, totalPoints) {
+            if (!firebaseInitialized || !firebaseServices) return 0;
+            
+            const today = new Date().toLocaleDateString('ar-EG');
+            const rankingRef = firebaseServices.doc(firebaseServices.db, FIREBASE_COLLECTIONS.DAILY_RANKINGS, today);
+            
+            try {
+                let studentRank = 0;
+                
+                await firebaseServices.runTransaction(firebaseServices.db, async (transaction) => {
+                    const rankingDoc = await transaction.get(rankingRef);
+                    
+                    if (!rankingDoc.exists()) {
+                        // Create new document
+                        transaction.set(rankingRef, {
+                            date: today,
+                            grade: 5,
+                            subject: "الدراسات الاجتماعية",
+                            totalStudents: 1,
+                            averageScore: studentData.score,
+                            averagePoints: totalPoints,
+                            topStudents: [{
+                                name: studentData.name,
+                                code: studentData.code,
+                                score: studentData.score,
+                                totalPoints: totalPoints,
+                                timeTaken: studentData.timeTaken,
+                                timestamp: firebaseServices.serverTimestamp()
+                            }],
+                            createdAt: firebaseServices.serverTimestamp(),
+                            updatedAt: firebaseServices.serverTimestamp()
+                        });
+                        studentRank = 1;
+                    } else {
+                        const data = rankingDoc.data();
+                        const newTotalStudents = data.totalStudents + 1;
+                        const newAvgScore = ((data.averageScore * data.totalStudents) + studentData.score) / newTotalStudents;
+                        const newAvgPoints = ((data.averagePoints * data.totalStudents) + totalPoints) / newTotalStudents;
+                        
+                        // Add student to top students
+                        let topStudents = [...(data.topStudents || [])];
+                        topStudents.push({
+                            name: studentData.name,
+                            code: studentData.code,
+                            score: studentData.score,
+                            totalPoints: totalPoints,
+                            timeTaken: studentData.timeTaken,
+                            timestamp: firebaseServices.serverTimestamp()
+                        });
+                        
+                        // Sort by total points
+                        topStudents.sort((a, b) => {
+                            if (b.totalPoints !== a.totalPoints) {
+                                return b.totalPoints - a.totalPoints;
+                            }
+                            return a.timeTaken - b.timeTaken;
+                        });
+                        
+                        // Keep top 10
+                        if (topStudents.length > 10) {
+                            topStudents = topStudents.slice(0, 10);
+                        }
+                        
+                        // Find student's rank
+                        studentRank = topStudents.findIndex(s => s.code === studentData.code) + 1;
+                        if (studentRank === 0) studentRank = newTotalStudents;
+                        
+                        transaction.update(rankingRef, {
+                            totalStudents: newTotalStudents,
+                            averageScore: newAvgScore,
+                            averagePoints: newAvgPoints,
+                            topStudents: topStudents,
+                            updatedAt: firebaseServices.serverTimestamp()
+                        });
+                    }
+                });
+                
+                return studentRank;
+                
+            } catch (error) {
+                console.error("Error updating ranking for Grade 5 Social Studies:", error);
+                return 0;
+            }
+        }
+        
+        // Submit exam
+        async function submitExam() {
+            clearInterval(examTimer);
+            submitExamBtn.disabled = true;
+            submitExamBtn.textContent = 'جاري التصحيح...';
+            
+            const answers = collectAnswers();
+            const totalQuestions = Object.keys(correctAnswers).length;
+            const answeredQuestions = Object.keys(answers).length;
+            
+            if (answeredQuestions < totalQuestions) {
+                const confirmSubmit = confirm(`لقد أجبت على ${answeredQuestions} من ${totalQuestions} سؤال. هل تريد إنهاء الامتحان الآن؟`);
+                if (!confirmSubmit) {
+                    submitExamBtn.disabled = false;
+                    submitExamBtn.textContent = 'إنهاء الامتحان';
+                    startExamTimer();
+                    return;
+                }
+            }
+            
+            endTime = Date.now();
+            const timeTaken = Math.floor((endTime - startTime) / 1000);
+            const examDuration = 15 * 60 - timeLeft;
+            
+            let score = 0;
+            const results = {};
+            
+            Object.keys(correctAnswers).forEach(questionId => {
+                const userAnswer = answers[questionId];
+                const correctAnswer = correctAnswers[questionId];
+                
+                results[questionId] = {
+                    userAnswer: userAnswer || 'لم يتم الإجابة',
+                    correctAnswer: correctAnswer,
+                    isCorrect: userAnswer === correctAnswer
+                };
+                
+                if (userAnswer === correctAnswer) {
+                    score++;
+                }
+            });
+            
+            // Calculate bonus points
+            let bonusPoints = 0;
+            if (score === totalQuestions) bonusPoints += 2;
+            if (examDuration <= 300) bonusPoints += 2;
+            else if (examDuration <= 600) bonusPoints += 1;
+            
+            const totalPoints = score + bonusPoints;
+            
+            // Save to localStorage with UNIQUE keys
+            localStorage.setItem(STORAGE_KEYS.EXAM_ANSWERS, JSON.stringify(answers));
+            localStorage.setItem(STORAGE_KEYS.EXAM_RESULTS, JSON.stringify(results));
+            localStorage.setItem(STORAGE_KEYS.EXAM_SCORE, score.toString());
+            localStorage.setItem(STORAGE_KEYS.EXAM_BONUS, bonusPoints.toString());
+            localStorage.setItem(STORAGE_KEYS.EXAM_TOTAL, totalPoints.toString());
+            localStorage.setItem(STORAGE_KEYS.EXAM_TIME_TAKEN, examDuration.toString());
+            localStorage.setItem(STORAGE_KEYS.EXAM_COMPLETED, 'true');
+            
+            // Prepare student data
+            const studentData = {
+                ...currentStudent,
+                answers: answers,
+                results: results,
+                score: score,
+                bonusPoints: bonusPoints,
+                totalPoints: totalPoints,
+                timeTaken: examDuration,
+                endTime: new Date().toISOString(),
+                completed: true,
+                status: 'completed'
+            };
+            
+            // Show results
+            showResults(studentData, results, bonusPoints, totalPoints, examDuration, answers);
+            
+            // Save to Firestore and update ranking
+            if (firebaseInitialized && firebaseServices) {
+                try {
+                    // Update student record for Grade 5 Social Studies
+                    const studentsRef = firebaseServices.collection(firebaseServices.db, FIREBASE_COLLECTIONS.STUDENTS);
+                    const studentQuery = firebaseServices.query(
+                        studentsRef, 
+                        firebaseServices.where("name", "==", currentStudent.name),
+                        firebaseServices.where("code", "==", currentStudent.code)
+                    );
+                    
+                    const querySnapshot = await firebaseServices.getDocs(studentQuery);
+                    
+                    if (!querySnapshot.empty) {
+                        const studentDoc = querySnapshot.docs[0];
+                        await firebaseServices.updateDoc(
+                            firebaseServices.doc(firebaseServices.db, FIREBASE_COLLECTIONS.STUDENTS, studentDoc.id), 
+                            {
+                                ...studentData,
+                                updatedAt: firebaseServices.serverTimestamp()
+                            }
+                        );
+                    } else {
+                        await firebaseServices.addDoc(
+                            firebaseServices.collection(firebaseServices.db, FIREBASE_COLLECTIONS.STUDENTS), 
+                            {
+                                ...studentData,
+                                timestamp: firebaseServices.serverTimestamp()
+                            }
+                        );
+                    }
+                    
+                    // Update daily ranking for Grade 5 Social Studies
+                    const dailyRank = await updateDailyRanking(studentData, totalPoints);
+                    
+                    // Update rank in UI
+                    setTimeout(() => {
+                        if (dailyRank > 0) {
+                            document.getElementById('dailyRank').textContent = dailyRank;
+                            document.getElementById('rankBadge').textContent = dailyRank;
+                        } else {
+                            document.getElementById('dailyRank').textContent = 'غير متاح';
+                            document.getElementById('rankBadge').textContent = '?';
+                        }
+                    }, 1000);
+                    
+                } catch (error) {
+                    console.error("Error saving Grade 5 Social Studies data to Firestore:", error);
+                }
+            }
+            
+            // Clear localStorage after delay
+            setTimeout(() => {
+                localStorage.removeItem(STORAGE_KEYS.CURRENT_STUDENT);
+                localStorage.removeItem(STORAGE_KEYS.EXAM_ANSWERS);
+                localStorage.removeItem(STORAGE_KEYS.EXAM_START_TIME);
+                localStorage.removeItem(STORAGE_KEYS.TIME_LEFT);
+            }, 3000);
+        }
+        
+        // Show results
+        function showResults(studentData, results, bonusPoints, totalPoints, timeTaken, answers) {
+            examSection.style.display = 'none';
+            resultSection.style.display = 'block';
+            
+            document.getElementById('loadingResult').style.display = 'block';
+            
+            const minutesTaken = Math.floor(timeTaken / 60);
+            const secondsTaken = timeTaken % 60;
+            const timeTakenStr = `${minutesTaken} دقيقة و ${secondsTaken} ثانية`;
+            
+            setTimeout(() => {
+                document.getElementById('loadingResult').style.display = 'none';
+                document.getElementById('resultContent').style.display = 'block';
+                
+                document.getElementById('resultStudentName').textContent = studentData.name;
+                document.getElementById('resultStudentCode').textContent = studentData.code;
+                document.getElementById('completionTime').textContent = timeTakenStr;
+                
+                document.getElementById('finalScore').textContent = studentData.score;
+                document.getElementById('correctCount').textContent = studentData.score;
+                document.getElementById('wrongCount').textContent = Object.keys(correctAnswers).length - studentData.score;
+                document.getElementById('baseScore').textContent = studentData.score;
+                document.getElementById('bonusPoints').textContent = bonusPoints;
+                document.getElementById('totalPoints').textContent = totalPoints;
+                
+                let bonusInfoText = '';
+                if (bonusPoints > 0) {
+                    if (studentData.score === Object.keys(correctAnswers).length) {
+                        bonusInfoText += 'ممتاز! حصلت على الدرجة النهائية. ';
+                    }
+                    if (timeTaken <= 300) {
+                        bonusInfoText += 'أحسنت! أنهيت الامتحان بسرعة. ';
+                    } else if (timeTaken <= 600) {
+                        bonusInfoText += 'جيد! أنهيت الامتحان في وقت مناسب. ';
+                    }
+                } else {
+                    bonusInfoText = 'حاول المرة القادمة إنهاء الامتحان بسرعة للحصول على نقاط إضافية.';
+                }
+                document.getElementById('bonusInfo').textContent = bonusInfoText;
+                
+                const answersReview = document.getElementById('answersReview');
+                answersReview.innerHTML = '';
+                
+                Object.keys(results).forEach(questionId => {
+                    const result = results[questionId];
+                    const reviewItem = document.createElement('div');
+                    reviewItem.className = `review-item ${result.isCorrect ? 'correct' : 'incorrect'}`;
+                    
+                    let questionText = '';
+                    const questionElement = document.getElementById(questionId);
+                    if (questionElement) {
+                        questionText = questionElement.querySelector('.question-text').textContent;
+                    } else {
+                        questionText = `سؤال ${questionId.replace('q', '')}`;
+                    }
+                    
+                    reviewItem.innerHTML = `
+                        <div class="question-review">${questionText}</div>
+                        <div>إجابتك: <span class="student-answer">${result.userAnswer}</span></div>
+                        <div>الإجابة الصحيحة: <span class="correct-answer">${result.correctAnswer}</span></div>
+                    `;
+                    
+                    answersReview.appendChild(reviewItem);
+                });
+            }, 1500);
+        }
+        
+        // Check for saved exam - using UNIQUE keys
+        function checkSavedExam() {
+            const savedStudent = localStorage.getItem(STORAGE_KEYS.CURRENT_STUDENT);
+            const savedStartTime = localStorage.getItem(STORAGE_KEYS.EXAM_START_TIME);
+            const savedTimeLeft = localStorage.getItem(STORAGE_KEYS.TIME_LEFT);
+            const examCompleted = localStorage.getItem(STORAGE_KEYS.EXAM_COMPLETED);
+            
+            if (savedStudent && savedStartTime && savedTimeLeft && !examCompleted) {
+                const confirmResume = confirm('يوجد امتحان قيد الإكمال. هل تريد استئناف الامتحان؟');
+                
+                if (confirmResume) {
+                    currentStudent = JSON.parse(savedStudent);
+                    timeLeft = parseInt(savedTimeLeft);
+                    startTime = parseInt(savedStartTime);
+                    
+                    loginSection.style.display = 'none';
+                    examSection.style.display = 'block';
+                    
+                    document.getElementById('examStudentName').textContent = currentStudent.name;
+                    document.getElementById('examStudentCode').textContent = currentStudent.code;
+                    
+                    const savedAnswers = localStorage.getItem(STORAGE_KEYS.EXAM_ANSWERS);
+                    if (savedAnswers) {
+                        const answers = JSON.parse(savedAnswers);
+                        restoreAnswers(answers);
+                    }
+                    
+                    startExamTimer();
+                    examStarted = true;
+                } else {
+                    localStorage.removeItem(STORAGE_KEYS.CURRENT_STUDENT);
+                    localStorage.removeItem(STORAGE_KEYS.EXAM_ANSWERS);
+                    localStorage.removeItem(STORAGE_KEYS.EXAM_START_TIME);
+                    localStorage.removeItem(STORAGE_KEYS.TIME_LEFT);
+                }
+            } else if (examCompleted) {
+                const savedStudent = localStorage.getItem(STORAGE_KEYS.CURRENT_STUDENT);
+                const savedResults = localStorage.getItem(STORAGE_KEYS.EXAM_RESULTS);
+                const savedScore = localStorage.getItem(STORAGE_KEYS.EXAM_SCORE);
+                const savedBonus = localStorage.getItem(STORAGE_KEYS.EXAM_BONUS);
+                const savedTotal = localStorage.getItem(STORAGE_KEYS.EXAM_TOTAL);
+                const savedTimeTaken = localStorage.getItem(STORAGE_KEYS.EXAM_TIME_TAKEN);
+                
+                if (savedStudent && savedResults && savedScore) {
+                    currentStudent = JSON.parse(savedStudent);
+                    const results = JSON.parse(savedResults);
+                    const score = parseInt(savedScore);
+                    const bonusPoints = parseInt(savedBonus);
+                    const totalPoints = parseInt(savedTotal);
+                    const timeTaken = parseInt(savedTimeTaken);
+                    
+                    loginSection.style.display = 'none';
+                    examSection.style.display = 'none';
+                    resultSection.style.display = 'block';
+                    
+                    const savedAnswers = localStorage.getItem(STORAGE_KEYS.EXAM_ANSWERS);
+                    showResults(
+                        { ...currentStudent, score, bonusPoints, totalPoints, timeTaken },
+                        results, 
+                        bonusPoints, 
+                        totalPoints, 
+                        timeTaken, 
+                        JSON.parse(savedAnswers || '{}')
+                    );
+                }
+            }
+        }
+        
+        // Restore answers
+        function restoreAnswers(answers) {
+            Object.keys(answers).forEach(questionId => {
+                const answer = answers[questionId];
+                const questionElement = document.getElementById(questionId);
+                if (!questionElement) return;
+                
+                const options = questionElement.querySelectorAll('.option');
+                options.forEach(option => {
+                    if (option.getAttribute('data-value') === answer) {
+                        option.classList.add('selected');
+                    }
+                });
+            });
+        }
+        
+        // Initialize page
+        window.addEventListener('load', async function() {
+            await initializeFirebase();
+            checkSavedExam();
+            
+            window.addEventListener('beforeunload', function(e) {
+                if (examStarted) {
+                    e.preventDefault();
+                    e.returnValue = 'هل تريد مغادرة الصفحة؟ ستفقد تقدمك في الامتحان.';
+                    return 'هل تريد مغادرة الصفحة؟ ستفقد تقدمك في الامتحان.';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
