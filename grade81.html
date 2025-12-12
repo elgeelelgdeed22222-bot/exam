@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>امتحان الدراسات الاجتماعية - الصف الثاني الإعدادي</title>
+    <title>امتحان الدراسات الاجتماعية - الصف الثاني الإعدادي (الغابات)</title>
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
@@ -50,7 +51,7 @@
             serverTimestamp
         };
         
-        console.log("Firebase initialized for Grade 8 Social Studies");
+        console.log("Firebase initialized for Grade 8 Social Studies - Forest Systems");
         window.firebaseReady = true;
         window.dispatchEvent(new Event('firebaseReady'));
     </script>
@@ -63,10 +64,10 @@
         }
         
         :root {
-            --primary-color: #004d40;
-            --secondary-color: #00695c;
-            --accent-color: #26a69a;
-            --light-color: #e0f2f1;
+            --primary-color: #1b5e20;
+            --secondary-color: #388e3c;
+            --accent-color: #4caf50;
+            --light-color: #e8f5e9;
             --success-color: #4caf50;
             --warning-color: #ff9800;
             --danger-color: #f44336;
@@ -77,7 +78,7 @@
         }
         
         body {
-            background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
             color: var(--text-color);
             min-height: 100vh;
             padding: 10px;
@@ -170,7 +171,7 @@
             font-size: 1.5rem;
             margin-bottom: 10px;
             font-weight: 600;
-            color: #b2dfdb;
+            color: #c8e6c9;
             position: relative;
             z-index: 2;
         }
@@ -178,7 +179,7 @@
         .motto {
             font-size: 1.2rem;
             font-weight: 500;
-            color: #e0f2f1;
+            color: #e8f5e9;
             position: relative;
             z-index: 2;
         }
@@ -247,7 +248,7 @@
         .input-group input:focus {
             border-color: var(--accent-color);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(38, 166, 154, 0.2);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
         }
         
         .code-hint {
@@ -436,12 +437,12 @@
         
         .option:hover {
             border-color: var(--accent-color);
-            background: #f0f9f7;
+            background: #f1f8e9;
         }
         
         .option.selected {
             border-color: var(--primary-color);
-            background: #e0f2f1;
+            background: #e8f5e9;
             font-weight: 600;
         }
         
@@ -591,7 +592,7 @@
         }
         
         .daily-ranking {
-            background: linear-gradient(135deg, #004d40 0%, #00695c 100%);
+            background: linear-gradient(135deg, #1b5e20 0%, #388e3c 100%);
             color: white;
             padding: 20px;
             border-radius: var(--border-radius);
@@ -713,7 +714,7 @@
         
         /* Grade 8 Specific */
         .grade-badge {
-            background: #004d40;
+            background: #1b5e20;
             color: white;
             padding: 4px 12px;
             border-radius: 20px;
@@ -741,7 +742,7 @@
         <header class="exam-header">
             <h1 class="exam-title">امتحان الدراسات الاجتماعية - الصف الثاني الإعدادي</h1>
             <h2 class="school-name">مدرسة الجيل الجديد الخاصة</h2>
-            <p class="motto">نحو التميز العلمي</p>
+            <p class="motto">نحو التميز العلمي - أنظمة الغابات</p>
         </header>
         
         <!-- Login Section -->
@@ -750,7 +751,7 @@
                 <h2 class="form-title">تسجيل الدخول للامتحان <span class="grade-badge">الصف الثاني الإعدادي</span></h2>
                 
                 <div id="attemptCounter" class="attempt-counter" style="margin-bottom: 15px;">
-                      <span id="remainingAttempts">2</span>
+                    <span id="remainingAttempts">2</span> محاولة متبقية
                 </div>
                 
                 <div id="loginMessage" class="message" style="display: none;"></div>
@@ -765,8 +766,7 @@
                     <input type="text" id="studentCode" placeholder="أدخل الكود المكون من 9 أرقام" maxlength="9" dir="ltr" inputmode="numeric">
                     <div class="code-hint">
                         <p>الكود المدرسي الخاص بك مكون من 9 أرقام</p>
-                        <p>)</p>
-                        <p><strong></strong> </p>
+                        <p><strong></strong>  </p>
                     </div>
                 </div>
                 
@@ -775,8 +775,8 @@
                 <div class="info-message" style="margin-top: 20px;">
                     <p><strong>مدة الامتحان:</strong> 15 دقيقة</p>
                     <p><strong>عدد الأسئلة:</strong> 10 أسئلة</p>
-                    <p><strong></strong> </p>
-                    <p><strong>ملاحظة:</strong> لا يمكن إعادة الامتحان بنفس الاسم أو الكود</p>
+                    <p><strong>الموضوع:</strong> أنظمة الغابات</p>
+                    <p><strong>ملاحظة:</strong> هذا امتحان جديد - يمكن للطلاب أداؤه حتى لو شاركوا في الامتحان السابق</p>
                 </div>
             </div>
         </section>
@@ -797,60 +797,60 @@
             <form id="examForm">
                 <!-- Multiple Choice Questions -->
                 <div class="question-section">
-                    <h3 class="section-title">اختر الإجابة الصحيحة</h3>
+                    <h3 class="section-title">اختر الإجابة الصحيحة - أنظمة الغابات</h3>
                     
                     <!-- Question 1 -->
                     <div class="question-item" id="q1">
-                        <div class="question-text">١- النظام البيئي الذي يمتد في الهند وباكستان بقارة آسيا هو:</div>
+                        <div class="question-text">١- أي من هذه الغابات تتميز بتربة رمادية اللون قليلة السمك ومنخفضة الخصوبة؟</div>
                         <div class="options-container">
-                            <div class="option" data-value="الصحاري">(أ) الصحاري</div>
-                            <div class="option" data-value="التندرا">(ب) التندرا</div>
-                            <div class="option" data-value="الساڤانا">(ج) الساڤانا</div>
-                            <div class="option" data-value="الإستبس">(د) الإستبس</div>
+                            <div class="option" data-value="الغابات المدارية المطيرة">(أ) الغابات المدارية المطيرة</div>
+                            <div class="option" data-value="الغابات النفطية">(ب) الغابات النفطية</div>
+                            <div class="option" data-value="الغابات الصنوبرية">(ج) الغابات الصنوبرية</div>
+                            <div class="option" data-value="الغابات الموسمية">(د) الغابات الموسمية</div>
                         </div>
                     </div>
                     
                     <!-- Question 2 -->
                     <div class="question-item" id="q2">
-                        <div class="question-text">٢- من أهم المخاطر التي يتعرض لها نظام الساڤانا في قارة آسيا:</div>
+                        <div class="question-text">٢- تنتشر الغابات النفطية في إقليم منشورية شرق آسيا. في أي من هذه الدول؟</div>
                         <div class="options-container">
-                            <div class="option" data-value="الصيد الجائر فقط">(أ) الصيد الجائر فقط</div>
-                            <div class="option" data-value="النمو العمراني والزراعة">(ب) النمو العمراني والزراعة</div>
-                            <div class="option" data-value="التغيرات المناخية فقط">(ج) التغيرات المناخية فقط</div>
-                            <div class="option" data-value="الفيضانات">(د) الفيضانات</div>
+                            <div class="option" data-value="الهند">(أ) الهند</div>
+                            <div class="option" data-value="الصين">(ب) الصين</div>
+                            <div class="option" data-value="السويد">(ج) السويد</div>
+                            <div class="option" data-value="اليابان">(د) اليابان</div>
                         </div>
                     </div>
                     
                     <!-- Question 3 -->
                     <div class="question-item" id="q3">
-                        <div class="question-text">٣- أهم طرق التجارة والهجرة التي تمر عبر حشائش الإستبس تاريخياً:</div>
+                        <div class="question-text">٣- الرياح الموسمية الشتوية الجافة القادمة من اليابس الآسيوي هي سمة مناخية لـ:</div>
                         <div class="options-container">
-                            <div class="option" data-value="طريق الحرير">(أ) طريق الحرير</div>
-                            <div class="option" data-value="طريق التوابل">(ب) طريق التوابل</div>
-                            <div class="option" data-value="طريق العنبر">(ج) طريق العنبر</div>
-                            <div class="option" data-value="طريق اللبان">(د) طريق اللبان</div>
+                            <div class="option" data-value="الغابات الصنوبرية">(أ) الغابات الصنوبرية</div>
+                            <div class="option" data-value="الغابات النفطية">(ب) الغابات النفطية</div>
+                            <div class="option" data-value="الغابات الموسمية">(ج) الغابات الموسمية</div>
+                            <div class="option" data-value="الغابات المدارية المطيرة">(د) الغابات المدارية المطيرة</div>
                         </div>
                     </div>
                     
                     <!-- Question 4 -->
                     <div class="question-item" id="q4">
-                        <div class="question-text">٤- تتسم حيوانات نظام التندرا بقدرتها على التكيف مع الظروف:</div>
+                        <div class="question-text">٤- ما هو السبب الرئيسي لانتشار البعوض في فصل الصيف في نظام الغابات الصنوبرية؟</div>
                         <div class="options-container">
-                            <div class="option" data-value="الحارة الرطبة">(أ) الحارة الرطبة</div>
-                            <div class="option" data-value="المعتدلة الجافة">(ب) المعتدلة الجافة</div>
-                            <div class="option" data-value="الباردة القاسية">(ج) الباردة القاسية</div>
-                            <div class="option" data-value="الدافئة المعتدلة">(د) الدافئة المعتدلة</div>
+                            <div class="option" data-value="ارتفاع درجات الحرارة">(أ) ارتفاع درجات الحرارة</div>
+                            <div class="option" data-value="انتشار المستنقعات">(ب) انتشار المستنقعات</div>
+                            <div class="option" data-value="قلة الأمطار">(ج) قلة الأمطار</div>
+                            <div class="option" data-value="وجود حيوانات مفترسة">(د) وجود حيوانات مفترسة</div>
                         </div>
                     </div>
                     
                     <!-- Question 5 -->
                     <div class="question-item" id="q5">
-                        <div class="question-text">٥- ما هو سبب أن تربة التندرا متجمدة معظم العام؟</div>
+                        <div class="question-text">٥- أي من هذه الأشجار يدخل في صناعة الأثاث؟</div>
                         <div class="options-container">
-                            <div class="option" data-value="كثرة الأمطار">(أ) كثرة الأمطار</div>
-                            <div class="option" data-value="ارتفاع درجات الحرارة">(ب) ارتفاع درجات الحرارة</div>
-                            <div class="option" data-value="انخفاض درجات الحرارة">(ج) انخفاض درجات الحرارة</div>
-                            <div class="option" data-value="النشاط البشري">(د) النشاط البشري</div>
+                            <div class="option" data-value="الخيزران">(أ) الخيزران</div>
+                            <div class="option" data-value="الصنوبر">(ب) الصنوبر</div>
+                            <div class="option" data-value="الزان">(ج) الزان</div>
+                            <div class="option" data-value="الساج">(د) الساج</div>
                         </div>
                     </div>
                 </div>
@@ -861,56 +861,56 @@
                     
                     <!-- Question 6 -->
                     <div class="question-item" id="q6">
-                        <div class="question-text">٦- ما هي الصحراء الرئيسية التي تقع في قارة آسيا؟</div>
+                        <div class="question-text">٦- الغابات التي تتسم أشجارها بأنها دائمة الخضرة ذات الشكل المخروطي والأوراق المدببة هي:</div>
                         <div class="options-container">
-                            <div class="option" data-value="صحراء كالهاري">(أ) صحراء كالهاري</div>
-                            <div class="option" data-value="صحراء جوبي">(ب) صحراء جوبي</div>
-                            <div class="option" data-value="الصحراء الكبرى">(ج) الصحراء الكبرى</div>
-                            <div class="option" data-value="صحراء أتاكاما">(د) صحراء أتاكاما</div>
+                            <div class="option" data-value="الغابات المدارية المطيرة">(أ) الغابات المدارية المطيرة</div>
+                            <div class="option" data-value="الغابات النفطية">(ب) الغابات النفطية</div>
+                            <div class="option" data-value="الغابات الصنوبرية">(ج) الغابات الصنوبرية</div>
+                            <div class="option" data-value="الغابات الموسمية">(د) الغابات الموسمية</div>
                         </div>
                     </div>
                     
                     <!-- Question 7 -->
                     <div class="question-item" id="q7">
-                        <div class="question-text">٧- يفسر قلة الأمطار في الصحاري الحارة بوقوعها خلف:</div>
+                        <div class="question-text">٧- أي من الأنشطة البشرية التالية أدت إلى تدهور الغابات المدارية المطيرة؟</div>
                         <div class="options-container">
-                            <div class="option" data-value="الأنهار">(أ) الأنهار</div>
-                            <div class="option" data-value="سلاسل جبلية">(ب) سلاسل جبلية</div>
-                            <div class="option" data-value="البحيرات">(ج) البحيرات</div>
-                            <div class="option" data-value="الغابات">(د) الغابات</div>
+                            <div class="option" data-value="الصناعة المستدامة">(أ) الصناعة المستدامة</div>
+                            <div class="option" data-value="الزراعة غير المستدامة">(ب) الزراعة غير المستدامة</div>
+                            <div class="option" data-value="الزراعة العضوية">(ج) الزراعة العضوية</div>
+                            <div class="option" data-value="السياحة البيئية">(د) السياحة البيئية</div>
                         </div>
                     </div>
                     
                     <!-- Question 8 -->
                     <div class="question-item" id="q8">
-                        <div class="question-text">٨- من أشهر الزواحف التي تعيش في الصحاري الحارة:</div>
+                        <div class="question-text">٨- يتسم مناخ هذا النظام بشتاء بارد وقد تصل فيه درجات الحرارة إلى ما دون الصفر المئوي:</div>
                         <div class="options-container">
-                            <div class="option" data-value="الأفاعي">(أ) الأفاعي</div>
-                            <div class="option" data-value="الضفادع">(ب) الضفادع</div>
-                            <div class="option" data-value="السلاحف المائية">(ج) السلاحف المائية</div>
-                            <div class="option" data-value="التماسيح">(د) التماسيح</div>
+                            <div class="option" data-value="الغابات الموسمية">(أ) الغابات الموسمية</div>
+                            <div class="option" data-value="الغابات النفطية">(ب) الغابات النفطية</div>
+                            <div class="option" data-value="الغابات المتوسطة">(ج) الغابات المتوسطة</div>
+                            <div class="option" data-value="الغابات المدارية المطيرة">(د) الغابات المدارية المطيرة</div>
                         </div>
                     </div>
                     
                     <!-- Question 9 -->
                     <div class="question-item" id="q9">
-                        <div class="question-text">٩- التربة في الصحاري الحارة توصف بأنها:</div>
+                        <div class="question-text">٩- الدب القطبي والطيور مثل نقار الخشب هي حيوانات تعيش في نظام:</div>
                         <div class="options-container">
-                            <div class="option" data-value="غنية بالمواد العضوية">(أ) غنية بالمواد العضوية</div>
-                            <div class="option" data-value="طينية وخصبة">(ب) طينية وخصبة</div>
-                            <div class="option" data-value="خشنة ورملية">(ج) خشنة ورملية</div>
-                            <div class="option" data-value="ذات خصوبة عالية">(د) ذات خصوبة عالية</div>
+                            <div class="option" data-value="الغابات المدارية المطيرة">(أ) الغابات المدارية المطيرة</div>
+                            <div class="option" data-value="الغابات الموسمية">(ب) الغابات الموسمية</div>
+                            <div class="option" data-value="الغابات الصنوبرية">(ج) الغابات الصنوبرية</div>
+                            <div class="option" data-value="الغابات النفطية">(د) الغابات النفطية</div>
                         </div>
                     </div>
                     
                     <!-- Question 10 -->
                     <div class="question-item" id="q10">
-                        <div class="question-text">١٠- تشغل حشائش الإستبس مساحة صغيرة في إقليم الفلد بدولتي جنوب إفريقيا:</div>
+                        <div class="question-text">١٠- أي من هذه الغابات تنمو حول سواحل البحر المتوسط؟</div>
                         <div class="options-container">
-                            <div class="option" data-value="تنزانيا">(أ) تنزانيا</div>
-                            <div class="option" data-value="ليسوتو">(ب) ليسوتو</div>
-                            <div class="option" data-value="أنجولا">(ج) أنجولا</div>
-                            <div class="option" data-value="النيجر">(د) النيجر</div>
+                            <div class="option" data-value="الغابات المدارية المطيرة">(أ) الغابات المدارية المطيرة</div>
+                            <div class="option" data-value="الغابات الموسمية">(ب) الغابات الموسمية</div>
+                            <div class="option" data-value="الغابات الصنوبرية">(ج) الغابات الصنوبرية</div>
+                            <div class="option" data-value="الغابات المتوسطة">(د) الغابات المتوسطة</div>
                         </div>
                     </div>
                 </div>
@@ -928,9 +928,9 @@
                 </div>
                 
                 <div id="resultContent" style="display: none;">
-                    <h2 class="result-title">نتيجة امتحان الدراسات الاجتماعية - الصف الثاني الإعدادي</h2>
+                    <h2 class="result-title">نتيجة امتحان الدراسات الاجتماعية - أنظمة الغابات</h2>
                     
-                    <div class="student-info" style="text-align: right; background: #f0f9f7; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <div class="student-info" style="text-align: right; background: #f1f8e9; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                         <p style="margin-bottom: 8px;"><strong>الاسم:</strong> <span id="resultStudentName"></span></p>
                         <p style="margin-bottom: 8px;"><strong>الكود:</strong> <span id="resultStudentCode"></span></p>
                         <p><strong>وقت الإنهاء:</strong> <span id="completionTime"></span></p>
@@ -978,7 +978,7 @@
                     </div>
                     
                     <div class="info-message" style="margin-top: 25px; font-size: 0.9rem;">
-                        <p>شكراً لأداء الامتحان. لا يمكن إعادة الامتحان بنفس الاسم أو الكود.</p>
+                        <p>شكراً لأداء الامتحان. هذا امتحان جديد - يمكن للطلاب الذين أدوا الامتحان السابق المشاركة فيه.</p>
                         <p id="remainingAttemptsMessage" style="margin-top: 10px;"></p>
                     </div>
                 </div>
@@ -987,7 +987,7 @@
         
         <!-- Footer -->
         <footer class="exam-footer">
-            <p>© 2025 مدرسة الجيل الجديد الخاصة - امتحان الدراسات الاجتماعية للصف الثاني الإعدادي</p>
+            <p>© 2025 مدرسة الجيل الجديد الخاصة - امتحان الدراسات الاجتماعية - أنظمة الغابات</p>
             <p>جميع الحقوق محفوظة</p>
         </footer>
     </div>
@@ -1010,18 +1010,18 @@
         const examForm = document.getElementById('examForm');
         const remainingAttemptsElement = document.getElementById('remainingAttempts');
         
-        // Correct answers for Grade 8 Social Studies
+        // Correct answers for Grade 8 Social Studies - Forest Systems
         const correctAnswers = {
-            q1: "الساڤانا",
-            q2: "الفيضانات",
-            q3: "طريق اللبان",
-            q4: "الباردة القاسية",
-            q5: "انخفاض درجات الحرارة",
-            q6: "الصحراء الكبرى",
-            q7: "سلاسل جبلية",
-            q8: "الأفاعي",
-            q9: "خشنة ورملية",
-            q10: "أنجولا"
+            q1: "الغابات الصنوبرية",
+            q2: "الصين",
+            q3: "الغابات الموسمية",
+            q4: "انتشار المستنقعات",
+            q5: "الزان",
+            q6: "الغابات الصنوبرية",
+            q7: "الزراعة غير المستدامة",
+            q8: "الغابات النفطية",
+            q9: "الغابات الصنوبرية",
+            q10: "الغابات المتوسطة"
         };
         
         // Exam variables
@@ -1035,35 +1035,35 @@
         // Maximum attempts per device
         const MAX_ATTEMPTS_PER_DEVICE = 2;
         
-        // Firebase collection names - UNIQUE FOR SOCIAL STUDIES GRADE 8
+        // Firebase collection names - NEW UNIQUE COLLECTIONS FOR FOREST SYSTEMS EXAM
         const FIREBASE_COLLECTIONS = {
-            STUDENTS: "students_grade_8_social_studies",
-            DAILY_RANKINGS: "daily_rankings_grade_8_social_studies",
-            DEVICE_ATTEMPTS: "device_attempts_grade_8"
+            STUDENTS: "students_grade_8_social_studies_forests",
+            DAILY_RANKINGS: "daily_rankings_grade_8_social_studies_forests",
+            DEVICE_ATTEMPTS: "device_attempts_grade_8_forests"
         };
         
-        // LocalStorage keys - UNIQUE FOR SOCIAL STUDIES GRADE 8
+        // LocalStorage keys - NEW UNIQUE KEYS FOR FOREST SYSTEMS EXAM
         const STORAGE_KEYS = {
-            CURRENT_STUDENT: "currentStudent_social_studies_grade8",
-            EXAM_ANSWERS: "examAnswers_social_studies_grade8",
-            EXAM_START_TIME: "examStartTime_social_studies_grade8",
-            TIME_LEFT: "timeLeft_social_studies_grade8",
-            EXAM_RESULTS: "examResults_social_studies_grade8",
-            EXAM_SCORE: "examScore_social_studies_grade8",
-            EXAM_BONUS: "examBonus_social_studies_grade8",
-            EXAM_TOTAL: "examTotal_social_studies_grade8",
-            EXAM_TIME_TAKEN: "examTimeTaken_social_studies_grade8",
-            EXAM_COMPLETED: "examCompleted_social_studies_grade8",
-            DEVICE_ID: "deviceId_grade8",
-            ATTEMPTS_COUNT: "attemptsCount_grade8",
-            ATTEMPTS_HISTORY: "attemptsHistory_grade8"
+            CURRENT_STUDENT: "currentStudent_social_studies_grade8_forests",
+            EXAM_ANSWERS: "examAnswers_social_studies_grade8_forests",
+            EXAM_START_TIME: "examStartTime_social_studies_grade8_forests",
+            TIME_LEFT: "timeLeft_social_studies_grade8_forests",
+            EXAM_RESULTS: "examResults_social_studies_grade8_forests",
+            EXAM_SCORE: "examScore_social_studies_grade8_forests",
+            EXAM_BONUS: "examBonus_social_studies_grade8_forests",
+            EXAM_TOTAL: "examTotal_social_studies_grade8_forests",
+            EXAM_TIME_TAKEN: "examTimeTaken_social_studies_grade8_forests",
+            EXAM_COMPLETED: "examCompleted_social_studies_grade8_forests",
+            DEVICE_ID: "deviceId_grade8_forests",
+            ATTEMPTS_COUNT: "attemptsCount_grade8_forests",
+            ATTEMPTS_HISTORY: "attemptsHistory_grade8_forests"
         };
         
-        // Generate or retrieve device ID
+        // Generate or retrieve device ID - NEW FOR FOREST SYSTEMS EXAM
         function getDeviceId() {
             let deviceId = localStorage.getItem(STORAGE_KEYS.DEVICE_ID);
             if (!deviceId) {
-                deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                deviceId = 'device_forests_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
                 localStorage.setItem(STORAGE_KEYS.DEVICE_ID, deviceId);
             }
             return deviceId;
@@ -1094,7 +1094,8 @@
                 studentName: studentName,
                 studentCode: studentCode,
                 timestamp: new Date().toISOString(),
-                deviceId: getDeviceId()
+                deviceId: getDeviceId(),
+                examType: "forest_systems"
             });
             localStorage.setItem(STORAGE_KEYS.ATTEMPTS_HISTORY, JSON.stringify(history));
             
@@ -1131,14 +1132,14 @@
                 if (window.firebaseReady && window.firebaseServices) {
                     firebaseServices = window.firebaseServices;
                     firebaseInitialized = true;
-                    console.log("Firebase loaded for Grade 8 Social Studies");
+                    console.log("Firebase loaded for Grade 8 Social Studies - Forest Systems");
                     resolve(true);
                 } else {
                     window.addEventListener('firebaseReady', () => {
                         if (window.firebaseServices) {
                             firebaseServices = window.firebaseServices;
                             firebaseInitialized = true;
-                            console.log("Firebase loaded via event for Grade 8 Social Studies");
+                            console.log("Firebase loaded via event for Grade 8 Social Studies - Forest Systems");
                             resolve(true);
                         } else {
                             resolve(false);
@@ -1147,7 +1148,7 @@
                     
                     setTimeout(() => {
                         if (!firebaseInitialized) {
-                            console.warn("Firebase timeout - using localStorage only for Grade 8 Social Studies");
+                            console.warn("Firebase timeout - using localStorage only for Grade 8 Social Studies - Forest Systems");
                             resolve(false);
                         }
                     }, 3000);
@@ -1161,7 +1162,7 @@
                 const success = await waitForFirebase();
                 return success;
             } catch (error) {
-                console.error("Firebase init error for Grade 8 Social Studies:", error);
+                console.error("Firebase init error for Grade 8 Social Studies - Forest Systems:", error);
                 return false;
             }
         }
@@ -1275,7 +1276,7 @@
                 const firebaseAvailable = await initializeFirebase();
                 
                 if (firebaseAvailable && firebaseServices) {
-                    // Check if student already exists - using UNIQUE collection
+                    // Check if student already exists in THIS specific exam
                     const studentsRef = firebaseServices.collection(firebaseServices.db, FIREBASE_COLLECTIONS.STUDENTS);
                     const nameQuery = firebaseServices.query(studentsRef, firebaseServices.where("name", "==", studentName));
                     const codeQuery = firebaseServices.query(studentsRef, firebaseServices.where("code", "==", studentCode));
@@ -1286,14 +1287,14 @@
                     ]);
                     
                     if (!nameSnapshot.empty) {
-                        showLoginMessage('هذا الاسم قد أدى امتحان الدراسات الاجتماعية من قبل', 'error');
+                        showLoginMessage('هذا الاسم قد أدى امتحان أنظمة الغابات من قبل', 'error');
                         startExamBtn.disabled = false;
                         startExamBtn.textContent = 'بدء الامتحان';
                         return;
                     }
                     
                     if (!codeSnapshot.empty) {
-                        showLoginMessage('هذا الكود قد استخدم في امتحان الدراسات الاجتماعية من قبل', 'error');
+                        showLoginMessage('هذا الكود قد استخدم في امتحان أنظمة الغابات من قبل', 'error');
                         startExamBtn.disabled = false;
                         startExamBtn.textContent = 'بدء الامتحان';
                         return;
@@ -1308,15 +1309,16 @@
                     name: studentName,
                     code: studentCode,
                     grade: 8,
-                    subject: "الدراسات الاجتماعية",
+                    subject: "الدراسات الاجتماعية - أنظمة الغابات",
                     startTime: new Date().toISOString(),
                     status: 'in_progress',
                     examDate: new Date().toLocaleDateString('ar-EG'),
                     deviceId: getDeviceId(),
-                    attemptNumber: attemptNumber
+                    attemptNumber: attemptNumber,
+                    examType: "forest_systems"
                 };
                 
-                // Save to localStorage with UNIQUE keys
+                // Save to localStorage with NEW UNIQUE keys
                 localStorage.setItem(STORAGE_KEYS.CURRENT_STUDENT, JSON.stringify(currentStudent));
                 localStorage.setItem(STORAGE_KEYS.EXAM_ANSWERS, JSON.stringify({}));
                 localStorage.setItem(STORAGE_KEYS.EXAM_START_TIME, Date.now().toString());
@@ -1337,7 +1339,7 @@
                 examStarted = true;
                 startTime = Date.now();
                 
-                // Save to Firestore with UNIQUE collection
+                // Save to Firestore with NEW UNIQUE collection
                 if (firebaseAvailable && firebaseServices) {
                     try {
                         await firebaseServices.addDoc(
@@ -1351,17 +1353,18 @@
                                 timeTaken: 0,
                                 completed: false,
                                 dailyRank: 0,
-                                timestamp: firebaseServices.serverTimestamp()
+                                timestamp: firebaseServices.serverTimestamp(),
+                                examVersion: "forest_systems_v1"
                             }
                         );
-                        console.log("Grade 8 Social Studies student saved to Firestore");
+                        console.log("Grade 8 Social Studies - Forest Systems student saved to Firestore");
                     } catch (error) {
-                        console.error("Error saving Grade 8 Social Studies student to Firestore:", error);
+                        console.error("Error saving Grade 8 Social Studies - Forest Systems student to Firestore:", error);
                     }
                 }
                 
             } catch (error) {
-                console.error("Start exam error for Grade 8 Social Studies:", error);
+                console.error("Start exam error for Grade 8 Social Studies - Forest Systems:", error);
                 showLoginMessage('حدث خطأ. الرجاء المحاولة مرة أخرى', 'error');
                 startExamBtn.disabled = false;
                 startExamBtn.textContent = 'بدء الامتحان';
@@ -1422,7 +1425,7 @@
             return answers;
         }
         
-        // Update daily ranking in Firestore for Grade 8 Social Studies
+        // Update daily ranking in Firestore for Grade 8 Social Studies - Forest Systems
         async function updateDailyRanking(studentData, totalPoints) {
             if (!firebaseInitialized || !firebaseServices) return 0;
             
@@ -1440,7 +1443,7 @@
                         transaction.set(rankingRef, {
                             date: today,
                             grade: 8,
-                            subject: "الدراسات الاجتماعية",
+                            subject: "الدراسات الاجتماعية - أنظمة الغابات",
                             totalStudents: 1,
                             averageScore: studentData.score,
                             averagePoints: totalPoints,
@@ -1450,10 +1453,12 @@
                                 score: studentData.score,
                                 totalPoints: totalPoints,
                                 timeTaken: studentData.timeTaken,
-                                timestamp: firebaseServices.serverTimestamp()
+                                timestamp: firebaseServices.serverTimestamp(),
+                                examType: "forest_systems"
                             }],
                             createdAt: firebaseServices.serverTimestamp(),
-                            updatedAt: firebaseServices.serverTimestamp()
+                            updatedAt: firebaseServices.serverTimestamp(),
+                            examVersion: "forest_systems_v1"
                         });
                         studentRank = 1;
                     } else {
@@ -1470,7 +1475,8 @@
                             score: studentData.score,
                             totalPoints: totalPoints,
                             timeTaken: studentData.timeTaken,
-                            timestamp: firebaseServices.serverTimestamp()
+                            timestamp: firebaseServices.serverTimestamp(),
+                            examType: "forest_systems"
                         });
                         
                         // Sort by total points
@@ -1503,7 +1509,7 @@
                 return studentRank;
                 
             } catch (error) {
-                console.error("Error updating ranking for Grade 8 Social Studies:", error);
+                console.error("Error updating ranking for Grade 8 Social Studies - Forest Systems:", error);
                 return 0;
             }
         }
@@ -1558,7 +1564,7 @@
             
             const totalPoints = score + bonusPoints;
             
-            // Save to localStorage with UNIQUE keys
+            // Save to localStorage with NEW UNIQUE keys
             localStorage.setItem(STORAGE_KEYS.EXAM_ANSWERS, JSON.stringify(answers));
             localStorage.setItem(STORAGE_KEYS.EXAM_RESULTS, JSON.stringify(results));
             localStorage.setItem(STORAGE_KEYS.EXAM_SCORE, score.toString());
@@ -1587,7 +1593,7 @@
             // Save to Firestore and update ranking
             if (firebaseInitialized && firebaseServices) {
                 try {
-                    // Update student record for Grade 8 Social Studies
+                    // Update student record for Grade 8 Social Studies - Forest Systems
                     const studentsRef = firebaseServices.collection(firebaseServices.db, FIREBASE_COLLECTIONS.STUDENTS);
                     const studentQuery = firebaseServices.query(
                         studentsRef, 
@@ -1616,7 +1622,7 @@
                         );
                     }
                     
-                    // Update daily ranking for Grade 8 Social Studies
+                    // Update daily ranking for Grade 8 Social Studies - Forest Systems
                     const dailyRank = await updateDailyRanking(studentData, totalPoints);
                     
                     // Update rank in UI
@@ -1631,7 +1637,7 @@
                     }, 1000);
                     
                 } catch (error) {
-                    console.error("Error saving Grade 8 Social Studies data to Firestore:", error);
+                    console.error("Error saving Grade 8 Social Studies - Forest Systems data to Firestore:", error);
                 }
             }
             
@@ -1726,7 +1732,7 @@
             }, 1500);
         }
         
-        // Check for saved exam - using UNIQUE keys
+        // Check for saved exam - using NEW UNIQUE keys
         function checkSavedExam() {
             const savedStudent = localStorage.getItem(STORAGE_KEYS.CURRENT_STUDENT);
             const savedStartTime = localStorage.getItem(STORAGE_KEYS.EXAM_START_TIME);
