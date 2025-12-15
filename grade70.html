@@ -1,1 +1,1204 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>امتحان اللغة الإنجليزية | الصف الأول الإعدادي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0d2438;
+            --primary-dark: #081f30;
+            --secondary: #1e3a5f;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #475569;
+            --gray-light: #e2e8f0;
+            --success: #166534;
+            --warning: #7c2d12;
+            --error: #7f1d1d;
+            --correct: #166534;
+            --incorrect: #7f1d1d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Amiri', serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 15px;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: var(--dark);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .school-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .exam-title {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Login Screen */
+        .login-screen {
+            padding: 25px;
+        }
+        
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .login-form h2 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            font-family: 'Amiri', serif;
+            font-size: 0.95rem;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        input::placeholder {
+            color: #94a3b8;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Amiri', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            background: #1e40af;
+        }
+        
+        /* Exam Screen */
+        .exam-screen {
+            display: none;
+        }
+        
+        .exam-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .student-info {
+            flex: 1;
+        }
+        
+        .student-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .student-code {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            margin-top: 4px;
+        }
+        
+        .timer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .timer-label {
+            font-size: 0.8rem;
+            color: #cbd5e1;
+        }
+        
+        .timer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 18px;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 85px;
+            text-align: center;
+        }
+        
+        .timer.warning {
+            background: rgba(124, 45, 18, 0.3);
+            border-color: rgba(124, 45, 18, 0.5);
+        }
+        
+        .timer.danger {
+            background: rgba(127, 29, 29, 0.3);
+            border-color: rgba(127, 29, 29, 0.5);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .exam-content {
+            padding: 20px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+        
+        .question {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+        
+        .question-text {
+            font-size: 1rem;
+            margin-bottom: 16px;
+            color: white;
+            line-height: 1.5;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        @media (max-width: 480px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .option {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+        
+        .option:hover:not(.disabled) {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .option.selected {
+            background: rgba(30, 58, 95, 0.4);
+            border-color: var(--secondary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .option.correct {
+            background: rgba(22, 101, 52, 0.25);
+            border-color: var(--correct);
+            color: #86efac;
+        }
+        
+        .option.incorrect {
+            background: rgba(127, 29, 29, 0.25);
+            border-color: var(--incorrect);
+            color: #fca5a5;
+        }
+        
+        .option.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .submit-section {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .submit-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 6px;
+            font-family: 'Amiri', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover:not(:disabled) {
+            background: #1e40af;
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* Results Screen */
+        .results-screen {
+            padding: 25px;
+            display: none;
+        }
+        
+        .results-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .results-header h2 {
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        .results-header p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+        
+        .score-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            position: relative;
+            background: conic-gradient(var(--secondary) 0% var(--percentage), rgba(255, 255, 255, 0.1) var(--percentage) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .score-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .score-max {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+        
+        .result-details {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.95rem;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-item span {
+            color: #cbd5e1;
+        }
+        
+        .result-item strong {
+            color: white;
+            font-weight: 700;
+        }
+        
+        .grade {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        
+        .grade.excellent {
+            background: rgba(22, 101, 52, 0.3);
+            color: #86efac;
+        }
+        
+        .grade.good {
+            background: rgba(124, 45, 18, 0.3);
+            color: #fdba74;
+        }
+        
+        .grade.poor {
+            background: rgba(127, 29, 29, 0.3);
+            color: #fca5a5;
+        }
+        
+        /* Mistakes Section */
+        .mistakes-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        
+        .mistakes-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        
+        .mistakes-header i {
+            color: #fca5a5;
+            font-size: 1.2rem;
+        }
+        
+        .mistakes-header h3 {
+            font-size: 1.1rem;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .mistakes-list {
+            list-style: none;
+        }
+        
+        .mistake-item {
+            background: rgba(127, 29, 29, 0.15);
+            border: 1px solid rgba(127, 29, 29, 0.3);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+        
+        .mistake-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .mistake-question {
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .mistake-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .wrong-answer {
+            color: #fca5a5;
+        }
+        
+        .wrong-answer span {
+            color: #94a3b8;
+        }
+        
+        .correct-answer {
+            color: #86efac;
+        }
+        
+        .correct-answer span {
+            color: #94a3b8;
+        }
+        
+        /* Lock Screen */
+        .lock-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(13, 36, 56, 0.98);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            display: none;
+            border-radius: 8px;
+        }
+        
+        .lock-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #94a3b8;
+        }
+        
+        .lock-screen h2 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        
+        .lock-screen p {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            max-width: 300px;
+            line-height: 1.5;
+        }
+        
+        /* Correction Overlay */
+        .correction-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(13, 36, 56, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .correction-content {
+            max-width: 350px;
+            background: var(--dark);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .correction-icon {
+            font-size: 2.2rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        
+        .correction-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .correction-content p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+        
+        /* Error Message */
+        .error-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(127, 29, 29, 0.9);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: none;
+            z-index: 1001;
+            font-size: 0.9rem;
+            max-width: 300px;
+        }
+        
+        /* Mobile Optimization */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+            
+            .school-name {
+                font-size: 1.1rem;
+            }
+            
+            .exam-title {
+                font-size: 0.95rem;
+            }
+            
+            .login-screen,
+            .exam-content,
+            .results-screen {
+                padding: 15px;
+            }
+            
+            .question {
+                padding: 15px;
+            }
+            
+            .score-circle {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .score-value {
+                font-size: 1.8rem;
+            }
+            
+            .timer {
+                min-width: 75px;
+                padding: 8px 12px;
+                font-size: 1rem;
+            }
+            
+            .exam-header {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            
+            .student-info {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="school-name">مدرسة الجيل الجديد الخاصة</div>
+            <div class="exam-title">امتحان اللغة الإنجليزية - الصف الأول الإعدادي</div>
+        </div>
+        
+        <!-- Login Screen -->
+        <div class="login-screen" id="loginScreen">
+            <div class="login-form">
+                <h2>تسجيل الدخول للامتحان</h2>
+                
+                <div class="form-group">
+                    <label for="studentName">اسم الطالب</label>
+                    <input type="text" id="studentName" placeholder="أدخل اسمك الكامل">
+                </div>
+                
+                <div class="form-group">
+                    <label for="studentCode">الكود الخاص بك</label>
+                    <input type="text" id="studentCode" placeholder="أدخل الكود المكون من 9 أرقام" maxlength="9">
+                </div>
+                
+                <button class="login-btn" id="loginBtn">
+                    بدء الامتحان
+                </button>
+            </div>
+        </div>
+        
+        <!-- Exam Screen -->
+        <div class="exam-screen" id="examScreen">
+            <div class="exam-header">
+                <div class="student-info">
+                    <div class="student-name" id="displayName"></div>
+                    <div class="student-code" id="displayCode"></div>
+                </div>
+                
+                <div class="timer-container">
+                    <div class="timer-label">الوقت المتبقي</div>
+                    <div class="timer" id="examTimer">25:00</div>
+                </div>
+            </div>
+            
+            <div class="exam-content">
+                <div class="questions-container" id="questionsContainer">
+                    <!-- الأسئلة تظهر هنا -->
+                </div>
+            </div>
+            
+            <div class="submit-section">
+                <button class="submit-btn" id="submitBtn">
+                    إنهاء الامتحان
+                </button>
+            </div>
+        </div>
+        
+        <!-- Results Screen -->
+        <div class="results-screen" id="resultsScreen">
+            <div class="results-header">
+                <h2>نتيجة الامتحان</h2>
+                <p>تم تصحيح إجاباتك بنجاح</p>
+            </div>
+            
+            <div class="score-container">
+                <div class="score-circle" id="scoreCircle">
+                    <div class="score-value" id="finalScore">0</div>
+                    <div class="score-max">من 10</div>
+                </div>
+            </div>
+            
+            <div class="result-details">
+                <div class="result-item">
+                    <span>اسم الطالب:</span>
+                    <strong id="resultName"></strong>
+                </div>
+                <div class="result-item">
+                    <span>الكود:</span>
+                    <strong id="resultCode"></strong>
+                </div>
+                <div class="result-item">
+                    <span>الإجابات الصحيحة:</span>
+                    <strong id="correctAnswers">0</strong>
+                </div>
+                <div class="result-item">
+                    <span>الإجابات الخاطئة:</span>
+                    <strong id="wrongAnswers">0</strong>
+                </div>
+                <div class="result-item">
+                    <span>النسبة:</span>
+                    <strong id="percentage">0%</strong>
+                </div>
+                <div class="result-item">
+                    <span>التقدير:</span>
+                    <strong id="grade" class="grade"></strong>
+                </div>
+            </div>
+            
+            <!-- Mistakes Section -->
+            <div class="mistakes-section" id="mistakesSection">
+                <div class="mistakes-header">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <h3>الأخطاء التي وقعت فيها</h3>
+                </div>
+                <ul class="mistakes-list" id="mistakesList">
+                    <!-- الأخطاء تظهر هنا -->
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Lock Screen -->
+        <div class="lock-screen" id="lockScreen">
+            <div class="lock-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h2>الامتحان غير متاح حالياً</h2>
+            <p>وقت الامتحان من الساعة 8:00 صباحاً حتى 12:00 منتصف الليل فقط</p>
+        </div>
+    </div>
+    
+    <!-- Correction Overlay -->
+    <div class="correction-overlay" id="correctionOverlay">
+        <div class="correction-content">
+            <div class="correction-icon">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            <h3>يتم تصحيح الإجابات</h3>
+            <p>جاري تصحيح إجاباتك وعرض النتيجة...</p>
+        </div>
+    </div>
+    
+    <!-- Error Message -->
+    <div class="error-message" id="errorMessage"></div>
 
+    <script>
+        // 🔒 التحقق من الوقت أولاً
+        function checkTimeAvailability() {
+            const now = new Date();
+            const hours = now.getHours();
+            
+            if (hours >= 0 && hours < 8) {
+                document.getElementById('lockScreen').style.display = 'flex';
+                return false;
+            }
+            return true;
+        }
+
+        // 📝 متغيرات النظام
+        let examTimer = null;
+        let timeLeft = 25 * 60;
+        let examStarted = false;
+        let examSubmitted = false;
+        let userAnswers = {};
+        let studentName = '';
+        let studentCode = '';
+
+        // 🎯 أسئلة امتحان الصف الأول الإعدادي (المفردات والمترادفات)
+        const examQuestions = [
+            { 
+                id: 1, 
+                question: "What is the impact of too much screen time? The word 'impact' is like ....................", 
+                correct: "effect", 
+                options: ["cause", "reason", "effect", "meal"],
+                explanation: "كلمة impact تعني تأثير، والكلمة المماثلة هي effect (تأثير/نتيجة)"
+            },
+            { 
+                id: 2, 
+                question: "Ebooks are easy to read. The letter 'e' in ebooks refers to ....................", 
+                correct: "electronic", 
+                options: ["electricity", "electric", "electronic", "element"],
+                explanation: "الـ e في ebooks هي اختصار لـ electronic (إلكتروني)، أي الكتب الإلكترونية"
+            },
+            { 
+                id: 3, 
+                question: "Digital devices can do many jobs. This means they can do many ....................", 
+                correct: "tasks", 
+                options: ["meals", "jokes", "tasks", "rocks"],
+                explanation: "كلمة jobs هنا تعني مهام، والكلمة المماثلة هي tasks (مهام/أعمال)"
+            },
+            { 
+                id: 4, 
+                question: "There are many different learning styles. The word 'styles' can be replace by ....................", 
+                correct: "methods", 
+                options: ["methods", "hobbies", "rooms", "friends"],
+                explanation: "كلمة styles تعني أساليب أو طرق، والكلمة المماثلة هي methods (طرق/أساليب)"
+            },
+            { 
+                id: 5, 
+                question: "Visual learners like to read books. 'Visual' here is related to ....................", 
+                correct: "sight", 
+                options: ["fingers", "sight", "smelling", "eating"],
+                explanation: "كلمة Visual تعني بصري، وهي مرتبطة بـ sight (البصر/النظر)"
+            },
+            { 
+                id: 6, 
+                question: "Ahmed El-Mansy worked for the Egyptian army. This means he was a ....................", 
+                correct: "soldier", 
+                options: ["pilot", "dentist", "soldier", "teacher"],
+                explanation: "من يعمل في الجيش هو soldier (جندي)"
+            },
+            { 
+                id: 7, 
+                question: "Samira Moussa believed that science should be used in peace. The word 'peace' is the opposite of ....................", 
+                correct: "war", 
+                options: ["happiness", "success", "war", "sleep"],
+                explanation: "كلمة peace تعني سلام، وعكسها هو war (حرب)"
+            },
+            { 
+                id: 8, 
+                question: "Each choice has good and bad sides. This means it has positive and .................... sides.", 
+                correct: "negative", 
+                options: ["negative", "happy", "great", "amazing"],
+                explanation: "كلمة bad تعني سيء، والكلمة المناسبة المقابلة لـ positive هي negative (سلبي)"
+            },
+            { 
+                id: 9, 
+                question: "We must tell the support students to volunteer to help others. The word '....................' is similar in meaning to 'support'.", 
+                correct: "encourage", 
+                options: ["encourage", "miss", "lose", "forget"],
+                explanation: "كلمة support تعني دعم أو تشجيع، والكلمة المماثلة هي encourage (يشجع/يحفز)"
+            },
+            { 
+                id: 10, 
+                question: "Using digital devices creates strong learning experiences. The word 'strong' here is like ....................", 
+                correct: "powerful", 
+                options: ["powerful", "weak", "silly", "lazy"],
+                explanation: "كلمة strong تعني قوي، والكلمة المماثلة هي powerful (قوي/فعال)"
+            }
+        ];
+
+        // 🚀 تهيئة النظام
+        function initializeSystem() {
+            if (!checkTimeAvailability()) {
+                return;
+            }
+            
+            setupEventListeners();
+            initializeQuestions();
+        }
+
+        // 🎧 إعداد مستمعي الأحداث
+        function setupEventListeners() {
+            document.getElementById('loginBtn').addEventListener('click', handleLogin);
+            document.getElementById('submitBtn').addEventListener('click', submitExam);
+            
+            document.getElementById('studentName').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleLogin();
+            });
+            
+            document.getElementById('studentCode').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleLogin();
+            });
+            
+            setupSecurity();
+        }
+
+        // 🔒 إعداد الحماية
+        function setupSecurity() {
+            document.addEventListener('contextmenu', (e) => {
+                if (examStarted && !examSubmitted) {
+                    e.preventDefault();
+                    showMessage('غير مسموح بنسخ محتوى الامتحان');
+                }
+            });
+            
+            document.addEventListener('copy', (e) => {
+                if (examStarted && !examSubmitted) {
+                    e.preventDefault();
+                }
+            });
+            
+            window.addEventListener('beforeunload', (e) => {
+                if (examStarted && !examSubmitted) {
+                    e.preventDefault();
+                    e.returnValue = 'هل أنت متأكد من الخروج؟ ستفقد إجاباتك.';
+                }
+            });
+        }
+
+        // 👤 معالجة تسجيل الدخول
+        function handleLogin() {
+            studentName = document.getElementById('studentName').value.trim();
+            studentCode = document.getElementById('studentCode').value.trim();
+            
+            if (!studentName || studentName.length < 2) {
+                showMessage('يرجى إدخال اسم صحيح');
+                return;
+            }
+            
+            if (!studentCode || studentCode.length !== 9 || !/^\d{9}$/.test(studentCode)) {
+                showMessage('يرجى إدخال كود صحيح مكون من 9 أرقام');
+                return;
+            }
+            
+            startExam();
+        }
+
+        // 🚀 بدء الامتحان
+        function startExam() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('examScreen').style.display = 'block';
+            
+            document.getElementById('displayName').textContent = studentName;
+            document.getElementById('displayCode').textContent = `الكود: ${studentCode}`;
+            
+            startTimer();
+            examStarted = true;
+        }
+
+        // ⏰ بدء المؤقت
+        function startTimer() {
+            updateTimerDisplay();
+            
+            examTimer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(examTimer);
+                    autoSubmitExam();
+                }
+            }, 1000);
+        }
+
+        // ⏱️ تحديث عرض المؤقت
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const timerElement = document.getElementById('examTimer');
+            
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 300) {
+                timerElement.className = 'timer danger';
+            } else if (timeLeft <= 600) {
+                timerElement.className = 'timer warning';
+            } else {
+                timerElement.className = 'timer';
+            }
+        }
+
+        // 📝 إنشاء الأسئلة
+        function initializeQuestions() {
+            const questionsContainer = document.getElementById('questionsContainer');
+            questionsContainer.innerHTML = '';
+            
+            examQuestions.forEach(q => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question';
+                questionElement.id = `question-${q.id}`;
+                
+                const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+                
+                questionElement.innerHTML = `
+                    <div class="question-number">${q.id}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options-grid">
+                        ${shuffledOptions.map(option => `
+                            <div class="option" data-question="${q.id}" data-option="${option}">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                questionsContainer.appendChild(questionElement);
+            });
+            
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    if (!examStarted || examSubmitted) return;
+                    selectAnswer(this);
+                });
+            });
+        }
+
+        // 🎯 اختيار إجابة
+        function selectAnswer(optionElement) {
+            const questionId = parseInt(optionElement.dataset.question);
+            const selectedOption = optionElement.dataset.option;
+            
+            const allOptions = document.querySelectorAll(`[data-question="${questionId}"]`);
+            allOptions.forEach(opt => opt.classList.remove('selected'));
+            
+            optionElement.classList.add('selected');
+            userAnswers[questionId] = selectedOption;
+        }
+
+        // 📤 إرسال الامتحان تلقائياً
+        function autoSubmitExam() {
+            if (examSubmitted) return;
+            submitExam();
+        }
+
+        // 📤 إرسال الامتحان
+        async function submitExam() {
+            if (examSubmitted) return;
+            
+            clearInterval(examTimer);
+            examSubmitted = true;
+            document.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled'));
+            document.getElementById('submitBtn').disabled = true;
+            
+            document.getElementById('correctionOverlay').style.display = 'flex';
+            
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            document.getElementById('correctionOverlay').style.display = 'none';
+            correctExam();
+        }
+
+        // ✏️ تصحيح الامتحان وعرض الأخطاء
+        function correctExam() {
+            let correctCount = 0;
+            let wrongCount = 0;
+            let mistakes = [];
+
+            examQuestions.forEach(q => {
+                const questionElement = document.getElementById(`question-${q.id}`);
+                const options = questionElement.querySelectorAll('.option');
+                const userAnswer = userAnswers[q.id];
+                
+                options.forEach(opt => {
+                    const optionValue = opt.dataset.option;
+                    
+                    if (optionValue === q.correct) {
+                        opt.classList.add('correct');
+                    } else if (userAnswer === optionValue && optionValue !== q.correct) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+                
+                if (userAnswer === q.correct) {
+                    correctCount++;
+                } else if (userAnswer) {
+                    wrongCount++;
+                    // حفظ الخطأ
+                    mistakes.push({
+                        question: q.question,
+                        userAnswer: userAnswer,
+                        correctAnswer: q.correct,
+                        explanation: q.explanation
+                    });
+                }
+            });
+            
+            const score = correctCount;
+            const percentage = (correctCount / examQuestions.length) * 100;
+            const grade = getGrade(percentage);
+            
+            displayResults(score, correctCount, wrongCount, percentage, grade, mistakes);
+        }
+
+        // 🏆 تحديد التقدير
+        function getGrade(percentage) {
+            if (percentage >= 90) {
+                return { text: "ممتاز", class: "excellent" };
+            } else if (percentage >= 75) {
+                return { text: "جيد جداً", class: "good" };
+            } else if (percentage >= 50) {
+                return { text: "جيد", class: "good" };
+            } else {
+                return { text: "ضعيف", class: "poor" };
+            }
+        }
+
+        // 📊 عرض النتائج والأخطاء
+        function displayResults(score, correctCount, wrongCount, percentage, grade, mistakes) {
+            document.getElementById('examScreen').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+            
+            document.getElementById('resultName').textContent = studentName;
+            document.getElementById('resultCode').textContent = studentCode;
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('correctAnswers').textContent = correctCount;
+            document.getElementById('wrongAnswers').textContent = wrongCount;
+            document.getElementById('percentage').textContent = `${percentage.toFixed(1)}%`;
+            
+            const gradeElement = document.getElementById('grade');
+            gradeElement.textContent = grade.text;
+            gradeElement.className = `grade ${grade.class}`;
+            
+            const scoreCircle = document.getElementById('scoreCircle');
+            scoreCircle.style.setProperty('--percentage', `${percentage}%`);
+            
+            // عرض الأخطاء
+            displayMistakes(mistakes);
+        }
+
+        // ❌ عرض الأخطاء
+        function displayMistakes(mistakes) {
+            const mistakesList = document.getElementById('mistakesList');
+            const mistakesSection = document.getElementById('mistakesSection');
+            
+            if (mistakes.length === 0) {
+                mistakesSection.style.display = 'none';
+                return;
+            }
+            
+            mistakesList.innerHTML = '';
+            
+            mistakes.forEach((mistake, index) => {
+                const mistakeItem = document.createElement('li');
+                mistakeItem.className = 'mistake-item';
+                
+                mistakeItem.innerHTML = `
+                    <div class="mistake-question">س ${index + 1}: ${mistake.question}</div>
+                    <div class="mistake-details">
+                        <div class="wrong-answer">
+                            <span>إجابتك:</span> ${mistake.userAnswer}
+                        </div>
+                        <div class="correct-answer">
+                            <span>الإجابة الصحيحة:</span> ${mistake.correctAnswer}
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; font-size: 0.85rem; color: #94a3b8;">
+                        <i class="fas fa-lightbulb"></i> ${mistake.explanation}
+                    </div>
+                `;
+                
+                mistakesList.appendChild(mistakeItem);
+            });
+            
+            mistakesSection.style.display = 'block';
+        }
+
+        // 💬 عرض رسائل الخطأ
+        function showMessage(text) {
+            const messageElement = document.getElementById('errorMessage');
+            messageElement.textContent = text;
+            messageElement.style.display = 'block';
+            
+            setTimeout(() => {
+                messageElement.style.display = 'none';
+            }, 3000);
+        }
+
+        // 🚀 بدء النظام
+        window.addEventListener('DOMContentLoaded', initializeSystem);
+    </script>
+</body>
+</html>
