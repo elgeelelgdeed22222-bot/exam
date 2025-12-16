@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدرسة الجيل الجديد الخاصة</title>
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, query, where, getDocs, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyBPgtF_GqT95QkMwwoJMGiZWFPjHFdA_N0",
+            authDomain: "manassa-oloom.firebaseapp.com",
+            projectId: "manassa-oloom",
+            storageBucket: "manassa-oloom.firebasestorage.app",
+            messagingSenderId: "475047988456",
+            appId: "1:475047988456:web:ab25a9b01b5c77483b0d5d",
+            measurementId: "G-F0N011WQB9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        window.firebaseApp = app;
+        window.db = db;
+        window.firestore = { collection, doc, setDoc, getDoc, updateDoc, query, where, getDocs, orderBy, limit };
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            min-height: 100vh;
+            padding: 15px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #1a237e, #283593);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            border-bottom: 4px solid #00bcd4;
+        }
+        
+        .school-name {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .system-name {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .main-content {
+            padding: 15px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .active-section {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #1a237e;
+            font-size: 15px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: white;
+            text-align: center;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #00bcd4;
+            box-shadow: 0 0 0 2px rgba(0, 188, 212, 0.2);
+        }
+        
+        .input-hint {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+            text-align: center;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px rgba(33, 150, 243, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(to right, #607d8b, #455a64);
+        }
+        
+        .btn-success {
+            background: linear-gradient(to right, #4CAF50, #388E3C);
+        }
+        
+        .question-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid #e3f2fd;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #2196F3;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        
+        .question-text {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #1a237e;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .option {
+            padding: 12px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 15px;
+        }
+        
+        .option:hover {
+            background: #e3f2fd;
+            border-color: #bbdefb;
+        }
+        
+        .option.selected {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .score-display {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .score-out-of {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .alert-error {
+            background: #ffebee;
+            border: 2px solid #ffcdd2;
+            color: #c62828;
+        }
+        
+        .alert-success {
+            background: #e8f5e9;
+            border: 2px solid #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .timer {
+            background: #ff9800;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 15px auto;
+            text-align: center;
+            display: inline-block;
+            font-size: 14px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .nav-buttons .btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 15px;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .exam-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .exam-title {
+            color: #1a237e;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .student-info {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .review-answer {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-right: 4px solid #2196F3;
+        }
+        
+        .review-answer.correct {
+            border-right-color: #4CAF50;
+        }
+        
+        .review-answer.incorrect {
+            border-right-color: #f44336;
+        }
+        
+        .explanation {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .question-status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .status-correct {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-incorrect {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 15px 10px;
+            }
+            
+            .school-name {
+                font-size: 20px;
+            }
+            
+            .system-name {
+                font-size: 16px;
+            }
+            
+            .question-card {
+                padding: 15px;
+            }
+            
+            .question-text {
+                font-size: 15px;
+            }
+            
+            .option {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .score-display {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="school-name">مدرسة الجيل الجديد الخاصة</div>
+            <div class="system-name">نظام الامتحانات الإلكترونية</div>
+            <div class="subtitle">المدرسة الرائدة في التعليم الحديث</div>
+        </header>
+        
+        <div class="main-content">
+            <!-- قسم التحقق -->
+            <div id="verificationSection" class="section active-section">
+                <div class="form-group">
+                    <label>اسم الطالب (رباعي):</label>
+                    <input type="text" id="studentName" placeholder="أدخل الاسم كاملاً">
+                    <p class="input-hint">يجب أن يكون الاسم ثلاثي على الأقل، مع مسافتين على الأقل</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>الكود الدراسي:</label>
+                    <input type="text" id="studentCode" placeholder="أدخل الكود المكون من 9 أرقام">
+                    <p class="input-hint">يجب أن يبدأ بـ 13520 ويتكون من 9 أرقام</p>
+                </div>
+                
+                <button class="btn" onclick="startVerification()">بدء الامتحان</button>
+                
+                <div id="alertBox" class="alert hidden"></div>
+            </div>
+            
+            <!-- قسم الامتحان -->
+            <div id="examSection" class="section">
+                <div class="exam-header">
+                    <div class="student-info" id="currentStudentInfo">
+                        <!-- معلومات الطالب تظهر هنا -->
+                    </div>
+                    <h2 class="exam-title" id="examTitle">امتحان الرياضيات</h2>
+                    <div class="timer" id="timer">20:00</div>
+                </div>
+                
+                <div id="questionsContainer">
+                    <!-- الأسئلة سيتم إضافتها جافاسكريبت -->
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showVerification()">إلغاء</button>
+                    <button class="btn btn-success" onclick="submitExam()">تسليم الإجابات</button>
+                </div>
+            </div>
+            
+            <!-- قسم النتائج -->
+            <div id="resultsSection" class="section">
+                <div class="result-card">
+                    <h2 id="resultTitle">نتيجة الامتحان</h2>
+                    <div class="score-display" id="finalScore">10</div>
+                    <div class="score-out-of" id="scoreOutOf">من 10</div>
+                    <p id="resultMessage">أحسنت! أداء ممتاز</p>
+                </div>
+                
+                <div id="answersReview">
+                    <!-- مراجعة الإجابات -->
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="btn" onclick="showVerification()">امتحان جديد</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // بيانات النظام
+        const systemData = {
+            currentStudent: null,
+            currentExam: null,
+            selectedAnswers: {},
+            examTime: 1200,
+            timerInterval: null,
+            usedCodes: JSON.parse(localStorage.getItem('usedCodes') || '[]'),
+            
+            collections: {
+                students: 'students',
+                exams: 'exams',
+                attempts: 'attempts',
+                rankings: 'rankings_monthly',
+                statistics: 'statistics',
+                grades: 'grades_data'
+            },
+            
+            exams: {
+                '4': {
+                    id: 'math_4',
+                    subject: 'الرياضيات',
+                    grade: '4',
+                    gradeName: 'الصف الرابع الابتدائي',
+                    questions: []
+                },
+                '5': {
+                    id: 'math_5',
+                    subject: 'الرياضيات',
+                    grade: '5',
+                    gradeName: 'الصف الخامس الابتدائي',
+                    questions: []
+                },
+                '6': {
+                    id: 'math_6',
+                    subject: 'الرياضيات',
+                    grade: '6',
+                    gradeName: 'الصف السادس الابتدائي',
+                    questions: []
+                },
+                '7': {
+                    id: 'math_7',
+                    subject: 'الرياضيات',
+                    grade: '7',
+                    gradeName: 'الصف الأول الإعدادي',
+                    questions: [
+                        {
+                            id: 1,
+                            text: "مجموع قياسات الزوايا الداخلة للمثلث =",
+                            options: [
+                                "أ) 90",
+                                "ب) 180", 
+                                "ج) 120",
+                                "د) 360"
+                            ],
+                            correct: 1,
+                            explanation: "مجموع زوايا المثلث الداخلية دائماً يساوي 180 درجة."
+                        },
+                        {
+                            id: 2,
+                            text: "في المثلث ABC قياس زاوية A تساوي 50 درجة وقياس زاوية B تساوي 100 درجة فإن قياس زاوية C = ……",
+                            options: [
+                                "أ) 30",
+                                "ب) 50",
+                                "ج) 120", 
+                                "د) 90"
+                            ],
+                            correct: 0,
+                            explanation: "مجموع زوايا المثلث = 180، إذن زاوية C = 180 - (50 + 100) = 30 درجة"
+                        },
+                        {
+                            id: 3,
+                            text: "إذا كان المثلث ABC قائم الزاوية في B، و كانت قياس الزاوية A تساوي 30 درجة فإن قياس زاوية C تساوي …..",
+                            options: [
+                                "أ) 60",
+                                "ب) 30",
+                                "ج) 90",
+                                "د) 180"
+                            ],
+                            correct: 0,
+                            explanation: "الزاوية B قائمة = 90 درجة، إذن زاوية C = 180 - (90 + 30) = 60 درجة"
+                        },
+                        {
+                            id: 4,
+                            text: "قياس الزاوية الخارجة عند أي رأس من رؤوس المثلث المتساوي الأضلاع =",
+                            options: [
+                                "أ) 120",
+                                "ب) 60",
+                                "ج) 108",
+                                "د) 720"
+                            ],
+                            correct: 0,
+                            explanation: "كل زاوية داخلية في المثلث المتساوي الأضلاع = 60 درجة، فالزاوية الخارجة = 180 - 60 = 120 درجة"
+                        },
+                        {
+                            id: 5,
+                            text: "يحتوي المثلث على زاويتين ........ على الأقل.",
+                            options: [
+                                "أ) حادتين",
+                                "ب) منفرجتين",
+                                "ج) قائمتين",
+                                "د) منعكستين"
+                            ],
+                            correct: 0,
+                            explanation: "كل مثلث يحتوي على زاويتين حادتين على الأقل."
+                        },
+                        {
+                            id: 6,
+                            text: "مثلث قياسا زاويتين فيه : 35 , 55 فإن نوع هذا المثلث بالنسبة لقياسات زواياه:",
+                            options: [
+                                "أ) حاد",
+                                "ب) منفرج", 
+                                "ج) قائم",
+                                "د) غير ذلك"
+                            ],
+                            correct: 2,
+                            explanation: "الزاوية الثالثة = 180 - (35 + 55) = 90 درجة، إذن المثلث قائم الزاوية"
+                        },
+                        {
+                            id: 7,
+                            text: "أي مما يلي يصلح أن يكون أطوال أضلاع مثلث ؟",
+                            options: [
+                                "أ) 9 سم ، 6 سم ، 5 سم",
+                                "ب) 9 سم ، 4 سم ، 5 سم",
+                                "ج) 1 سم ، 4 سم ، 6 سم",
+                                "د) 7 سم ، 3 سم ، 2 سم"
+                            ],
+                            correct: 0,
+                            explanation: "في المثلث: مجموع أي ضلعين > الضلع الثالث: 9 < 6+5 (خطأ)، 9 < 4+5 (خطأ)، 6 < 1+4 (خطأ)، 7 < 3+2 (خطأ) - لكن الخيار (أ) هو الوحيد الذي يحقق الشرط في جميع الحالات"
+                        },
+                        {
+                            id: 8,
+                            text: "ما مجموع قياسات الزوايا الداخلة للمضلع الرباعي ؟",
+                            options: [
+                                "أ) 540",
+                                "ب) 360",
+                                "ج) 180", 
+                                "د) 720"
+                            ],
+                            correct: 1,
+                            explanation: "مجموع زوايا أي رباعي = 360 درجة"
+                        },
+                        {
+                            id: 9,
+                            text: "مسقط النقطة (2,-3) على محور X هو النقطة:",
+                            options: [
+                                "أ) (0,-3)",
+                                "ب) (2,0)",
+                                "ج) (-3,2)"
+                            ],
+                            correct: 1,
+                            explanation: "مسقط النقطة على محور X يحتفظ بإحداثي X فقط، ويجعل إحداثي Y = 0، إذن (2,0)"
+                        },
+                        {
+                            id: 10,
+                            text: "مسقط النقطة (2,-2) على محور Y هو النقطة:",
+                            options: [
+                                "أ) (0,-2)",
+                                "ب) (0,2)",
+                                "ج) (2,0)"
+                            ],
+                            correct: 0,
+                            explanation: "مسقط النقطة على محور Y يحتفظ بإحداثي Y فقط، ويجعل إحداثي X = 0، إذن (0,-2)"
+                        }
+                    ]
+                },
+                '8': {
+                    id: 'math_8',
+                    subject: 'الرياضيات',
+                    grade: '8',
+                    gradeName: 'الصف الثاني الإعدادي',
+                    questions: [
+                        {
+                            id: 1,
+                            text: "إذا كان مثلث قائم الزاوية عند A، فإن العلاقة الصحيحة هي:",
+                            options: [
+                                "أ) AB^2 + BC^2 = AC^2",
+                                "ب) AB^2 + AC^2 = BC^2",
+                                "ج) AC^2 + BC^2 = AB^2"
+                            ],
+                            correct: 1,
+                            explanation: "في المثلث القائم الزاوية، مربع الوتر يساوي مجموع مربعي الضلعين القائمين (نظرية فيثاغورس)."
+                        },
+                        {
+                            id: 2,
+                            text: "في مثلث قائم ضلعاه القائمان 3 سم، 4 سم، فإن طول الوتر:",
+                            options: ["أ) 5 سم", "ب) 6 سم", "ج) 7 سم"],
+                            correct: 0,
+                            explanation: "حسب نظرية فيثاغورس: الوتر² = 3² + 4² = 9 + 16 = 25، إذن الوتر = 5 سم"
+                        },
+                        {
+                            id: 3,
+                            text: "مثلث قائم ضلعاه 6 سم، 8 سم. طول الوتر:",
+                            options: ["أ) 12 سم", "ب) 10 سم", "ج) 9 سم"],
+                            correct: 1,
+                            explanation: "الوتر² = 6² + 8² = 36 + 64 = 100، إذن الوتر = 10 سم"
+                        },
+                        {
+                            id: 4,
+                            text: "مثلث قائم ضلعاه 7 سم، 24 سم. طول الوتر:",
+                            options: ["أ) 25 سم", "ب) 20 سم", "ج) 18 سم"],
+                            correct: 0,
+                            explanation: "الوتر² = 7² + 24² = 49 + 576 = 625، إذن الوتر = 25 سم"
+                        },
+                        {
+                            id: 5,
+                            text: "مثلث أطوال أضلاعه: 6 سم، 8 سم، 10 سم. نوع المثلث:",
+                            options: ["أ) قائم", "ب) حاد", "ج) منفرج"],
+                            correct: 0,
+                            explanation: "بما أن 10² = 100 و 6² + 8² = 36 + 64 = 100، إذن المثلث قائم الزاوية"
+                        },
+                        {
+                            id: 6,
+                            text: "وتر مثلث قائم 17 سم، وأحد الضلعين القائمين 15 سم. الضلع الآخر:",
+                            options: ["أ) 12 سم", "ب) 8 سم", "ج) 10 سم"],
+                            correct: 1,
+                            explanation: "الضلع² = 17² - 15² = 289 - 225 = 64، إذن الضلع = 8 سم"
+                        },
+                        {
+                            id: 7,
+                            text: "مثلث أطوال أضلاعه: 5 سم، 7 سم، 9 سم. نوع المثلث:",
+                            options: ["أ) قائم", "ب) حاد", "ج) منفرج"],
+                            correct: 2,
+                            explanation: "بما أن 9² = 81 و 5² + 7² = 25 + 49 = 74، و81 > 74، إذن المثلث منفرج الزاوية"
+                        },
+                        {
+                            id: 8,
+                            text: "مثلث قائم الوتر = 20 سم، وأحد الضلعين = 16 سم. الضلع الآخر:",
+                            options: ["أ) 15 سم", "ب) 18 سم", "ج) 12 سم"],
+                            correct: 2,
+                            explanation: "الضلع² = 20² - 16² = 400 - 256 = 144، إذن الضلع = 12 سم"
+                        },
+                        {
+                            id: 9,
+                            text: "مثلث قائم الضلع القائم 8 سم، الوتر 10 سم. الضلع الآخر:",
+                            options: ["أ) 4 سم", "ب) 6 سم", "ج) 8 سم"],
+                            correct: 1,
+                            explanation: "الضلع² = 10² - 8² = 100 - 64 = 36، إذن الضلع = 6 سم"
+                        },
+                        {
+                            id: 10,
+                            text: "ملعب مستطيل طوله 15 م وعرضه 8 م. طول القطر:",
+                            options: ["أ) 17 م", "ب) 20 م", "ج) 14 م"],
+                            correct: 0,
+                            explanation: "القطر² = 15² + 8² = 225 + 64 = 289، إذن القطر = 17 م"
+                        }
+                    ]
+                }
+            }
+        };
+
+        // استخراج المرحلة من الكود
+        function getGradeFromCode(code) {
+            if (code.length >= 6) {
+                const gradeDigit = code[5];
+                return gradeDigit;
+            }
+            return null;
+        }
+
+        // الحصول على اسم المرحلة من الرقم
+        function getGradeNameFromDigit(gradeDigit) {
+            const grades = {
+                '4': 'الصف الرابع الابتدائي',
+                '5': 'الصف الخامس الابتدائي',
+                '6': 'الصف السادس الابتدائي',
+                '7': 'الصف الأول الإعدادي',
+                '8': 'الصف الثاني الإعدادي'
+            };
+            return grades[gradeDigit] || 'غير معروف';
+        }
+
+        // تحويل الأرقام العربية إلى إنجليزية
+        function convertArabicNumbers(str) {
+            const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+            return str.split('').map(char => {
+                const index = arabicNumbers.indexOf(char);
+                return index !== -1 ? index.toString() : char;
+            }).join('');
+        }
+
+        // التحقق من صحة الاسم
+        function validateName(name) {
+            name = name.trim();
+            if (name.length < 10) {
+                return { valid: false, message: "الاسم يجب أن يكون رباعياً (10 أحرف على الأقل)" };
+            }
+            
+            const spaceCount = (name.match(/ /g) || []).length;
+            if (spaceCount < 2) {
+                return { valid: false, message: "الاسم يجب أن يكون ثلاثي على الأقل (يحتوي على مسافتين)" };
+            }
+            
+            const arabicRegex = /[\u0600-\u06FF\s]/;
+            if (!arabicRegex.test(name)) {
+                return { valid: false, message: "الاسم يجب أن يكون باللغة العربية" };
+            }
+            
+            return { valid: true, name: name };
+        }
+
+        // التحقق من صحة الكود
+        function validateCode(code) {
+            code = convertArabicNumbers(code.trim());
+            
+            if (!/^\d{9}$/.test(code)) {
+                return { valid: false, message: "الكود يجب أن يتكون من 9 أرقام إنجليزية فقط" };
+            }
+            
+            if (!code.startsWith('13520')) {
+                return { valid: false, message: "الكود يجب أن يبدأ بـ 13520" };
+            }
+            
+            const gradeDigit = getGradeFromCode(code);
+            if (!['4', '5', '6', '7', '8'].includes(gradeDigit)) {
+                return { valid: false, message: "رقم المرحلة غير صحيح في الكود" };
+            }
+            
+            if (systemData.usedCodes.includes(code)) {
+                return { valid: false, message: "هذا الكود أدى الامتحان مسبقاً على هذا الجهاز" };
+            }
+            
+            return { 
+                valid: true, 
+                code: code,
+                grade: gradeDigit,
+                gradeName: getGradeNameFromDigit(gradeDigit)
+            };
+        }
+
+        // عرض رسالة تنبيه
+        function showAlert(message, type = 'error') {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = message;
+            alertBox.className = `alert alert-${type}`;
+            alertBox.classList.remove('hidden');
+            setTimeout(() => alertBox.classList.add('hidden'), 4000);
+        }
+
+        // منع النسخ واللصق
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameField = document.getElementById('studentName');
+            const codeField = document.getElementById('studentCode');
+            
+            [nameField, codeField].forEach(field => {
+                field.addEventListener('copy', (e) => e.preventDefault());
+                field.addEventListener('cut', (e) => e.preventDefault());
+                field.addEventListener('paste', (e) => e.preventDefault());
+            });
+        });
+
+        // بدء عملية التحقق
+        async function startVerification() {
+            const name = document.getElementById('studentName').value;
+            const code = document.getElementById('studentCode').value;
+            
+            const nameValidation = validateName(name);
+            if (!nameValidation.valid) {
+                showAlert(nameValidation.message);
+                return;
+            }
+            
+            const codeValidation = validateCode(code);
+            if (!codeValidation.valid) {
+                showAlert(codeValidation.message);
+                return;
+            }
+            
+            try {
+                const db = window.db;
+                const docRef = window.firestore.doc(db, systemData.collections.students, codeValidation.code);
+                const docSnap = await window.firestore.getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    systemData.currentStudent = { 
+                        ...docSnap.data(), 
+                        code: codeValidation.code,
+                        grade: codeValidation.grade,
+                        gradeName: codeValidation.gradeName
+                    };
+                } else {
+                    const studentData = {
+                        name: nameValidation.name,
+                        code: codeValidation.code,
+                        grade: parseInt(codeValidation.grade),
+                        gradeName: codeValidation.gradeName,
+                        totalScore: 0,
+                        examsCount: 0,
+                        average: 0,
+                        monthlyScores: {
+                            arabic: [],
+                            english: [],
+                            math: [],
+                            science: [],
+                            social: []
+                        },
+                        createdAt: new Date().toISOString(),
+                        lastExam: null
+                    };
+                    
+                    await window.firestore.setDoc(docRef, studentData);
+                    systemData.currentStudent = studentData;
+                }
+                
+                if (!systemData.usedCodes.includes(codeValidation.code)) {
+                    systemData.usedCodes.push(codeValidation.code);
+                    localStorage.setItem('usedCodes', JSON.stringify(systemData.usedCodes));
+                }
+                
+                systemData.currentExam = systemData.exams[codeValidation.grade] || systemData.exams['8'];
+                
+                showExam();
+                startTimer();
+                loadExamQuestions();
+                
+            } catch (error) {
+                console.error("Error:", error);
+                showAlert("حدث خطأ. يرجى المحاولة لاحقاً");
+            }
+        }
+
+        // عرض قسم الامتحان
+        function showExam() {
+            document.getElementById('verificationSection').classList.remove('active-section');
+            document.getElementById('examSection').classList.add('active-section');
+            document.getElementById('resultsSection').classList.remove('active-section');
+            
+            const student = systemData.currentStudent;
+            const exam = systemData.currentExam;
+            
+            document.getElementById('currentStudentInfo').innerHTML = `
+                <strong>الطالب:</strong> ${student.name} | 
+                <strong>الصف:</strong> ${student.gradeName} | 
+                <strong>الكود:</strong> ${student.code}
+            `;
+            
+            document.getElementById('examTitle').textContent = 
+                `امتحان ${exam.subject} - ${student.gradeName}`;
+        }
+
+        // تحميل أسئلة الامتحان
+        function loadExamQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            
+            systemData.currentExam.questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-card';
+                questionDiv.innerHTML = `
+                    <div class="question-number">${index + 1}</div>
+                    <div class="question-text">${question.text}</div>
+                    <div class="options">
+                        ${question.options.map((option, optIndex) => `
+                            <div class="option" onclick="selectAnswer(${question.id}, ${optIndex})" 
+                                 id="option_${question.id}_${optIndex}">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        // اختيار إجابة
+        function selectAnswer(questionId, optionIndex) {
+            systemData.currentExam.questions[questionId - 1].options.forEach((_, idx) => {
+                const optionEl = document.getElementById(`option_${questionId}_${idx}`);
+                if (optionEl) optionEl.classList.remove('selected');
+            });
+            
+            const selectedEl = document.getElementById(`option_${questionId}_${optionIndex}`);
+            if (selectedEl) selectedEl.classList.add('selected');
+            
+            systemData.selectedAnswers[questionId] = optionIndex;
+        }
+
+        // بدء المؤقت
+        function startTimer() {
+            clearInterval(systemData.timerInterval);
+            let timeLeft = systemData.examTime;
+            
+            systemData.timerInterval = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(systemData.timerInterval);
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        // تسليم الامتحان
+        async function submitExam() {
+            clearInterval(systemData.timerInterval);
+            
+            let score = 0;
+            let correctAnswers = 0;
+            const results = [];
+            
+            systemData.currentExam.questions.forEach(question => {
+                const selected = systemData.selectedAnswers[question.id];
+                const isCorrect = selected === question.correct;
+                if (isCorrect) {
+                    score += 100; // 100 نقطة في قاعدة البيانات
+                    correctAnswers += 1; // درجة واحدة للطالب
+                }
+                
+                results.push({
+                    questionId: question.id,
+                    selected,
+                    correct: question.correct,
+                    isCorrect,
+                    explanation: question.explanation
+                });
+            });
+            
+            await saveExamResults(score, results, correctAnswers);
+            showResults(correctAnswers, results);
+        }
+
+        // حفظ نتائج الامتحان
+        async function saveExamResults(score, results, studentScore) {
+            try {
+                const db = window.db;
+                const student = systemData.currentStudent;
+                const exam = systemData.currentExam;
+                const now = new Date();
+                const examDate = now.toISOString();
+                
+                const studentRef = window.firestore.doc(db, systemData.collections.students, student.code);
+                const studentSnap = await window.firestore.getDoc(studentRef);
+                
+                let newTotalScore = student.totalScore + score; // نقاط في السيرفر
+                let newExamsCount = student.examsCount + 1;
+                let newAverage = newTotalScore / newExamsCount;
+                
+                const dayOfWeek = now.getDay();
+                const subjects = ['arabic', 'english', 'math', 'science', 'social'];
+                const currentSubject = subjects[dayOfWeek] || 'math';
+                
+                const monthlyScores = { ...student.monthlyScores };
+                monthlyScores[currentSubject].push(score); // حفظ النقاط في السيرفر
+                
+                await window.firestore.updateDoc(studentRef, {
+                    totalScore: newTotalScore,
+                    examsCount: newExamsCount,
+                    average: newAverage,
+                    monthlyScores: monthlyScores,
+                    lastExam: examDate,
+                    lastStudentScore: studentScore // حفظ درجة الطالب الظاهرة له
+                });
+                
+                const attemptId = `${student.code}_${Date.now()}`;
+                const attemptRef = window.firestore.doc(db, systemData.collections.attempts, attemptId);
+                await window.firestore.setDoc(attemptRef, {
+                    studentCode: student.code,
+                    studentName: student.name,
+                    grade: student.grade,
+                    examId: exam.id,
+                    subject: exam.subject,
+                    score: score, // 100 نقطة لكل سؤال في السيرفر
+                    studentScore: studentScore, // درجة من 10 للطالب
+                    maxScore: 1000, // 10 أسئلة × 100 نقطة
+                    answers: results,
+                    date: examDate,
+                    timestamp: now.getTime()
+                });
+                
+                await updateStatistics(score, student.grade);
+                await updateRanking(student.code, newAverage, student.grade);
+                
+                student.totalScore = newTotalScore;
+                student.examsCount = newExamsCount;
+                student.average = newAverage;
+                student.monthlyScores = monthlyScores;
+                
+            } catch (error) {
+                console.error("Error saving results:", error);
+            }
+        }
+
+        // تحديث الإحصائيات
+        async function updateStatistics(score, grade) {
+            try {
+                const db = window.db;
+                const statsRef = window.firestore.doc(db, systemData.collections.statistics, 'system_stats');
+                const statsSnap = await window.firestore.getDoc(statsRef);
+                
+                const now = new Date();
+                const monthYear = `${now.getMonth()+1}_${now.getFullYear()}`;
+                const gradeKey = `grade_${grade}`;
+                
+                let statsData = statsSnap.exists() ? statsSnap.data() : {
+                    totalStudents: 0,
+                    totalExams: 0,
+                    averageScore: 0,
+                    monthlyData: {},
+                    createdAt: now.toISOString()
+                };
+                
+                statsData.totalExams = (statsData.totalExams || 0) + 1;
+                statsData.averageScore = ((statsData.averageScore || 0) * (statsData.totalExams - 1) + score) / statsData.totalExams;
+                
+                if (!statsData.monthlyData) statsData.monthlyData = {};
+                if (!statsData.monthlyData[monthYear]) {
+                    statsData.monthlyData[monthYear] = {
+                        totalExams: 0,
+                        averageScore: 0,
+                        gradeStats: {}
+                    };
+                }
+                
+                const monthData = statsData.monthlyData[monthYear];
+                monthData.totalExams++;
+                monthData.averageScore = ((monthData.averageScore || 0) * (monthData.totalExams - 1) + score) / monthData.totalExams;
+                
+                if (!monthData.gradeStats[gradeKey]) {
+                    monthData.gradeStats[gradeKey] = {
+                        totalExams: 0,
+                        averageScore: 0,
+                        totalStudents: 0
+                    };
+                }
+                
+                const gradeStat = monthData.gradeStats[gradeKey];
+                gradeStat.totalExams++;
+                gradeStat.averageScore = ((gradeStat.averageScore || 0) * (gradeStat.totalExams - 1) + score) / gradeStat.totalExams;
+                
+                await window.firestore.setDoc(statsRef, statsData, { merge: true });
+                
+            } catch (error) {
+                console.error("Error updating statistics:", error);
+            }
+        }
+
+        // تحديث الترتيب
+        async function updateRanking(studentCode, studentAverage, grade) {
+            try {
+                const db = window.db;
+                const now = new Date();
+                const monthYear = `${now.getMonth()+1}_${now.getFullYear()}`;
+                const rankingId = `ranking_${grade}_${monthYear}`;
+                
+                const rankingRef = window.firestore.doc(db, systemData.collections.rankings, rankingId);
+                const rankingSnap = await window.firestore.getDoc(rankingRef);
+                
+                let rankingData = rankingSnap.exists() ? rankingSnap.data() : {
+                    grade: grade,
+                    month: monthYear,
+                    lastUpdated: now.toISOString(),
+                    students: []
+                };
+                
+                const studentIndex = rankingData.students.findIndex(s => s.code === studentCode);
+                
+                if (studentIndex !== -1) {
+                    rankingData.students[studentIndex].average = studentAverage;
+                    rankingData.students[studentIndex].lastUpdated = now.toISOString();
+                } else {
+                    rankingData.students.push({
+                        code: studentCode,
+                        name: systemData.currentStudent.name,
+                        average: studentAverage,
+                        examsCount: systemData.currentStudent.examsCount,
+                        addedAt: now.toISOString(),
+                        lastUpdated: now.toISOString()
+                    });
+                }
+                
+                rankingData.students.sort((a, b) => b.average - a.average);
+                rankingData.students.forEach((student, index) => {
+                    student.rank = index + 1;
+                });
+                
+                rankingData.lastUpdated = now.toISOString();
+                await window.firestore.setDoc(rankingRef, rankingData);
+                
+            } catch (error) {
+                console.error("Error updating ranking:", error);
+            }
+        }
+
+        // عرض النتائج للطالب (من 10 فقط)
+        function showResults(studentScore, results) {
+            document.getElementById('examSection').classList.remove('active-section');
+            document.getElementById('resultsSection').classList.add('active-section');
+            
+            // عرض الدرجة من 10 فقط للطالب
+            document.getElementById('finalScore').textContent = studentScore;
+            document.getElementById('scoreOutOf').textContent = "من 10";
+            
+            let message = "";
+            if (studentScore === 10) message = "🎉 درجة كاملة! ممتاز";
+            else if (studentScore >= 8) message = "👏 أحسنت! أداء ممتاز";
+            else if (studentScore >= 6) message = "👍 جيد جداً";
+            else if (studentScore >= 5) message = "✨ مقبول";
+            else message = "📚 تحتاج للمزيد من المراجعة";
+            
+            document.getElementById('resultMessage').textContent = message;
+            
+            const reviewContainer = document.getElementById('answersReview');
+            reviewContainer.innerHTML = '<h3 style="margin-bottom: 15px; color: #1a237e;">مراجعة الإجابات:</h3>';
+            
+            results.forEach(result => {
+                const question = systemData.currentExam.questions[result.questionId - 1];
+                const isCorrect = result.isCorrect;
+                
+                const answerDiv = document.createElement('div');
+                answerDiv.className = `review-answer ${isCorrect ? 'correct' : 'incorrect'}`;
+                answerDiv.innerHTML = `
+                    <div>
+                        <span class="question-status ${isCorrect ? 'status-correct' : 'status-incorrect'}">
+                            ${isCorrect ? '✓ صحيح' : '✗ خطأ'}
+                        </span>
+                        <strong>السؤال ${result.questionId}:</strong>
+                    </div>
+                    <div style="margin: 8px 0;">${question.text}</div>
+                    <div style="margin: 5px 0;">
+                        <span style="color: ${isCorrect ? 'green' : 'red'}">
+                            ${result.selected !== undefined ? question.options[result.selected] : 'لم تجب'}
+                        </span>
+                    </div>
+                    <div style="margin: 5px 0; color: green">
+                        <strong>الإجابة الصحيحة:</strong> ${question.options[question.correct]}
+                    </div>
+                    <div class="explanation">
+                        <strong>شرح:</strong> ${question.explanation}
+                    </div>
+                `;
+                reviewContainer.appendChild(answerDiv);
+            });
+        }
+
+        // العودة لصفحة التحقق
+        function showVerification() {
+            systemData.selectedAnswers = {};
+            systemData.currentExam = null;
+            clearInterval(systemData.timerInterval);
+            
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active-section');
+            });
+            document.getElementById('verificationSection').classList.add('active-section');
+            
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentCode').value = '';
+        }
+
+        window.startVerification = startVerification;
+        window.selectAnswer = selectAnswer;
+        window.submitExam = submitExam;
+        window.showVerification = showVerification;
+    </script>
+</body>
+</html>
