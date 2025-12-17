@@ -907,7 +907,7 @@
             selectedAnswers: {},
             examTime: 1200, // 20 دقيقة بالثواني
             timerInterval: null,
-            usedCodes: JSON.parse(localStorage.getItem('usedCodes') || '[]'),
+            usedCodes: {},
             security: {
                 lastActivity: Date.now(),
                 activityCheckInterval: null,
@@ -1077,7 +1077,7 @@
             return { valid: true, name: name };
         }
 
-        // التحقق من صحة الكود
+        // التحقق من صحة الكود مع التحقق من التاريخ
         function validateCode(code) {
             if (!code) {
                 return { valid: false, message: "الرجاء إدخال الكود الدراسي" };
@@ -1098,8 +1098,23 @@
                 return { valid: false, message: "هذا الكود غير مسجل للصف السادس" };
             }
             
-            if (systemData.usedCodes.includes(code)) {
-                return { valid: false, message: "هذا الكود أدى الامتحان مسبقاً على هذا الجهاز" };
+            // تحميل بيانات الكودات المستخدمة مع التواريخ
+            const usedCodesData = JSON.parse(localStorage.getItem('usedCodesWithDate') || '{}');
+            systemData.usedCodes = usedCodesData;
+            
+            if (usedCodesData[code]) {
+                const lastExamDate = new Date(usedCodesData[code]);
+                const today = new Date();
+                const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                const lastExamDateOnly = new Date(lastExamDate.getFullYear(), lastExamDate.getMonth(), lastExamDate.getDate());
+                
+                // التحقق إذا كان نفس اليوم
+                if (lastExamDateOnly.getTime() === todayDate.getTime()) {
+                    return { 
+                        valid: false, 
+                        message: "لقد أديت الامتحان اليوم. يمكنك المحاولة مرة أخرى غداً." 
+                    };
+                }
             }
             
             return { 
@@ -1203,6 +1218,14 @@
             });
         }
 
+        // حفظ تاريخ الامتحان للكود
+        function saveExamDateForCode(code) {
+            const usedCodesData = JSON.parse(localStorage.getItem('usedCodesWithDate') || '{}');
+            usedCodesData[code] = new Date().toISOString();
+            localStorage.setItem('usedCodesWithDate', JSON.stringify(usedCodesData));
+            systemData.usedCodes = usedCodesData;
+        }
+
         // بدء عملية التحقق
         async function startVerification() {
             const name = document.getElementById('studentName').value;
@@ -1262,17 +1285,16 @@
                         },
                         createdAt: new Date().toISOString(),
                         lastExam: null,
-                        lastLogin: new Date().toISOString()
+                        lastLogin: new Date().toISOString(),
+                        examHistory: []
                     };
                     
                     await window.firestore.setDoc(docRef, studentData);
                     systemData.currentStudent = studentData;
                 }
                 
-                if (!systemData.usedCodes.includes(codeValidation.code)) {
-                    systemData.usedCodes.push(codeValidation.code);
-                    localStorage.setItem('usedCodes', JSON.stringify(systemData.usedCodes));
-                }
+                // حفظ تاريخ الامتحان للكود
+                saveExamDateForCode(codeValidation.code);
                 
                 systemData.currentExam = systemData.exam;
                 
@@ -1489,6 +1511,7 @@
                 const exam = systemData.currentExam;
                 const now = new Date();
                 const examDate = now.toISOString();
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
                 
                 const studentRef = window.firestore.doc(db, systemData.collections.students, student.code);
                 const studentSnap = await window.firestore.getDoc(studentRef);
@@ -1504,14 +1527,26 @@
                 const monthlyScores = { ...student.monthlyScores };
                 monthlyScores[currentSubject].push(score);
                 
+                // إضافة تاريخ الامتحان إلى التاريخ
+                const examHistory = [...(student.examHistory || [])];
+                examHistory.push({
+                    date: today,
+                    subject: exam.subject,
+                    score: studentScore,
+                    firestoreScore: score,
+                    timestamp: now.getTime()
+                });
+                
                 await window.firestore.updateDoc(studentRef, {
                     totalScore: newTotalScore,
                     examsCount: newExamsCount,
                     average: newAverage,
                     monthlyScores: monthlyScores,
                     lastExam: examDate,
+                    lastExamDate: today, // إضافة تاريخ اليوم
                     lastStudentScore: studentScore,
-                    lastLogin: examDate
+                    lastLogin: examDate,
+                    examHistory: examHistory
                 });
                 
                 const attemptId = `${student.code}_${exam.id}_${Date.now()}`;
@@ -1527,18 +1562,20 @@
                     maxScore: 1000,
                     answers: results,
                     date: examDate,
+                    examDay: today, // إضافة يوم الامتحان
                     timestamp: now.getTime(),
                     deviceInfo: navigator.userAgent
                 });
                 
                 await updateStatistics(score, student.grade, exam.subject);
                 await updateRanking(student.code, newAverage, student.grade);
-                await updateSubjectScores(student.code, studentScore, exam.subject);
+                await updateSubjectScores(student.code, studentScore, exam.subject, today);
                 
                 student.totalScore = newTotalScore;
                 student.examsCount = newExamsCount;
                 student.average = newAverage;
                 student.monthlyScores = monthlyScores;
+                student.examHistory = examHistory;
                 
             } catch (error) {
                 console.error("Error saving results:", error);
@@ -1546,8 +1583,8 @@
             }
         }
 
-        // تحديث إحصائيات المادة
-        async function updateSubjectScores(studentCode, score, subject) {
+        // تحديث إحصائيات المادة مع التاريخ
+        async function updateSubjectScores(studentCode, score, subject, examDate) {
             try {
                 const db = window.db;
                 const subjectRef = window.firestore.doc(db, systemData.collections.subjects[subject], studentCode);
@@ -1557,6 +1594,7 @@
                 const scoreData = {
                     score: score,
                     date: now.toISOString(),
+                    examDay: examDate, // إضافة يوم الامتحان
                     maxScore: 10,
                     percentage: (score / 10) * 100
                 };
@@ -1569,6 +1607,7 @@
                     await window.firestore.updateDoc(subjectRef, {
                         scores: updatedScores,
                         lastScore: score,
+                        lastExamDay: examDate,
                         average: average,
                         lastUpdated: now.toISOString()
                     });
@@ -1578,6 +1617,7 @@
                         studentName: systemData.currentStudent.name,
                         scores: [scoreData],
                         lastScore: score,
+                        lastExamDay: examDate,
                         average: score,
                         firstExam: now.toISOString(),
                         lastUpdated: now.toISOString()
@@ -1889,6 +1929,10 @@
         // تهيئة الصفحة
         document.addEventListener('DOMContentLoaded', function() {
             setupSecurity();
+            
+            // تحميل بيانات الكودات المستخدمة مع التواريخ
+            const usedCodesData = JSON.parse(localStorage.getItem('usedCodesWithDate') || '{}');
+            systemData.usedCodes = usedCodesData;
             
             // إضافة تأثيرات عند تحميل الصفحة
             setTimeout(() => {
