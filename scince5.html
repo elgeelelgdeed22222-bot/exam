@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدرسة الجيل الجديد الخاصة - علوم الصف الخامس</title>
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, query, where, getDocs, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyBPgtF_GqT95QkMwwoJMGiZWFPjHFdA_N0",
+            authDomain: "manassa-oloom.firebaseapp.com",
+            projectId: "manassa-oloom",
+            storageBucket: "manassa-oloom.firebasestorage.app",
+            messagingSenderId: "475047988456",
+            appId: "1:475047988456:web:ab25a9b01b5c77483b0d5d",
+            measurementId: "G-F0N011WQB9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        window.firebaseApp = app;
+        window.db = db;
+        window.firestore = { collection, doc, setDoc, getDoc, updateDoc, query, where, getDocs, orderBy, limit };
+    </script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --light-bg: #f8f9fa;
+            --dark-bg: #1a1a2e;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            direction: rtl;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: float 20s linear infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-30px, -30px) rotate(360deg); }
+        }
+        
+        .school-name {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .system-name {
+            font-size: 20px;
+            opacity: 0.95;
+            margin-bottom: 8px;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .subject-grade {
+            font-size: 18px;
+            opacity: 0.9;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 10px;
+            position: relative;
+        }
+        
+        .main-content {
+            padding: 25px;
+        }
+        
+        .section {
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .active-section {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 16px;
+            padding-right: 10px;
+        }
+        
+        .input-container {
+            position: relative;
+        }
+        
+        input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 17px;
+            transition: var(--transition);
+            background: var(--light-bg);
+            text-align: center;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            background: white;
+        }
+        
+        .input-hint {
+            font-size: 13px;
+            color: #666;
+            margin-top: 8px;
+            text-align: center;
+            padding: 0 10px;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, var(--secondary-color), #2980b9);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(30deg);
+            transition: all 0.6s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn:hover::after {
+            left: 120%;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(to right, #7f8c8d, #34495e);
+        }
+        
+        .btn-success {
+            background: linear-gradient(to right, var(--success-color), #229954);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(to right, var(--warning-color), #d68910);
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 2px solid #e8f4fc;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .question-card:hover {
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.15);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--secondary-color), #8e44ad);
+            color: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 42px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+        
+        .question-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-weight: 600;
+            line-height: 1.6;
+            padding-left: 10px;
+        }
+        
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .option {
+            padding: 16px;
+            background: var(--light-bg);
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: transparent;
+            transition: var(--transition);
+        }
+        
+        .option:hover {
+            background: #e3f2fd;
+            border-color: #bbdefb;
+            padding-right: 25px;
+        }
+        
+        .option:hover::before {
+            background: var(--secondary-color);
+        }
+        
+        .option.selected {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+            padding-right: 25px;
+        }
+        
+        .option.selected::before {
+            background: var(--success-color);
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 18px;
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: float 15s linear infinite;
+        }
+        
+        .score-display {
+            font-size: 72px;
+            font-weight: 900;
+            margin: 20px 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .score-out-of {
+            font-size: 24px;
+            opacity: 0.9;
+            font-weight: 600;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .result-message {
+            font-size: 20px;
+            margin-top: 15px;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .stars {
+            font-size: 36px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .alert {
+            padding: 18px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-weight: 600;
+            text-align: center;
+            font-size: 15px;
+            position: relative;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .alert-error {
+            background: #ffebee;
+            border: 2px solid #ffcdd2;
+            color: #c62828;
+        }
+        
+        .alert-success {
+            background: #e8f5e9;
+            border: 2px solid #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .timer-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+        
+        .timer {
+            background: linear-gradient(135deg, var(--warning-color), #e67e22);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 0 auto;
+            text-align: center;
+            display: inline-block;
+            font-size: 20px;
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+            min-width: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .timer.warning {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .nav-buttons .btn {
+            flex: 1;
+            padding: 16px;
+            font-size: 16px;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .exam-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #f0f0f0;
+            position: relative;
+        }
+        
+        .exam-header::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 100px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+        
+        .exam-title {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        
+        .student-info {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .student-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .student-info-item i {
+            color: var(--secondary-color);
+        }
+        
+        .review-answer {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-right: 5px solid var(--secondary-color);
+            border-left: 5px solid transparent;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+        }
+        
+        .review-answer:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+        }
+        
+        .review-answer.correct {
+            border-right-color: var(--success-color);
+            background: linear-gradient(to left, #d4edda, #f8fff9);
+        }
+        
+        .review-answer.incorrect {
+            border-right-color: var(--accent-color);
+            background: linear-gradient(to left, #f8d7da, #fff5f6);
+        }
+        
+        .explanation {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 15px;
+            border-right: 3px solid var(--secondary-color);
+        }
+        
+        .question-status {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-left: 15px;
+        }
+        
+        .status-correct {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-incorrect {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+            background: #f0f0f0;
+            border-radius: 10px;
+            height: 12px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--secondary-color), #8e44ad);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        
+        .security-notice {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px dashed #ccc;
+        }
+        
+        .icon {
+            margin-left: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 15px;
+            }
+            
+            header {
+                padding: 20px 15px;
+            }
+            
+            .school-name {
+                font-size: 22px;
+            }
+            
+            .system-name {
+                font-size: 17px;
+            }
+            
+            .subject-grade {
+                font-size: 15px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 20px;
+            }
+            
+            .question-text {
+                font-size: 16px;
+            }
+            
+            .option {
+                padding: 14px;
+                font-size: 15px;
+            }
+            
+            .score-display {
+                font-size: 60px;
+            }
+            
+            .result-card {
+                padding: 25px;
+            }
+            
+            .student-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .school-name {
+                font-size: 20px;
+            }
+            
+            .system-name {
+                font-size: 16px;
+            }
+            
+            .question-card {
+                padding: 15px;
+            }
+            
+            .score-display {
+                font-size: 50px;
+            }
+            
+            .timer {
+                font-size: 18px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="school-name">
+                <i class="fas fa-school icon"></i>
+                مدرسة الجيل الجديد الخاصة
+            </div>
+            <div class="system-name">
+                <i class="fas fa-laptop-code icon"></i>
+                نظام الامتحانات الإلكترونية المتطور
+            </div>
+            <div class="subject-grade">
+                <i class="fas fa-flask icon"></i>
+                مادة العلوم - الصف الخامس الابتدائي
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <!-- قسم التحقق -->
+            <div id="verificationSection" class="section active-section">
+                <div class="form-group">
+                    <label for="studentName">
+                        <i class="fas fa-user-graduate"></i>
+                        اسم الطالب (رباعي):
+                    </label>
+                    <div class="input-container">
+                        <input type="text" id="studentName" placeholder="أدخل الاسم كاملاً كما في السجلات">
+                    </div>
+                    <p class="input-hint">
+                        <i class="fas fa-info-circle"></i>
+                        يجب أن يكون الاسم ثلاثي على الأقل (يحتوي على مسافتين) و 10 أحرف على الأقل
+                    </p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="studentCode">
+                        <i class="fas fa-id-card"></i>
+                        الكود الدراسي:
+                    </label>
+                    <div class="input-container">
+                        <input type="text" id="studentCode" placeholder="أدخل الكود المكون من 9 أرقام">
+                    </div>
+                    <p class="input-hint">
+                        <i class="fas fa-key"></i>
+                        يجب أن يبدأ بـ 13520 ويتكون من 9 أرقام إنجليزية فقط
+                    </p>
+                </div>
+                
+                <div class="security-notice">
+                    <i class="fas fa-shield-alt"></i>
+                    هذا النظام يحمي بياناتك ويمنع الغش. يتم تسجيل جميع المحاولات.
+                </div>
+                
+                <button class="btn" onclick="startVerification()" id="verifyBtn">
+                    <i class="fas fa-play-circle"></i>
+                    بدء الامتحان
+                </button>
+                
+                <div id="alertBox" class="alert hidden"></div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="verificationProgress"></div>
+                </div>
+            </div>
+            
+            <!-- قسم الامتحان -->
+            <div id="examSection" class="section">
+                <div class="exam-header">
+                    <div class="student-info" id="currentStudentInfo">
+                        <!-- معلومات الطالب تظهر هنا -->
+                    </div>
+                    <h2 class="exam-title" id="examTitle">
+                        <i class="fas fa-flask"></i>
+                        امتحان العلوم - الفصل الدراسي
+                    </h2>
+                    <div class="timer-container">
+                        <div class="timer" id="timer">
+                            <i class="fas fa-clock"></i>
+                            20:00
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="questionsContainer">
+                    <!-- الأسئلة سيتم إضافتها جافاسكريبت -->
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="examProgress"></div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showVerification()">
+                        <i class="fas fa-times-circle"></i>
+                        إلغاء الامتحان
+                    </button>
+                    <button class="btn btn-success" onclick="submitExam()" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i>
+                        تسليم الإجابات
+                    </button>
+                </div>
+                
+                <div class="security-notice">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    تحذير: أي محاولة للغش ستؤدي إلى إلغاء الامتحان تلقائياً.
+                </div>
+            </div>
+            
+            <!-- قسم النتائج -->
+            <div id="resultsSection" class="section">
+                <div class="result-card">
+                    <h2 id="resultTitle">
+                        <i class="fas fa-trophy"></i>
+                        نتيجة الامتحان
+                    </h2>
+                    <div class="stars" id="resultStars">
+                        <!-- النجوم تظهر حسب الدرجة -->
+                    </div>
+                    <div class="score-display" id="finalScore">10</div>
+                    <div class="score-out-of" id="scoreOutOf">من 10</div>
+                    <p class="result-message" id="resultMessage">
+                        أحسنت! أداء ممتاز
+                    </p>
+                </div>
+                
+                <div id="answersReview">
+                    <!-- مراجعة الإجابات -->
+                </div>
+                
+                <div class="nav-buttons" style="margin-top: 25px;">
+                    <button class="btn" onclick="showVerification()">
+                        <i class="fas fa-redo"></i>
+                        العودة للصفحة الرئيسية
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // بيانات النظام
+        const systemData = {
+            currentStudent: null,
+            currentExam: null,
+            selectedAnswers: {},
+            examTime: 1200, // 20 دقيقة بالثواني
+            timerInterval: null,
+            usedCodes: JSON.parse(localStorage.getItem('usedCodes') || '[]'),
+            security: {
+                lastActivity: Date.now(),
+                activityCheckInterval: null,
+                maxInactivity: 30000 // 30 ثانية
+            },
+            
+            collections: {
+                students: 'students',
+                exams: 'exams',
+                attempts: 'attempts',
+                rankings: 'rankings_monthly',
+                statistics: 'statistics',
+                subjects: {
+                    science: 'science_scores',
+                    math: 'math_scores',
+                    arabic: 'arabic_scores',
+                    english: 'english_scores',
+                    social: 'social_scores'
+                }
+            },
+            
+            exam: {
+                id: 'science_5',
+                subject: 'العلوم',
+                grade: '5',
+                gradeName: 'الصف الخامس الابتدائي',
+                questions: [
+                    {
+                        id: 1,
+                        text: "يستخدم ..... فى صناعة المفكات بسبب صلابته.",
+                        options: [
+                            "حديد",
+                            "نحاس", 
+                            "ألومنيوم",
+                            "خشب"
+                        ],
+                        correct: 0,
+                        explanation: "يستخدم الحديد في صناعة المفكات بسبب صلابته العالية ومقاومته للكسر."
+                    },
+                    {
+                        id: 2,
+                        text: "يستخدم ...... فى صنع إطارات السيارات.",
+                        options: [
+                            "النحاس",
+                            "الهيليوم",
+                            "المطاط",
+                            "الحديد"
+                        ],
+                        correct: 2,
+                        explanation: "يستخدم المطاط في صنع إطارات السيارات بسبب مرونته وقدرته على امتصاص الصدمات."
+                    },
+                    {
+                        id: 3,
+                        text: "يتميز النحاس بأنه ...",
+                        options: [
+                            "مادة مقاومة للماء",
+                            "غير موصل للكهرباء",
+                            "قادر على نقل الكهرباء",
+                            "أخف وزنا من الهواء"
+                        ],
+                        correct: 2,
+                        explanation: "النحاس من أفضل الموصلات للكهرباء والحرارة، لذلك يستخدم في الأسلاك الكهربائية."
+                    },
+                    {
+                        id: 4,
+                        text: "يستخدم ..... فى صناعة النظارات الطبية",
+                        options: [
+                            "الورق",
+                            "الزجاج",
+                            "النحاس",
+                            "البلاستيك"
+                        ],
+                        correct: 1,
+                        explanation: "يستخدم الزجاج في صناعة النظارات الطبية بسبب شفافيته وقابليته للصقل والتشكيل."
+                    },
+                    {
+                        id: 5,
+                        text: "من الخصائص الكيميائية لغاز الهيليوم أنه ....",
+                        options: [
+                            "سام",
+                            "قابل للاشتعال",
+                            "أكثر وزنا من الهواء",
+                            "غير سام"
+                        ],
+                        correct: 3,
+                        explanation: "غاز الهيليوم خامل كيميائياً وغير سام، لذلك يستخدم في المناطيد وبعض التطبيقات الطبية."
+                    },
+                    {
+                        id: 6,
+                        text: "يعتبر .... من المواد التى تنجذب للمغناطيس",
+                        options: [
+                            "خشب",
+                            "فلين",
+                            "حديد",
+                            "بلاستيك"
+                        ],
+                        correct: 2,
+                        explanation: "الحديد من المواد الفيرومغناطيسية التي تنجذب بشدة للمغناطيس."
+                    },
+                    {
+                        id: 7,
+                        text: "3 كيلو جرام تساوى ..... جرام",
+                        options: [
+                            "1000",
+                            "3000",
+                            "300",
+                            "30"
+                        ],
+                        correct: 1,
+                        explanation: "الكيلوجرام = 1000 جرام، إذن 3 كيلوجرام = 3 × 1000 = 3000 جرام."
+                    },
+                    {
+                        id: 8,
+                        text: "يطفو .... فوق سطح الماء",
+                        options: [
+                            "الخشب",
+                            "النحاس",
+                            "الحديد",
+                            "المسمار"
+                        ],
+                        correct: 0,
+                        explanation: "الخشب يطفو على الماء لأن كثافته أقل من كثافة الماء."
+                    },
+                    {
+                        id: 9,
+                        text: "التوصيل هو....",
+                        options: [
+                            "مقدار ما يحتويه الجسم من ماده",
+                            "قدرة المادة على نقل الكهرباء و الحرارة خلالها",
+                            "الحيز الذى تشغله الماده",
+                            "كل ما له كتله ويشغل حيزاً من الفراغ"
+                        ],
+                        correct: 1,
+                        explanation: "التوصيل خاصية للمواد تسمح بنقل الحرارة أو الكهرباء خلالها."
+                    },
+                    {
+                        id: 10,
+                        text: "يستخدم .... فى صناعة الأحذية الرياضية",
+                        options: [
+                            "الحديد",
+                            "الهيليوم",
+                            "المطاط",
+                            "البلاستيك"
+                        ],
+                        correct: 2,
+                        explanation: "يستخدم المطاط في صناعة الأحذية الرياضية بسبب مرونته ومقاومته للاهتراء."
+                    }
+                ]
+            }
+        };
+
+        // استخراج المرحلة من الكود
+        function getGradeFromCode(code) {
+            if (code && code.length >= 6) {
+                const gradeDigit = code[5];
+                return gradeDigit;
+            }
+            return null;
+        }
+
+        // تحويل الأرقام العربية إلى إنجليزية
+        function convertArabicNumbers(str) {
+            if (!str) return '';
+            const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+            return str.split('').map(char => {
+                const index = arabicNumbers.indexOf(char);
+                return index !== -1 ? index.toString() : char;
+            }).join('');
+        }
+
+        // التحقق من صحة الاسم
+        function validateName(name) {
+            if (!name) {
+                return { valid: false, message: "الرجاء إدخال اسم الطالب" };
+            }
+            
+            name = name.trim();
+            if (name.length < 10) {
+                return { valid: false, message: "الاسم يجب أن يكون رباعياً (10 أحرف على الأقل)" };
+            }
+            
+            const spaceCount = (name.match(/ /g) || []).length;
+            if (spaceCount < 2) {
+                return { valid: false, message: "الاسم يجب أن يكون ثلاثي على الأقل (يحتوي على مسافتين)" };
+            }
+            
+            const arabicRegex = /^[\u0600-\u06FF\s]+$/;
+            if (!arabicRegex.test(name)) {
+                return { valid: false, message: "الاسم يجب أن يكون باللغة العربية فقط" };
+            }
+            
+            return { valid: true, name: name };
+        }
+
+        // التحقق من صحة الكود
+        function validateCode(code) {
+            if (!code) {
+                return { valid: false, message: "الرجاء إدخال الكود الدراسي" };
+            }
+            
+            code = convertArabicNumbers(code.trim());
+            
+            if (!/^\d{9}$/.test(code)) {
+                return { valid: false, message: "الكود يجب أن يتكون من 9 أرقام إنجليزية فقط" };
+            }
+            
+            if (!code.startsWith('13520')) {
+                return { valid: false, message: "الكود يجب أن يبدأ بـ 13520" };
+            }
+            
+            const gradeDigit = getGradeFromCode(code);
+            if (gradeDigit !== '5') {
+                return { valid: false, message: "هذا الكود غير مسجل للصف الخامس" };
+            }
+            
+            if (systemData.usedCodes.includes(code)) {
+                return { valid: false, message: "هذا الكود أدى الامتحان مسبقاً على هذا الجهاز" };
+            }
+            
+            return { 
+                valid: true, 
+                code: code,
+                grade: gradeDigit,
+                gradeName: 'الصف الخامس الابتدائي'
+            };
+        }
+
+        // عرض رسالة تنبيه
+        function showAlert(message, type = 'error') {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = message;
+            alertBox.className = `alert alert-${type}`;
+            alertBox.classList.remove('hidden');
+            
+            if (type === 'error') {
+                setTimeout(() => {
+                    alertBox.classList.add('hidden');
+                }, 5000);
+            }
+        }
+
+        // تحديث شريط التقدم
+        function updateProgress(progressId, percentage) {
+            const progressBar = document.getElementById(progressId);
+            if (progressBar) {
+                progressBar.style.width = `${percentage}%`;
+            }
+        }
+
+        // بدء مراقبة النشاط
+        function startActivityMonitoring() {
+            systemData.security.lastActivity = Date.now();
+            
+            document.addEventListener('mousemove', updateLastActivity);
+            document.addEventListener('keydown', updateLastActivity);
+            document.addEventListener('click', updateLastActivity);
+            document.addEventListener('scroll', updateLastActivity);
+            
+            systemData.security.activityCheckInterval = setInterval(() => {
+                const timeSinceLastActivity = Date.now() - systemData.security.lastActivity;
+                if (timeSinceLastActivity > systemData.security.maxInactivity) {
+                    showAlert("تم اكتشاف عدم نشاط! سيتم إلغاء الامتحان إذا استمرت.", 'error');
+                    
+                    if (timeSinceLastActivity > systemData.security.maxInactivity * 2) {
+                        clearInterval(systemData.security.activityCheckInterval);
+                        submitExam();
+                    }
+                }
+            }, 10000);
+        }
+        
+        function updateLastActivity() {
+            systemData.security.lastActivity = Date.now();
+        }
+
+        // منع النسخ واللصق والكشف عن التبويبات
+        function setupSecurity() {
+            const nameField = document.getElementById('studentName');
+            const codeField = document.getElementById('studentCode');
+            
+            [nameField, codeField].forEach(field => {
+                field.addEventListener('copy', (e) => {
+                    e.preventDefault();
+                    showAlert("ممنوع نسخ النص في هذا الحقل", 'error');
+                });
+                field.addEventListener('cut', (e) => {
+                    e.preventDefault();
+                    showAlert("ممنوع قص النص في هذا الحقل", 'error');
+                });
+                field.addEventListener('paste', (e) => {
+                    e.preventDefault();
+                    showAlert("ممنوع لصق النص في هذا الحقل", 'error');
+                });
+                field.addEventListener('contextmenu', (e) => e.preventDefault());
+            });
+            
+            // الكشف عن تغيير التبويب
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden && systemData.currentExam) {
+                    showAlert("تم اكتشاف ترك نافذة الامتحان! هذه مخالفة.", 'error');
+                    const warningCount = parseInt(localStorage.getItem('tabSwitchWarning') || '0') + 1;
+                    localStorage.setItem('tabSwitchWarning', warningCount.toString());
+                    
+                    if (warningCount >= 3) {
+                        submitExam();
+                    }
+                }
+            });
+            
+            // منع فتح أدوات المطور
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+                    (e.ctrlKey && e.shiftKey && e.key === 'J') || (e.ctrlKey && e.key === 'U')) {
+                    e.preventDefault();
+                    showAlert("هذا الإجراء غير مسموح به في نظام الامتحانات", 'error');
+                    return false;
+                }
+            });
+        }
+
+        // بدء عملية التحقق
+        async function startVerification() {
+            const name = document.getElementById('studentName').value;
+            const code = document.getElementById('studentCode').value;
+            
+            updateProgress('verificationProgress', 30);
+            
+            const nameValidation = validateName(name);
+            if (!nameValidation.valid) {
+                showAlert(nameValidation.message);
+                updateProgress('verificationProgress', 0);
+                return;
+            }
+            
+            updateProgress('verificationProgress', 60);
+            
+            const codeValidation = validateCode(code);
+            if (!codeValidation.valid) {
+                showAlert(codeValidation.message);
+                updateProgress('verificationProgress', 0);
+                return;
+            }
+            
+            updateProgress('verificationProgress', 90);
+            
+            const verifyBtn = document.getElementById('verifyBtn');
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق...';
+            
+            try {
+                const db = window.db;
+                const docRef = window.firestore.doc(db, systemData.collections.students, codeValidation.code);
+                const docSnap = await window.firestore.getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    systemData.currentStudent = { 
+                        ...docSnap.data(), 
+                        code: codeValidation.code,
+                        grade: codeValidation.grade,
+                        gradeName: codeValidation.gradeName
+                    };
+                } else {
+                    const studentData = {
+                        name: nameValidation.name,
+                        code: codeValidation.code,
+                        grade: parseInt(codeValidation.grade),
+                        gradeName: codeValidation.gradeName,
+                        totalScore: 0,
+                        examsCount: 0,
+                        average: 0,
+                        monthlyScores: {
+                            arabic: [],
+                            english: [],
+                            math: [],
+                            science: [],
+                            social: []
+                        },
+                        createdAt: new Date().toISOString(),
+                        lastExam: null,
+                        lastLogin: new Date().toISOString()
+                    };
+                    
+                    await window.firestore.setDoc(docRef, studentData);
+                    systemData.currentStudent = studentData;
+                }
+                
+                if (!systemData.usedCodes.includes(codeValidation.code)) {
+                    systemData.usedCodes.push(codeValidation.code);
+                    localStorage.setItem('usedCodes', JSON.stringify(systemData.usedCodes));
+                }
+                
+                systemData.currentExam = systemData.exam;
+                
+                updateProgress('verificationProgress', 100);
+                setTimeout(() => {
+                    showExam();
+                    startTimer();
+                    loadExamQuestions();
+                    startActivityMonitoring();
+                }, 500);
+                
+            } catch (error) {
+                console.error("Error:", error);
+                showAlert("حدث خطأ في الاتصال. يرجى المحاولة لاحقاً");
+                updateProgress('verificationProgress', 0);
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = '<i class="fas fa-play-circle"></i> بدء الامتحان';
+            }
+        }
+
+        // عرض قسم الامتحان
+        function showExam() {
+            document.getElementById('verificationSection').classList.remove('active-section');
+            document.getElementById('examSection').classList.add('active-section');
+            document.getElementById('resultsSection').classList.remove('active-section');
+            
+            const student = systemData.currentStudent;
+            const exam = systemData.currentExam;
+            
+            document.getElementById('currentStudentInfo').innerHTML = `
+                <div class="student-info-item">
+                    <i class="fas fa-user-graduate"></i>
+                    <strong>الطالب:</strong> ${student.name}
+                </div>
+                <div class="student-info-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <strong>الصف:</strong> ${student.gradeName}
+                </div>
+                <div class="student-info-item">
+                    <i class="fas fa-id-card"></i>
+                    <strong>الكود:</strong> ${student.code}
+                </div>
+            `;
+            
+            document.getElementById('examTitle').textContent = `امتحان ${exam.subject} - ${student.gradeName}`;
+            
+            setupSecurity();
+        }
+
+        // تحميل أسئلة الامتحان
+        function loadExamQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            
+            systemData.currentExam.questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-card';
+                questionDiv.innerHTML = `
+                    <div class="question-number">${index + 1}</div>
+                    <div class="question-text">${question.text}</div>
+                    <div class="options">
+                        ${question.options.map((option, optIndex) => `
+                            <div class="option" onclick="selectAnswer(${question.id}, ${optIndex})" 
+                                 id="option_${question.id}_${optIndex}">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+            
+            updateExamProgress();
+        }
+
+        // اختيار إجابة
+        function selectAnswer(questionId, optionIndex) {
+            systemData.currentExam.questions[questionId - 1].options.forEach((_, idx) => {
+                const optionEl = document.getElementById(`option_${questionId}_${idx}`);
+                if (optionEl) optionEl.classList.remove('selected');
+            });
+            
+            const selectedEl = document.getElementById(`option_${questionId}_${optionIndex}`);
+            if (selectedEl) selectedEl.classList.add('selected');
+            
+            systemData.selectedAnswers[questionId] = optionIndex;
+            updateExamProgress();
+        }
+
+        // تحديث تقدم الامتحان
+        function updateExamProgress() {
+            const totalQuestions = systemData.currentExam.questions.length;
+            const answeredQuestions = Object.keys(systemData.selectedAnswers).length;
+            const progressPercentage = (answeredQuestions / totalQuestions) * 100;
+            
+            updateProgress('examProgress', progressPercentage);
+        }
+
+        // بدء المؤقت
+        function startTimer() {
+            clearInterval(systemData.timerInterval);
+            let timeLeft = systemData.examTime;
+            
+            systemData.timerInterval = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                
+                const timerElement = document.getElementById('timer');
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 300) { // 5 دقائق متبقية
+                    timerElement.classList.add('warning');
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(systemData.timerInterval);
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        // تسليم الامتحان
+        async function submitExam() {
+            clearInterval(systemData.timerInterval);
+            clearInterval(systemData.security.activityCheckInterval);
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التسليم...';
+            
+            let score = 0;
+            let correctAnswers = 0;
+            const results = [];
+            
+            systemData.currentExam.questions.forEach(question => {
+                const selected = systemData.selectedAnswers[question.id];
+                const isCorrect = selected === question.correct;
+                if (isCorrect) {
+                    score += 100; // 100 نقطة في قاعدة البيانات
+                    correctAnswers += 1; // درجة واحدة للطالب
+                }
+                
+                results.push({
+                    questionId: question.id,
+                    selected,
+                    correct: question.correct,
+                    isCorrect,
+                    explanation: question.explanation
+                });
+            });
+            
+            await saveExamResults(score, results, correctAnswers);
+            showResults(correctAnswers, results);
+            
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> تسليم الإجابات';
+        }
+
+        // حفظ نتائج الامتحان
+        async function saveExamResults(score, results, studentScore) {
+            try {
+                const db = window.db;
+                const student = systemData.currentStudent;
+                const exam = systemData.currentExam;
+                const now = new Date();
+                const examDate = now.toISOString();
+                
+                const studentRef = window.firestore.doc(db, systemData.collections.students, student.code);
+                const studentSnap = await window.firestore.getDoc(studentRef);
+                
+                let newTotalScore = student.totalScore + score; // نقاط في السيرفر
+                let newExamsCount = student.examsCount + 1;
+                let newAverage = newTotalScore / newExamsCount;
+                
+                const dayOfWeek = now.getDay();
+                const subjects = ['arabic', 'english', 'math', 'science', 'social'];
+                const currentSubject = subjects[dayOfWeek] || 'science';
+                
+                const monthlyScores = { ...student.monthlyScores };
+                monthlyScores[currentSubject].push(score);
+                
+                await window.firestore.updateDoc(studentRef, {
+                    totalScore: newTotalScore,
+                    examsCount: newExamsCount,
+                    average: newAverage,
+                    monthlyScores: monthlyScores,
+                    lastExam: examDate,
+                    lastStudentScore: studentScore,
+                    lastLogin: examDate
+                });
+                
+                const attemptId = `${student.code}_${exam.id}_${Date.now()}`;
+                const attemptRef = window.firestore.doc(db, systemData.collections.attempts, attemptId);
+                await window.firestore.setDoc(attemptRef, {
+                    studentCode: student.code,
+                    studentName: student.name,
+                    grade: student.grade,
+                    examId: exam.id,
+                    subject: exam.subject,
+                    score: score,
+                    studentScore: studentScore,
+                    maxScore: 1000,
+                    answers: results,
+                    date: examDate,
+                    timestamp: now.getTime(),
+                    deviceInfo: navigator.userAgent
+                });
+                
+                await updateStatistics(score, student.grade, exam.subject);
+                await updateRanking(student.code, newAverage, student.grade);
+                await updateSubjectScores(student.code, studentScore, exam.subject);
+                
+                student.totalScore = newTotalScore;
+                student.examsCount = newExamsCount;
+                student.average = newAverage;
+                student.monthlyScores = monthlyScores;
+                
+            } catch (error) {
+                console.error("Error saving results:", error);
+                showAlert("حدث خطأ في حفظ النتائج، لكن سيتم عرض نتيجتك", 'error');
+            }
+        }
+
+        // تحديث إحصائيات المادة
+        async function updateSubjectScores(studentCode, score, subject) {
+            try {
+                const db = window.db;
+                const subjectRef = window.firestore.doc(db, systemData.collections.subjects[subject], studentCode);
+                const subjectSnap = await window.firestore.getDoc(subjectRef);
+                
+                const now = new Date();
+                const scoreData = {
+                    score: score,
+                    date: now.toISOString(),
+                    maxScore: 10,
+                    percentage: (score / 10) * 100
+                };
+                
+                if (subjectSnap.exists()) {
+                    const existingData = subjectSnap.data();
+                    const updatedScores = [...(existingData.scores || []), scoreData];
+                    const average = updatedScores.reduce((sum, s) => sum + s.score, 0) / updatedScores.length;
+                    
+                    await window.firestore.updateDoc(subjectRef, {
+                        scores: updatedScores,
+                        lastScore: score,
+                        average: average,
+                        lastUpdated: now.toISOString()
+                    });
+                } else {
+                    await window.firestore.setDoc(subjectRef, {
+                        studentCode: studentCode,
+                        studentName: systemData.currentStudent.name,
+                        scores: [scoreData],
+                        lastScore: score,
+                        average: score,
+                        firstExam: now.toISOString(),
+                        lastUpdated: now.toISOString()
+                    });
+                }
+            } catch (error) {
+                console.error("Error updating subject scores:", error);
+            }
+        }
+
+        // تحديث الإحصائيات العامة
+        async function updateStatistics(score, grade, subject) {
+            try {
+                const db = window.db;
+                const statsRef = window.firestore.doc(db, systemData.collections.statistics, 'system_stats');
+                const statsSnap = await window.firestore.getDoc(statsRef);
+                
+                const now = new Date();
+                const monthYear = `${now.getMonth()+1}_${now.getFullYear()}`;
+                const gradeKey = `grade_${grade}`;
+                const subjectKey = `subject_${subject}`;
+                
+                let statsData = statsSnap.exists() ? statsSnap.data() : {
+                    totalStudents: 0,
+                    totalExams: 0,
+                    averageScore: 0,
+                    monthlyData: {},
+                    createdAt: now.toISOString()
+                };
+                
+                statsData.totalExams = (statsData.totalExams || 0) + 1;
+                statsData.averageScore = ((statsData.averageScore || 0) * (statsData.totalExams - 1) + score) / statsData.totalExams;
+                
+                if (!statsData.monthlyData) statsData.monthlyData = {};
+                if (!statsData.monthlyData[monthYear]) {
+                    statsData.monthlyData[monthYear] = {
+                        totalExams: 0,
+                        averageScore: 0,
+                        gradeStats: {},
+                        subjectStats: {}
+                    };
+                }
+                
+                const monthData = statsData.monthlyData[monthYear];
+                monthData.totalExams++;
+                monthData.averageScore = ((monthData.averageScore || 0) * (monthData.totalExams - 1) + score) / monthData.totalExams;
+                
+                // إحصائيات الصف
+                if (!monthData.gradeStats[gradeKey]) {
+                    monthData.gradeStats[gradeKey] = {
+                        totalExams: 0,
+                        averageScore: 0,
+                        totalStudents: 0
+                    };
+                }
+                
+                const gradeStat = monthData.gradeStats[gradeKey];
+                gradeStat.totalExams++;
+                gradeStat.averageScore = ((gradeStat.averageScore || 0) * (gradeStat.totalExams - 1) + score) / gradeStat.totalExams;
+                
+                // إحصائيات المادة
+                if (!monthData.subjectStats[subjectKey]) {
+                    monthData.subjectStats[subjectKey] = {
+                        totalExams: 0,
+                        averageScore: 0,
+                        topScore: 0
+                    };
+                }
+                
+                const subjectStat = monthData.subjectStats[subjectKey];
+                subjectStat.totalExams++;
+                subjectStat.averageScore = ((subjectStat.averageScore || 0) * (subjectStat.totalExams - 1) + score) / subjectStat.totalExams;
+                subjectStat.topScore = Math.max(subjectStat.topScore || 0, score);
+                
+                await window.firestore.setDoc(statsRef, statsData, { merge: true });
+                
+            } catch (error) {
+                console.error("Error updating statistics:", error);
+            }
+        }
+
+        // تحديث الترتيب
+        async function updateRanking(studentCode, studentAverage, grade) {
+            try {
+                const db = window.db;
+                const now = new Date();
+                const monthYear = `${now.getMonth()+1}_${now.getFullYear()}`;
+                const rankingId = `ranking_${grade}_${monthYear}`;
+                
+                const rankingRef = window.firestore.doc(db, systemData.collections.rankings, rankingId);
+                const rankingSnap = await window.firestore.getDoc(rankingRef);
+                
+                let rankingData = rankingSnap.exists() ? rankingSnap.data() : {
+                    grade: grade,
+                    month: monthYear,
+                    lastUpdated: now.toISOString(),
+                    students: []
+                };
+                
+                const studentIndex = rankingData.students.findIndex(s => s.code === studentCode);
+                
+                if (studentIndex !== -1) {
+                    rankingData.students[studentIndex].average = studentAverage;
+                    rankingData.students[studentIndex].examsCount = systemData.currentStudent.examsCount;
+                    rankingData.students[studentIndex].lastUpdated = now.toISOString();
+                } else {
+                    rankingData.students.push({
+                        code: studentCode,
+                        name: systemData.currentStudent.name,
+                        average: studentAverage,
+                        examsCount: systemData.currentStudent.examsCount,
+                        addedAt: now.toISOString(),
+                        lastUpdated: now.toISOString()
+                    });
+                }
+                
+                rankingData.students.sort((a, b) => b.average - a.average);
+                rankingData.students.forEach((student, index) => {
+                    student.rank = index + 1;
+                });
+                
+                rankingData.lastUpdated = now.toISOString();
+                await window.firestore.setDoc(rankingRef, rankingData);
+                
+            } catch (error) {
+                console.error("Error updating ranking:", error);
+            }
+        }
+
+        // عرض النتائج للطالب (من 10 فقط)
+        function showResults(studentScore, results) {
+            document.getElementById('examSection').classList.remove('active-section');
+            document.getElementById('resultsSection').classList.add('active-section');
+            
+            // عرض الدرجة من 10 فقط للطالب
+            document.getElementById('finalScore').textContent = studentScore;
+            document.getElementById('scoreOutOf').textContent = "من 10";
+            
+            // إظهار النجوم حسب الدرجة
+            const starsElement = document.getElementById('resultStars');
+            starsElement.innerHTML = '';
+            const starCount = Math.min(5, Math.ceil(studentScore / 2));
+            
+            for (let i = 0; i < 5; i++) {
+                const star = document.createElement('i');
+                star.className = i < starCount ? 'fas fa-star' : 'far fa-star';
+                starsElement.appendChild(star);
+                if (i < 4) starsElement.appendChild(document.createTextNode(' '));
+            }
+            
+            // رسالة النتيجة
+            let message = "";
+            let messageClass = "";
+            
+            if (studentScore === 10) {
+                message = "🎉 درجة كاملة! إبداع رائع";
+                messageClass = "excellent";
+            } else if (studentScore >= 8) {
+                message = "👏 أحسنت! أداء ممتاز";
+                messageClass = "very-good";
+            } else if (studentScore >= 6) {
+                message = "👍 جيد جداً، استمر في التميز";
+                messageClass = "good";
+            } else if (studentScore >= 5) {
+                message = "✨ مقبول، يمكنك التحسين";
+                messageClass = "acceptable";
+            } else {
+                message = "📚 تحتاج للمزيد من المراجعة والمذاكرة";
+                messageClass = "needs-improvement";
+            }
+            
+            document.getElementById('resultMessage').textContent = message;
+            document.getElementById('resultMessage').className = `result-message ${messageClass}`;
+            
+            // عرض مراجعة الإجابات
+            const reviewContainer = document.getElementById('answersReview');
+            reviewContainer.innerHTML = '<h3 style="margin-bottom: 20px; color: var(--primary-color); text-align: center;"><i class="fas fa-clipboard-check"></i> مراجعة الإجابات:</h3>';
+            
+            results.forEach(result => {
+                const question = systemData.currentExam.questions[result.questionId - 1];
+                const isCorrect = result.isCorrect;
+                
+                const answerDiv = document.createElement('div');
+                answerDiv.className = `review-answer ${isCorrect ? 'correct' : 'incorrect'}`;
+                answerDiv.innerHTML = `
+                    <div style="margin-bottom: 10px;">
+                        <span class="question-status ${isCorrect ? 'status-correct' : 'status-incorrect'}">
+                            ${isCorrect ? '✓ إجابة صحيحة' : '✗ إجابة خاطئة'}
+                        </span>
+                        <strong>السؤال ${result.questionId}:</strong>
+                    </div>
+                    <div style="margin: 10px 0; font-size: 16px; font-weight: 600;">${question.text}</div>
+                    <div style="margin: 8px 0;">
+                        <span style="color: ${isCorrect ? 'green' : 'red'}; font-weight: 600;">
+                            <i class="fas fa-user-circle"></i> إجابتك: 
+                            ${result.selected !== undefined ? question.options[result.selected] : 'لم تجب على هذا السؤال'}
+                        </span>
+                    </div>
+                    <div style="margin: 8px 0; color: green; font-weight: 600;">
+                        <i class="fas fa-check-circle"></i> الإجابة الصحيحة: 
+                        ${question.options[question.correct]}
+                    </div>
+                    <div class="explanation">
+                        <strong><i class="fas fa-lightbulb"></i> الشرح:</strong> ${question.explanation}
+                    </div>
+                `;
+                reviewContainer.appendChild(answerDiv);
+            });
+            
+            // إضافة ملخص النتيجة
+            const summaryDiv = document.createElement('div');
+            summaryDiv.className = 'review-answer';
+            summaryDiv.innerHTML = `
+                <div style="text-align: center; padding: 15px;">
+                    <h4 style="color: var(--primary-color); margin-bottom: 10px;">
+                        <i class="fas fa-chart-bar"></i> ملخص أدائك
+                    </h4>
+                    <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: var(--secondary-color);">${studentScore}</div>
+                            <div style="font-size: 14px; color: #666;">الدرجة النهائية</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: var(--success-color);">${results.filter(r => r.isCorrect).length}</div>
+                            <div style="font-size: 14px; color: #666;">إجابات صحيحة</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: var(--accent-color);">${results.filter(r => !r.isCorrect).length}</div>
+                            <div style="font-size: 14px; color: #666;">إجابات خاطئة</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: var(--warning-color);">${results.filter(r => r.selected === undefined).length}</div>
+                            <div style="font-size: 14px; color: #666;">أسئلة لم تُجب</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            reviewContainer.insertBefore(summaryDiv, reviewContainer.firstChild);
+        }
+
+        // العودة لصفحة التحقق
+        function showVerification() {
+            if (systemData.timerInterval) {
+                clearInterval(systemData.timerInterval);
+            }
+            
+            if (systemData.security.activityCheckInterval) {
+                clearInterval(systemData.security.activityCheckInterval);
+            }
+            
+            systemData.selectedAnswers = {};
+            systemData.currentExam = null;
+            systemData.currentStudent = null;
+            
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active-section');
+            });
+            document.getElementById('verificationSection').classList.add('active-section');
+            
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentCode').value = '';
+            
+            updateProgress('verificationProgress', 0);
+            updateProgress('examProgress', 0);
+            
+            const verifyBtn = document.getElementById('verifyBtn');
+            verifyBtn.disabled = false;
+            verifyBtn.innerHTML = '<i class="fas fa-play-circle"></i> بدء الامتحان';
+            
+            // إزالة مستمعي الأحداث الأمنية
+            document.removeEventListener('mousemove', updateLastActivity);
+            document.removeEventListener('keydown', updateLastActivity);
+            document.removeEventListener('click', updateLastActivity);
+            document.removeEventListener('scroll', updateLastActivity);
+        }
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            setupSecurity();
+            
+            // إضافة تأثيرات عند تحميل الصفحة
+            setTimeout(() => {
+                document.getElementById('verificationProgress').style.width = '0%';
+            }, 100);
+            
+            // تفعيل الإدخال عند الضغط على Enter
+            document.getElementById('studentCode').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    startVerification();
+                }
+            });
+        });
+
+        // تعيين الدوال للنافذة
+        window.startVerification = startVerification;
+        window.selectAnswer = selectAnswer;
+        window.submitExam = submitExam;
+        window.showVerification = showVerification;
+    </script>
+</body>
+</html>
