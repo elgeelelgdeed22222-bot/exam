@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مدرسة الجيل الجديد الخاصة</title>
+    <title>مدرسة الجيل الجديد الخاصة - علوم الصف الأول الإعدادي</title>
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -27,221 +27,449 @@
         window.firestore = { collection, doc, setDoc, getDoc, updateDoc, query, where, getDocs, orderBy, limit };
     </script>
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --light-bg: #f8f9fa;
+            --dark-bg: #1a1a2e;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
             background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
             min-height: 100vh;
-            padding: 15px;
+            padding: 20px;
             color: #333;
+            direction: rtl;
         }
         
         .container {
-            max-width: 100%;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
             overflow: hidden;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         header {
-            background: linear-gradient(to right, #1a237e, #283593);
+            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
             color: white;
-            padding: 20px 15px;
+            padding: 25px 20px;
             text-align: center;
-            border-bottom: 4px solid #00bcd4;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: float 20s linear infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-30px, -30px) rotate(360deg); }
         }
         
         .school-name {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
             color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            position: relative;
         }
         
         .system-name {
-            font-size: 18px;
-            opacity: 0.9;
-            margin-bottom: 5px;
+            font-size: 20px;
+            opacity: 0.95;
+            margin-bottom: 8px;
+            font-weight: 600;
+            position: relative;
         }
         
-        .subtitle {
-            font-size: 14px;
-            opacity: 0.8;
+        .subject-grade {
+            font-size: 18px;
+            opacity: 0.9;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 10px;
+            position: relative;
         }
         
         .main-content {
-            padding: 15px;
+            padding: 25px;
         }
         
         .section {
             display: none;
-            animation: fadeIn 0.3s ease;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
         
         .active-section {
             display: block;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
         }
         
-        label {
+        .form-group label {
             display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            color: #1a237e;
-            font-size: 15px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 16px;
+            padding-right: 10px;
+        }
+        
+        .input-container {
+            position: relative;
         }
         
         input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s;
-            background: white;
+            padding: 16px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 17px;
+            transition: var(--transition);
+            background: var(--light-bg);
             text-align: center;
+            font-family: 'Cairo', sans-serif;
         }
         
         input:focus {
             outline: none;
-            border-color: #00bcd4;
-            box-shadow: 0 0 0 2px rgba(0, 188, 212, 0.2);
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            background: white;
         }
         
         .input-hint {
-            font-size: 12px;
+            font-size: 13px;
             color: #666;
-            margin-top: 4px;
+            margin-top: 8px;
             text-align: center;
+            padding: 0 10px;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
         }
         
         .btn {
-            background: linear-gradient(to right, #2196F3, #1976D2);
+            background: linear-gradient(to right, var(--secondary-color), #2980b9);
             color: white;
             border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             display: block;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 15px;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(30deg);
+            transition: all 0.6s;
         }
         
         .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 5px 10px rgba(33, 150, 243, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn:hover::after {
+            left: 120%;
         }
         
         .btn-secondary {
-            background: linear-gradient(to right, #607d8b, #455a64);
+            background: linear-gradient(to right, #7f8c8d, #34495e);
         }
         
         .btn-success {
-            background: linear-gradient(to right, #4CAF50, #388E3C);
+            background: linear-gradient(to right, var(--success-color), #229954);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(to right, var(--warning-color), #d68910);
         }
         
         .question-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 2px solid #e3f2fd;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 2px solid #e8f4fc;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .question-card:hover {
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.15);
         }
         
         .question-number {
             display: inline-block;
-            background: #2196F3;
+            background: linear-gradient(135deg, var(--secondary-color), #8e44ad);
             color: white;
-            width: 32px;
-            height: 32px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             text-align: center;
-            line-height: 32px;
+            line-height: 42px;
             font-weight: bold;
-            margin-bottom: 12px;
-            font-size: 14px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
         }
         
         .question-text {
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: #1a237e;
-            font-weight: 500;
-            line-height: 1.5;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-weight: 600,
+            line-height: 1.6;
+            padding-left: 10px;
         }
         
         .options {
             display: grid;
-            gap: 10px;
+            gap: 12px;
         }
         
         .option {
-            padding: 12px;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
+            padding: 16px;
+            background: var(--light-bg);
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s;
-            font-size: 15px;
+            transition: var(--transition);
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: transparent;
+            transition: var(--transition);
         }
         
         .option:hover {
             background: #e3f2fd;
             border-color: #bbdefb;
+            padding-right: 25px;
+        }
+        
+        .option:hover::before {
+            background: var(--secondary-color);
         }
         
         .option.selected {
             background: #d4edda;
             border-color: #c3e6cb;
             color: #155724;
+            padding-right: 25px;
+        }
+        
+        .option.selected::before {
+            background: var(--success-color);
+        }
+        
+        .true-false-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .true-false-btn {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+            background: var(--light-bg);
+        }
+        
+        .true-false-btn.true-btn:hover {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .true-false-btn.false-btn:hover {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        .true-false-btn.selected-true {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+            padding-right: 25px;
+            position: relative;
+        }
+        
+        .true-false-btn.selected-true::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--success-color);
+        }
+        
+        .true-false-btn.selected-false {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+            padding-right: 25px;
+            position: relative;
+        }
+        
+        .true-false-btn.selected-false::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--accent-color);
         }
         
         .result-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 25px;
-            border-radius: 12px;
+            padding: 35px;
+            border-radius: 18px;
             text-align: center;
-            margin: 15px 0;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: float 15s linear infinite;
         }
         
         .score-display {
-            font-size: 48px;
-            font-weight: bold;
-            margin: 15px 0;
+            font-size: 72px;
+            font-weight: 900;
+            margin: 20px 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+            position: relative;
         }
         
         .score-out-of {
-            font-size: 20px;
+            font-size: 24px;
             opacity: 0.9;
+            font-weight: 600;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .result-message {
+            font-size: 20px;
+            margin-top: 15px;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .stars {
+            font-size: 36px;
+            margin: 15px 0;
+            position: relative;
         }
         
         .alert {
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            font-weight: 500;
+            padding: 18px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-weight: 600;
             text-align: center;
-            font-size: 14px;
+            font-size: 15px;
+            position: relative;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
         
         .alert-error {
@@ -256,28 +484,48 @@
             color: #2e7d32;
         }
         
+        .timer-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+        
         .timer {
-            background: #ff9800;
+            background: linear-gradient(135deg, var(--warning-color), #e67e22);
             color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 12px 25px;
+            border-radius: 50px;
             font-weight: bold;
-            margin: 15px auto;
+            margin: 0 auto;
             text-align: center;
             display: inline-block;
-            font-size: 14px;
+            font-size: 20px;
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+            min-width: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .timer.warning {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         
         .nav-buttons {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 15px;
+            margin-top: 30px;
         }
         
         .nav-buttons .btn {
             flex: 1;
-            padding: 12px;
-            font-size: 15px;
+            padding: 16px;
+            font-size: 16px;
         }
         
         .hidden {
@@ -286,57 +534,97 @@
         
         .exam-header {
             text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #f0f0f0;
+            position: relative;
+        }
+        
+        .exam-header::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 100px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 3px;
         }
         
         .exam-title {
-            color: #1a237e;
-            font-size: 18px;
-            margin-bottom: 10px;
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 800;
         }
         
         .student-info {
-            background: #f5f5f5;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
             text-align: center;
-            font-size: 14px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .student-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .student-info-item i {
+            color: var(--secondary-color);
         }
         
         .review-answer {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            border-right: 4px solid #2196F3;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-right: 5px solid var(--secondary-color);
+            border-left: 5px solid transparent;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+        }
+        
+        .review-answer:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
         }
         
         .review-answer.correct {
-            border-right-color: #4CAF50;
+            border-right-color: var(--success-color);
+            background: linear-gradient(to left, #d4edda, #f8fff9);
         }
         
         .review-answer.incorrect {
-            border-right-color: #f44336;
+            border-right-color: var(--accent-color);
+            background: linear-gradient(to left, #f8d7da, #fff5f6);
         }
         
         .explanation {
             background: #e3f2fd;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 10px;
-            font-size: 14px;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 15px;
+            border-right: 3px solid var(--secondary-color);
         }
         
         .question-status {
             display: inline-block;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 12px;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 13px;
             font-weight: bold;
-            margin-right: 10px;
+            margin-left: 15px;
         }
         
         .status-correct {
@@ -349,15 +637,102 @@
             color: #721c24;
         }
         
-        @media (max-width: 480px) {
+        .progress-container {
+            margin: 20px 0;
+            background: #f0f0f0;
+            border-radius: 10px;
+            height: 12px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--secondary-color), #8e44ad);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        
+        .security-notice {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px dashed #ccc;
+        }
+        
+        .icon {
+            margin-left: 8px;
+        }
+        
+        @media (max-width: 768px) {
             body {
                 padding: 10px;
             }
             
-            header {
-                padding: 15px 10px;
+            .container {
+                border-radius: 15px;
             }
             
+            header {
+                padding: 20px 15px;
+            }
+            
+            .school-name {
+                font-size: 22px;
+            }
+            
+            .system-name {
+                font-size: 17px;
+            }
+            
+            .subject-grade {
+                font-size: 15px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 20px;
+            }
+            
+            .question-text {
+                font-size: 16px;
+            }
+            
+            .option {
+                padding: 14px;
+                font-size: 15px;
+            }
+            
+            .true-false-options {
+                flex-direction: column;
+            }
+            
+            .score-display {
+                font-size: 60px;
+            }
+            
+            .result-card {
+                padding: 25px;
+            }
+            
+            .student-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
             .school-name {
                 font-size: 20px;
             }
@@ -370,47 +745,84 @@
                 padding: 15px;
             }
             
-            .question-text {
-                font-size: 15px;
-            }
-            
-            .option {
-                padding: 10px;
-                font-size: 14px;
-            }
-            
             .score-display {
-                font-size: 40px;
+                font-size: 50px;
+            }
+            
+            .timer {
+                font-size: 18px;
+                padding: 10px 20px;
             }
         }
     </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="school-name">مدرسة الجيل الجديد الخاصة</div>
-            <div class="system-name">نظام الامتحانات الإلكترونية</div>
-            <div class="subtitle">المدرسة الرائدة في التعليم الحديث</div>
+            <div class="school-name">
+                <i class="fas fa-school icon"></i>
+                مدرسة الجيل الجديد الخاصة
+            </div>
+            <div class="system-name">
+                <i class="fas fa-laptop-code icon"></i>
+                نظام الامتحانات الإلكترونية المتطور
+            </div>
+            <div class="subject-grade">
+                <i class="fas fa-flask icon"></i>
+                مادة العلوم - الصف الأول الإعدادي
+            </div>
         </header>
         
         <div class="main-content">
             <!-- قسم التحقق -->
             <div id="verificationSection" class="section active-section">
                 <div class="form-group">
-                    <label>اسم الطالب (رباعي):</label>
-                    <input type="text" id="studentName" placeholder="أدخل الاسم كاملاً">
-                    <p class="input-hint">يجب أن يكون الاسم ثلاثي على الأقل، مع مسافتين على الأقل</p>
+                    <label for="studentName">
+                        <i class="fas fa-user-graduate"></i>
+                        اسم الطالب (رباعي):
+                    </label>
+                    <div class="input-container">
+                        <input type="text" id="studentName" placeholder="أدخل الاسم كاملاً كما في السجلات">
+                    </div>
+                    <p class="input-hint">
+                        <i class="fas fa-info-circle"></i>
+                        يجب أن يكون الاسم ثلاثي على الأقل (يحتوي على مسافتين) و 10 أحرف على الأقل
+                    </p>
                 </div>
                 
                 <div class="form-group">
-                    <label>الكود الدراسي:</label>
-                    <input type="text" id="studentCode" placeholder="أدخل الكود المكون من 9 أرقام">
-                    <p class="input-hint">يجب أن يبدأ بـ 13520 ويتكون من 9 أرقام</p>
+                    <label for="studentCode">
+                        <i class="fas fa-id-card"></i>
+                        الكود الدراسي:
+                    </label>
+                    <div class="input-container">
+                        <input type="text" id="studentCode" placeholder="أدخل الكود المكون من 9 أرقام">
+                    </div>
+                    <p class="input-hint">
+                        <i class="fas fa-key"></i>
+                        يجب أن يبدأ بـ 13520 ويتكون من 9 أرقام إنجليزية فقط
+                    </p>
                 </div>
                 
-                <button class="btn" onclick="startVerification()">بدء الامتحان</button>
+                <div class="security-notice">
+                    <i class="fas fa-shield-alt"></i>
+                    هذا النظام يحمي بياناتك ويمنع الغش. يتم تسجيل جميع المحاولات.
+                </div>
+                
+                <button class="btn" onclick="startVerification()" id="verifyBtn">
+                    <i class="fas fa-play-circle"></i>
+                    بدء الامتحان
+                </button>
                 
                 <div id="alertBox" class="alert hidden"></div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="verificationProgress"></div>
+                </div>
             </div>
             
             <!-- قسم الامتحان -->
@@ -419,35 +831,69 @@
                     <div class="student-info" id="currentStudentInfo">
                         <!-- معلومات الطالب تظهر هنا -->
                     </div>
-                    <h2 class="exam-title" id="examTitle">امتحان الرياضيات</h2>
-                    <div class="timer" id="timer">20:00</div>
+                    <h2 class="exam-title" id="examTitle">
+                        <i class="fas fa-flask"></i>
+                        امتحان العلوم - الفصل الدراسي
+                    </h2>
+                    <div class="timer-container">
+                        <div class="timer" id="timer">
+                            <i class="fas fa-clock"></i>
+                            20:00
+                        </div>
+                    </div>
                 </div>
                 
                 <div id="questionsContainer">
                     <!-- الأسئلة سيتم إضافتها جافاسكريبت -->
                 </div>
                 
+                <div class="progress-container">
+                    <div class="progress-bar" id="examProgress"></div>
+                </div>
+                
                 <div class="nav-buttons">
-                    <button class="btn btn-secondary" onclick="showVerification()">إلغاء</button>
-                    <button class="btn btn-success" onclick="submitExam()">تسليم الإجابات</button>
+                    <button class="btn btn-secondary" onclick="showVerification()">
+                        <i class="fas fa-times-circle"></i>
+                        إلغاء الامتحان
+                    </button>
+                    <button class="btn btn-success" onclick="submitExam()" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i>
+                        تسليم الإجابات
+                    </button>
+                </div>
+                
+                <div class="security-notice">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    تحذير: أي محاولة للغش ستؤدي إلى إلغاء الامتحان تلقائياً.
                 </div>
             </div>
             
             <!-- قسم النتائج -->
             <div id="resultsSection" class="section">
                 <div class="result-card">
-                    <h2 id="resultTitle">نتيجة الامتحان</h2>
+                    <h2 id="resultTitle">
+                        <i class="fas fa-trophy"></i>
+                        نتيجة الامتحان
+                    </h2>
+                    <div class="stars" id="resultStars">
+                        <!-- النجوم تظهر حسب الدرجة -->
+                    </div>
                     <div class="score-display" id="finalScore">10</div>
                     <div class="score-out-of" id="scoreOutOf">من 10</div>
-                    <p id="resultMessage">أحسنت! أداء ممتاز</p>
+                    <p class="result-message" id="resultMessage">
+                        أحسنت! أداء ممتاز
+                    </p>
                 </div>
                 
                 <div id="answersReview">
                     <!-- مراجعة الإجابات -->
                 </div>
                 
-                <div class="nav-buttons">
-                    <button class="btn" onclick="showVerification()">امتحان جديد</button>
+                <div class="nav-buttons" style="margin-top: 25px;">
+                    <button class="btn" onclick="showVerification()">
+                        <i class="fas fa-redo"></i>
+                        العودة للصفحة الرئيسية
+                    </button>
                 </div>
             </div>
         </div>
@@ -459,9 +905,14 @@
             currentStudent: null,
             currentExam: null,
             selectedAnswers: {},
-            examTime: 1200,
+            examTime: 1200, // 20 دقيقة بالثواني
             timerInterval: null,
-            usedCodes: JSON.parse(localStorage.getItem('usedCodes') || '[]'),
+            usedCodes: {},
+            security: {
+                lastActivity: Date.now(),
+                activityCheckInterval: null,
+                maxInactivity: 30000 // 30 ثانية
+            },
             
             collections: {
                 students: 'students',
@@ -469,265 +920,152 @@
                 attempts: 'attempts',
                 rankings: 'rankings_monthly',
                 statistics: 'statistics',
-                grades: 'grades_data'
+                subjects: {
+                    science: 'science_scores',
+                    math: 'math_scores',
+                    arabic: 'arabic_scores',
+                    english: 'english_scores',
+                    social: 'social_scores'
+                }
             },
             
-            exams: {
-                '4': {
-                    id: 'math_4',
-                    subject: 'الرياضيات',
-                    grade: '4',
-                    gradeName: 'الصف الرابع الابتدائي',
-                    questions: []
-                },
-                '5': {
-                    id: 'math_5',
-                    subject: 'الرياضيات',
-                    grade: '5',
-                    gradeName: 'الصف الخامس الابتدائي',
-                    questions: []
-                },
-                '6': {
-                    id: 'math_6',
-                    subject: 'الرياضيات',
-                    grade: '6',
-                    gradeName: 'الصف السادس الابتدائي',
-                    questions: []
-                },
-                '7': {
-                    id: 'math_7',
-                    subject: 'الرياضيات',
-                    grade: '7',
-                    gradeName: 'الصف الأول الإعدادي',
-                    questions: [
-                        {
-                            id: 1,
-                            text: "مجموع قياسات الزوايا الداخلة للمثلث =",
-                            options: [
-                                "أ) 90",
-                                "ب) 180", 
-                                "ج) 120",
-                                "د) 360"
-                            ],
-                            correct: 1,
-                            explanation: "مجموع زوايا المثلث الداخلية دائماً يساوي 180 درجة."
-                        },
-                        {
-                            id: 2,
-                            text: "في المثلث ABC قياس زاوية A تساوي 50 درجة وقياس زاوية B تساوي 100 درجة فإن قياس زاوية C = ……",
-                            options: [
-                                "أ) 30",
-                                "ب) 50",
-                                "ج) 120", 
-                                "د) 90"
-                            ],
-                            correct: 0,
-                            explanation: "مجموع زوايا المثلث = 180، إذن زاوية C = 180 - (50 + 100) = 30 درجة"
-                        },
-                        {
-                            id: 3,
-                            text: "إذا كان المثلث ABC قائم الزاوية في B، و كانت قياس الزاوية A تساوي 30 درجة فإن قياس زاوية C تساوي …..",
-                            options: [
-                                "أ) 60",
-                                "ب) 30",
-                                "ج) 90",
-                                "د) 180"
-                            ],
-                            correct: 0,
-                            explanation: "الزاوية B قائمة = 90 درجة، إذن زاوية C = 180 - (90 + 30) = 60 درجة"
-                        },
-                        {
-                            id: 4,
-                            text: "قياس الزاوية الخارجة عند أي رأس من رؤوس المثلث المتساوي الأضلاع =",
-                            options: [
-                                "أ) 120",
-                                "ب) 60",
-                                "ج) 108",
-                                "د) 720"
-                            ],
-                            correct: 0,
-                            explanation: "كل زاوية داخلية في المثلث المتساوي الأضلاع = 60 درجة، فالزاوية الخارجة = 180 - 60 = 120 درجة"
-                        },
-                        {
-                            id: 5,
-                            text: "يحتوي المثلث على زاويتين ........ على الأقل.",
-                            options: [
-                                "أ) حادتين",
-                                "ب) منفرجتين",
-                                "ج) قائمتين",
-                                "د) منعكستين"
-                            ],
-                            correct: 0,
-                            explanation: "كل مثلث يحتوي على زاويتين حادتين على الأقل."
-                        },
-                        {
-                            id: 6,
-                            text: "مثلث قياسا زاويتين فيه : 35 , 55 فإن نوع هذا المثلث بالنسبة لقياسات زواياه:",
-                            options: [
-                                "أ) حاد",
-                                "ب) منفرج", 
-                                "ج) قائم",
-                                "د) غير ذلك"
-                            ],
-                            correct: 2,
-                            explanation: "الزاوية الثالثة = 180 - (35 + 55) = 90 درجة، إذن المثلث قائم الزاوية"
-                        },
-                        {
-                            id: 7,
-                            text: "أي مما يلي يصلح أن يكون أطوال أضلاع مثلث ؟",
-                            options: [
-                                "أ) 9 سم ، 6 سم ، 5 سم",
-                                "ب) 9 سم ، 4 سم ، 5 سم",
-                                "ج) 1 سم ، 4 سم ، 6 سم",
-                                "د) 7 سم ، 3 سم ، 2 سم"
-                            ],
-                            correct: 0,
-                            explanation: "في المثلث: مجموع أي ضلعين > الضلع الثالث: 9 < 6+5 (خطأ)، 9 < 4+5 (خطأ)، 6 < 1+4 (خطأ)، 7 < 3+2 (خطأ) - لكن الخيار (أ) هو الوحيد الذي يحقق الشرط في جميع الحالات"
-                        },
-                        {
-                            id: 8,
-                            text: "ما مجموع قياسات الزوايا الداخلة للمضلع الرباعي ؟",
-                            options: [
-                                "أ) 540",
-                                "ب) 360",
-                                "ج) 180", 
-                                "د) 720"
-                            ],
-                            correct: 1,
-                            explanation: "مجموع زوايا أي رباعي = 360 درجة"
-                        },
-                        {
-                            id: 9,
-                            text: "مسقط النقطة (2,-3) على محور X هو النقطة:",
-                            options: [
-                                "أ) (0,-3)",
-                                "ب) (2,0)",
-                                "ج) (-3,2)"
-                            ],
-                            correct: 1,
-                            explanation: "مسقط النقطة على محور X يحتفظ بإحداثي X فقط، ويجعل إحداثي Y = 0، إذن (2,0)"
-                        },
-                        {
-                            id: 10,
-                            text: "مسقط النقطة (2,-2) على محور Y هو النقطة:",
-                            options: [
-                                "أ) (0,-2)",
-                                "ب) (0,2)",
-                                "ج) (2,0)"
-                            ],
-                            correct: 0,
-                            explanation: "مسقط النقطة على محور Y يحتفظ بإحداثي Y فقط، ويجعل إحداثي X = 0، إذن (0,-2)"
-                        }
-                    ]
-                },
-                '8': {
-                    id: 'math_8',
-                    subject: 'الرياضيات',
-                    grade: '8',
-                    gradeName: 'الصف الثاني الإعدادي',
-                    questions: [
-                        {
-                            id: 1,
-                            text: "إذا كان مثلث قائم الزاوية عند A، فإن العلاقة الصحيحة هي:",
-                            options: [
-                                "أ) AB^2 + BC^2 = AC^2",
-                                "ب) AB^2 + AC^2 = BC^2",
-                                "ج) AC^2 + BC^2 = AB^2"
-                            ],
-                            correct: 1,
-                            explanation: "في المثلث القائم الزاوية، مربع الوتر يساوي مجموع مربعي الضلعين القائمين (نظرية فيثاغورس)."
-                        },
-                        {
-                            id: 2,
-                            text: "في مثلث قائم ضلعاه القائمان 3 سم، 4 سم، فإن طول الوتر:",
-                            options: ["أ) 5 سم", "ب) 6 سم", "ج) 7 سم"],
-                            correct: 0,
-                            explanation: "حسب نظرية فيثاغورس: الوتر² = 3² + 4² = 9 + 16 = 25، إذن الوتر = 5 سم"
-                        },
-                        {
-                            id: 3,
-                            text: "مثلث قائم ضلعاه 6 سم، 8 سم. طول الوتر:",
-                            options: ["أ) 12 سم", "ب) 10 سم", "ج) 9 سم"],
-                            correct: 1,
-                            explanation: "الوتر² = 6² + 8² = 36 + 64 = 100، إذن الوتر = 10 سم"
-                        },
-                        {
-                            id: 4,
-                            text: "مثلث قائم ضلعاه 7 سم، 24 سم. طول الوتر:",
-                            options: ["أ) 25 سم", "ب) 20 سم", "ج) 18 سم"],
-                            correct: 0,
-                            explanation: "الوتر² = 7² + 24² = 49 + 576 = 625، إذن الوتر = 25 سم"
-                        },
-                        {
-                            id: 5,
-                            text: "مثلث أطوال أضلاعه: 6 سم، 8 سم، 10 سم. نوع المثلث:",
-                            options: ["أ) قائم", "ب) حاد", "ج) منفرج"],
-                            correct: 0,
-                            explanation: "بما أن 10² = 100 و 6² + 8² = 36 + 64 = 100، إذن المثلث قائم الزاوية"
-                        },
-                        {
-                            id: 6,
-                            text: "وتر مثلث قائم 17 سم، وأحد الضلعين القائمين 15 سم. الضلع الآخر:",
-                            options: ["أ) 12 سم", "ب) 8 سم", "ج) 10 سم"],
-                            correct: 1,
-                            explanation: "الضلع² = 17² - 15² = 289 - 225 = 64، إذن الضلع = 8 سم"
-                        },
-                        {
-                            id: 7,
-                            text: "مثلث أطوال أضلاعه: 5 سم، 7 سم، 9 سم. نوع المثلث:",
-                            options: ["أ) قائم", "ب) حاد", "ج) منفرج"],
-                            correct: 2,
-                            explanation: "بما أن 9² = 81 و 5² + 7² = 25 + 49 = 74، و81 > 74، إذن المثلث منفرج الزاوية"
-                        },
-                        {
-                            id: 8,
-                            text: "مثلث قائم الوتر = 20 سم، وأحد الضلعين = 16 سم. الضلع الآخر:",
-                            options: ["أ) 15 سم", "ب) 18 سم", "ج) 12 سم"],
-                            correct: 2,
-                            explanation: "الضلع² = 20² - 16² = 400 - 256 = 144، إذن الضلع = 12 سم"
-                        },
-                        {
-                            id: 9,
-                            text: "مثلث قائم الضلع القائم 8 سم، الوتر 10 سم. الضلع الآخر:",
-                            options: ["أ) 4 سم", "ب) 6 سم", "ج) 8 سم"],
-                            correct: 1,
-                            explanation: "الضلع² = 10² - 8² = 100 - 64 = 36، إذن الضلع = 6 سم"
-                        },
-                        {
-                            id: 10,
-                            text: "ملعب مستطيل طوله 15 م وعرضه 8 م. طول القطر:",
-                            options: ["أ) 17 م", "ب) 20 م", "ج) 14 م"],
-                            correct: 0,
-                            explanation: "القطر² = 15² + 8² = 225 + 64 = 289، إذن القطر = 17 م"
-                        }
-                    ]
-                }
+            exam: {
+                id: 'science_7',
+                subject: 'العلوم',
+                grade: '7',
+                gradeName: 'الصف الأول الإعدادي',
+                questions: [
+                    {
+                        id: 1,
+                        text: "كل مما يأتي يعد من الكائنات المنتجة عدا ...........",
+                        options: [
+                            "أ- الفول",
+                            "ب- القطة",
+                            "ج- الطحالب الخضراء",
+                            "د- القمح"
+                        ],
+                        correct: 1,
+                        explanation: "القطة من المستهلكات لأنها تحصل على غذائها من كائنات حية أخرى. بينما الفول والطحالب الخضراء والقمح تنتج غذائها بنفسها عن طريق البناء الضوئي."
+                    },
+                    {
+                        id: 2,
+                        text: "ما اسم كل من الغاز الناتج والغاز المستهلك في عملية البناء الضوئي على الترتيب؟",
+                        options: [
+                            "أ- بخار الماء، الهيدروجين",
+                            "ب- الأكسجين، ثاني أكسيد الكربون",
+                            "ج- الأكسجين، بخار الماء",
+                            "د- ثاني أكسيد الكربون، الهيدروجين"
+                        ],
+                        correct: 1,
+                        explanation: "في عملية البناء الضوئي، تستخدم النباتات ثاني أكسيد الكربون والماء لإنتاج الجلوكوز والأكسجين. المعادلة: 6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂"
+                    },
+                    {
+                        id: 3,
+                        text: "جميع ما يلي من المواد غير العضوية التي يستخدمها النبات في عملية البناء الضوئي، عدا ...........",
+                        options: [
+                            "أ- الماء",
+                            "ب- الأملاح المعدنية",
+                            "ج- غاز ثاني أكسيد الكربون",
+                            "د- سكر الجلوكوز"
+                        ],
+                        correct: 3,
+                        explanation: "سكر الجلوكوز مادة عضوية تنتجها النباتات خلال عملية البناء الضوئي. أما الماء والأملاح المعدنية وثاني أكسيد الكربون فهي مواد غير عضوية."
+                    },
+                    {
+                        id: 4,
+                        text: "أي الكائنات الحية الآتية لا تمتلك جهاز تنفس متخصص؟",
+                        options: [
+                            "أ- الأميبا",
+                            "ب- سمكة البلطي",
+                            "ج- الضفدعة",
+                            "د- حشرة النحل"
+                        ],
+                        correct: 0,
+                        explanation: "الأميبا كائن وحيد الخلية يتنفس عن طريق الانتشار البسيط عبر غشاء الخلية، ولا تمتلك جهاز تنفس متخصص."
+                    },
+                    {
+                        id: 5,
+                        text: "تتخلص الثدييات من غاز ثاني أكسيد الكربون عن طريق ...........",
+                        options: [
+                            "أ- الثغور",
+                            "ب- الرئتين",
+                            "ج- الكليتين",
+                            "د- الغدد العرقية"
+                        ],
+                        correct: 1,
+                        explanation: "الثدييات تتنفس عن طريق الرئتين، حيث تأخذ الأكسجين وتتخلص من ثاني أكسيد الكربون خلال عملية الشهيق والزفير."
+                    },
+                    {
+                        id: 6,
+                        text: "تحصل الحشرات على أكسجين الهواء الجوي عن طريق ...........",
+                        options: [
+                            "أ- الرئتين",
+                            "ب- الخياشيم",
+                            "ج- الثغور الهوائية",
+                            "د- القصيبات الهوائية"
+                        ],
+                        correct: 3,
+                        explanation: "الحشرات تتنفس عن طريق القصيبات الهوائية (Spiracles) الموجودة على جوانب جسمها، والتي تتصل بشبكة من القصيبات الهوائية."
+                    },
+                    {
+                        id: 7,
+                        text: "الكائنات الحية التالية لها نفس عضو التنفس، عدا ...........",
+                        options: [
+                            "أ- الإنسان والضفدعة",
+                            "ب- سمكة البلطي وسمكة البوري",
+                            "ج- الجراد وسمكة البلطي",
+                            "د- الإنسان والأسد"
+                        ],
+                        correct: 2,
+                        explanation: "الجراد (حشرة) تتنفس بالقصيبات الهوائية، بينما سمكة البلطي تتنفس بالخياشيم. أما باقي الخيارات فلها نفس عضو التنفس."
+                    },
+                    {
+                        id: 8,
+                        text: "الكائنات التي تتنفس عن طريق الجلد والرئتين هي ...........",
+                        options: [
+                            "أ- الأسماك",
+                            "ب- النباتات",
+                            "ج- الضفادع",
+                            "د- الحشرات"
+                        ],
+                        correct: 2,
+                        explanation: "الضفادع البالغة تتنفس عن طريق الرئتين والجلد الرطب، حيث يساعد الجلد الرطب في امتصاص الأكسجين مباشرة من الجو."
+                    },
+                    {
+                        id: 9,
+                        text: "أي مما يلي يمثل عمليتين متعاكستين في النبات؟",
+                        options: [
+                            "أ- التغذية والتنفس",
+                            "ب- التنفس والنقل",
+                            "ج- البناء الضوئي والتغذية",
+                            "د- البناء الضوئي والتنفس"
+                        ],
+                        correct: 3,
+                        explanation: "البناء الضوئي: يأخذ ثاني أكسيد الكربون وينتج الأكسجين. التنفس: يأخذ الأكسجين وينتج ثاني أكسيد الكربون. وهما عمليتان متعاكستان."
+                    },
+                    {
+                        id: 10,
+                        type: 'true-false',
+                        text: "هل جميع البكتيريا ضارة؟",
+                        correct: false,
+                        explanation: "خطأ - ليست جميع البكتيريا ضارة. هناك بكتيريا نافعة مثل: بكتيريا التربة التي تحلل المواد العضوية، وبكتيريا الأمعاء التي تساعد في الهضم، وبكتيريا صناعة الألبان."
+                    }
+                ]
             }
         };
 
         // استخراج المرحلة من الكود
         function getGradeFromCode(code) {
-            if (code.length >= 6) {
+            if (code && code.length >= 6) {
                 const gradeDigit = code[5];
                 return gradeDigit;
             }
             return null;
         }
 
-        // الحصول على اسم المرحلة من الرقم
-        function getGradeNameFromDigit(gradeDigit) {
-            const grades = {
-                '4': 'الصف الرابع الابتدائي',
-                '5': 'الصف الخامس الابتدائي',
-                '6': 'الصف السادس الابتدائي',
-                '7': 'الصف الأول الإعدادي',
-                '8': 'الصف الثاني الإعدادي'
-            };
-            return grades[gradeDigit] || 'غير معروف';
-        }
-
         // تحويل الأرقام العربية إلى إنجليزية
         function convertArabicNumbers(str) {
+            if (!str) return '';
             const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
             return str.split('').map(char => {
                 const index = arabicNumbers.indexOf(char);
@@ -737,6 +1075,10 @@
 
         // التحقق من صحة الاسم
         function validateName(name) {
+            if (!name) {
+                return { valid: false, message: "الرجاء إدخال اسم الطالب" };
+            }
+            
             name = name.trim();
             if (name.length < 10) {
                 return { valid: false, message: "الاسم يجب أن يكون رباعياً (10 أحرف على الأقل)" };
@@ -747,16 +1089,20 @@
                 return { valid: false, message: "الاسم يجب أن يكون ثلاثي على الأقل (يحتوي على مسافتين)" };
             }
             
-            const arabicRegex = /[\u0600-\u06FF\s]/;
+            const arabicRegex = /^[\u0600-\u06FF\s]+$/;
             if (!arabicRegex.test(name)) {
-                return { valid: false, message: "الاسم يجب أن يكون باللغة العربية" };
+                return { valid: false, message: "الاسم يجب أن يكون باللغة العربية فقط" };
             }
             
             return { valid: true, name: name };
         }
 
-        // التحقق من صحة الكود
+        // التحقق من صحة الكود مع التحقق من التاريخ
         function validateCode(code) {
+            if (!code) {
+                return { valid: false, message: "الرجاء إدخال الكود الدراسي" };
+            }
+            
             code = convertArabicNumbers(code.trim());
             
             if (!/^\d{9}$/.test(code)) {
@@ -768,19 +1114,34 @@
             }
             
             const gradeDigit = getGradeFromCode(code);
-            if (!['4', '5', '6', '7', '8'].includes(gradeDigit)) {
-                return { valid: false, message: "رقم المرحلة غير صحيح في الكود" };
+            if (gradeDigit !== '7') {
+                return { valid: false, message: "هذا الكود غير مسجل للصف الأول الإعدادي" };
             }
             
-            if (systemData.usedCodes.includes(code)) {
-                return { valid: false, message: "هذا الكود أدى الامتحان مسبقاً على هذا الجهاز" };
+            // تحميل بيانات الكودات المستخدمة مع التواريخ
+            const usedCodesData = JSON.parse(localStorage.getItem('usedCodesWithDate') || '{}');
+            systemData.usedCodes = usedCodesData;
+            
+            if (usedCodesData[code]) {
+                const lastExamDate = new Date(usedCodesData[code]);
+                const today = new Date();
+                const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                const lastExamDateOnly = new Date(lastExamDate.getFullYear(), lastExamDate.getMonth(), lastExamDate.getDate());
+                
+                // التحقق إذا كان نفس اليوم
+                if (lastExamDateOnly.getTime() === todayDate.getTime()) {
+                    return { 
+                        valid: false, 
+                        message: "لقد أديت الامتحان اليوم. يمكنك المحاولة مرة أخرى غداً." 
+                    };
+                }
             }
             
             return { 
                 valid: true, 
                 code: code,
                 grade: gradeDigit,
-                gradeName: getGradeNameFromDigit(gradeDigit)
+                gradeName: 'الصف الأول الإعدادي'
             };
         }
 
@@ -790,37 +1151,129 @@
             alertBox.textContent = message;
             alertBox.className = `alert alert-${type}`;
             alertBox.classList.remove('hidden');
-            setTimeout(() => alertBox.classList.add('hidden'), 4000);
+            
+            if (type === 'error') {
+                setTimeout(() => {
+                    alertBox.classList.add('hidden');
+                }, 5000);
+            }
         }
 
-        // منع النسخ واللصق
-        document.addEventListener('DOMContentLoaded', function() {
+        // تحديث شريط التقدم
+        function updateProgress(progressId, percentage) {
+            const progressBar = document.getElementById(progressId);
+            if (progressBar) {
+                progressBar.style.width = `${percentage}%`;
+            }
+        }
+
+        // بدء مراقبة النشاط
+        function startActivityMonitoring() {
+            systemData.security.lastActivity = Date.now();
+            
+            document.addEventListener('mousemove', updateLastActivity);
+            document.addEventListener('keydown', updateLastActivity);
+            document.addEventListener('click', updateLastActivity);
+            document.addEventListener('scroll', updateLastActivity);
+            
+            systemData.security.activityCheckInterval = setInterval(() => {
+                const timeSinceLastActivity = Date.now() - systemData.security.lastActivity;
+                if (timeSinceLastActivity > systemData.security.maxInactivity) {
+                    showAlert("تم اكتشاف عدم نشاط! سيتم إلغاء الامتحان إذا استمرت.", 'error');
+                    
+                    if (timeSinceLastActivity > systemData.security.maxInactivity * 2) {
+                        clearInterval(systemData.security.activityCheckInterval);
+                        submitExam();
+                    }
+                }
+            }, 10000);
+        }
+        
+        function updateLastActivity() {
+            systemData.security.lastActivity = Date.now();
+        }
+
+        // منع النسخ واللصق والكشف عن التبويبات
+        function setupSecurity() {
             const nameField = document.getElementById('studentName');
             const codeField = document.getElementById('studentCode');
             
             [nameField, codeField].forEach(field => {
-                field.addEventListener('copy', (e) => e.preventDefault());
-                field.addEventListener('cut', (e) => e.preventDefault());
-                field.addEventListener('paste', (e) => e.preventDefault());
+                field.addEventListener('copy', (e) => {
+                    e.preventDefault();
+                    showAlert("ممنوع نسخ النص في هذا الحقل", 'error');
+                });
+                field.addEventListener('cut', (e) => {
+                    e.preventDefault();
+                    showAlert("ممنوع قص النص في هذا الحقل", 'error');
+                });
+                field.addEventListener('paste', (e) => {
+                    e.preventDefault();
+                    showAlert("ممنوع لصق النص في هذا الحقل", 'error');
+                });
+                field.addEventListener('contextmenu', (e) => e.preventDefault());
             });
-        });
+            
+            // الكشف عن تغيير التبويب
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden && systemData.currentExam) {
+                    showAlert("تم اكتشاف ترك نافذة الامتحان! هذه مخالفة.", 'error');
+                    const warningCount = parseInt(localStorage.getItem('tabSwitchWarning') || '0') + 1;
+                    localStorage.setItem('tabSwitchWarning', warningCount.toString());
+                    
+                    if (warningCount >= 3) {
+                        submitExam();
+                    }
+                }
+            });
+            
+            // منع فتح أدوات المطور
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+                    (e.ctrlKey && e.shiftKey && e.key === 'J') || (e.ctrlKey && e.key === 'U')) {
+                    e.preventDefault();
+                    showAlert("هذا الإجراء غير مسموح به في نظام الامتحانات", 'error');
+                    return false;
+                }
+            });
+        }
+
+        // حفظ تاريخ الامتحان للكود
+        function saveExamDateForCode(code) {
+            const usedCodesData = JSON.parse(localStorage.getItem('usedCodesWithDate') || '{}');
+            usedCodesData[code] = new Date().toISOString();
+            localStorage.setItem('usedCodesWithDate', JSON.stringify(usedCodesData));
+            systemData.usedCodes = usedCodesData;
+        }
 
         // بدء عملية التحقق
         async function startVerification() {
             const name = document.getElementById('studentName').value;
             const code = document.getElementById('studentCode').value;
             
+            updateProgress('verificationProgress', 30);
+            
             const nameValidation = validateName(name);
             if (!nameValidation.valid) {
                 showAlert(nameValidation.message);
+                updateProgress('verificationProgress', 0);
                 return;
             }
+            
+            updateProgress('verificationProgress', 60);
             
             const codeValidation = validateCode(code);
             if (!codeValidation.valid) {
                 showAlert(codeValidation.message);
+                updateProgress('verificationProgress', 0);
                 return;
             }
+            
+            updateProgress('verificationProgress', 90);
+            
+            const verifyBtn = document.getElementById('verifyBtn');
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق...';
             
             try {
                 const db = window.db;
@@ -851,27 +1304,34 @@
                             social: []
                         },
                         createdAt: new Date().toISOString(),
-                        lastExam: null
+                        lastExam: null,
+                        lastLogin: new Date().toISOString(),
+                        examHistory: []
                     };
                     
                     await window.firestore.setDoc(docRef, studentData);
                     systemData.currentStudent = studentData;
                 }
                 
-                if (!systemData.usedCodes.includes(codeValidation.code)) {
-                    systemData.usedCodes.push(codeValidation.code);
-                    localStorage.setItem('usedCodes', JSON.stringify(systemData.usedCodes));
-                }
+                // حفظ تاريخ الامتحان للكود
+                saveExamDateForCode(codeValidation.code);
                 
-                systemData.currentExam = systemData.exams[codeValidation.grade] || systemData.exams['8'];
+                systemData.currentExam = systemData.exam;
                 
-                showExam();
-                startTimer();
-                loadExamQuestions();
+                updateProgress('verificationProgress', 100);
+                setTimeout(() => {
+                    showExam();
+                    startTimer();
+                    loadExamQuestions();
+                    startActivityMonitoring();
+                }, 500);
                 
             } catch (error) {
                 console.error("Error:", error);
-                showAlert("حدث خطأ. يرجى المحاولة لاحقاً");
+                showAlert("حدث خطأ في الاتصال. يرجى المحاولة لاحقاً");
+                updateProgress('verificationProgress', 0);
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = '<i class="fas fa-play-circle"></i> بدء الامتحان';
             }
         }
 
@@ -885,13 +1345,23 @@
             const exam = systemData.currentExam;
             
             document.getElementById('currentStudentInfo').innerHTML = `
-                <strong>الطالب:</strong> ${student.name} | 
-                <strong>الصف:</strong> ${student.gradeName} | 
-                <strong>الكود:</strong> ${student.code}
+                <div class="student-info-item">
+                    <i class="fas fa-user-graduate"></i>
+                    <strong>الطالب:</strong> ${student.name}
+                </div>
+                <div class="student-info-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <strong>الصف:</strong> ${student.gradeName}
+                </div>
+                <div class="student-info-item">
+                    <i class="fas fa-id-card"></i>
+                    <strong>الكود:</strong> ${student.code}
+                </div>
             `;
             
-            document.getElementById('examTitle').textContent = 
-                `امتحان ${exam.subject} - ${student.gradeName}`;
+            document.getElementById('examTitle').textContent = `امتحان ${exam.subject} - ${student.gradeName}`;
+            
+            setupSecurity();
         }
 
         // تحميل أسئلة الامتحان
@@ -902,23 +1372,43 @@
             systemData.currentExam.questions.forEach((question, index) => {
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question-card';
-                questionDiv.innerHTML = `
-                    <div class="question-number">${index + 1}</div>
-                    <div class="question-text">${question.text}</div>
-                    <div class="options">
-                        ${question.options.map((option, optIndex) => `
-                            <div class="option" onclick="selectAnswer(${question.id}, ${optIndex})" 
-                                 id="option_${question.id}_${optIndex}">
-                                ${option}
+                
+                if (question.type === 'true-false') {
+                    // سؤال الصح والخطأ
+                    questionDiv.innerHTML = `
+                        <div class="question-number">${index + 1}</div>
+                        <div class="question-text">${question.text}</div>
+                        <div class="true-false-options">
+                            <div class="true-false-btn true-btn" onclick="selectTrueFalse(${question.id}, true)">
+                                <i class="fas fa-check-circle"></i> صح
                             </div>
-                        `).join('')}
-                    </div>
-                `;
+                            <div class="true-false-btn false-btn" onclick="selectTrueFalse(${question.id}, false)">
+                                <i class="fas fa-times-circle"></i> خطأ
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // أسئلة الاختيار من متعدد
+                    questionDiv.innerHTML = `
+                        <div class="question-number">${index + 1}</div>
+                        <div class="question-text">${question.text}</div>
+                        <div class="options">
+                            ${question.options.map((option, optIndex) => `
+                                <div class="option" onclick="selectAnswer(${question.id}, ${optIndex})" 
+                                     id="option_${question.id}_${optIndex}">
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
                 container.appendChild(questionDiv);
             });
+            
+            updateExamProgress();
         }
 
-        // اختيار إجابة
+        // اختيار إجابة (اختيار من متعدد)
         function selectAnswer(questionId, optionIndex) {
             systemData.currentExam.questions[questionId - 1].options.forEach((_, idx) => {
                 const optionEl = document.getElementById(`option_${questionId}_${idx}`);
@@ -929,6 +1419,36 @@
             if (selectedEl) selectedEl.classList.add('selected');
             
             systemData.selectedAnswers[questionId] = optionIndex;
+            updateExamProgress();
+        }
+
+        // اختيار إجابة (صح وخطأ)
+        function selectTrueFalse(questionId, answer) {
+            const questionDiv = document.querySelector(`.question-card:nth-child(${questionId})`);
+            const trueBtn = questionDiv.querySelector('.true-btn');
+            const falseBtn = questionDiv.querySelector('.false-btn');
+            
+            if (trueBtn) trueBtn.classList.remove('selected-true');
+            if (falseBtn) falseBtn.classList.remove('selected-false');
+            
+            if (answer === true) {
+                trueBtn.classList.add('selected-true');
+                systemData.selectedAnswers[questionId] = 'true';
+            } else {
+                falseBtn.classList.add('selected-false');
+                systemData.selectedAnswers[questionId] = 'false';
+            }
+            
+            updateExamProgress();
+        }
+
+        // تحديث تقدم الامتحان
+        function updateExamProgress() {
+            const totalQuestions = systemData.currentExam.questions.length;
+            const answeredQuestions = Object.keys(systemData.selectedAnswers).length;
+            const progressPercentage = (answeredQuestions / totalQuestions) * 100;
+            
+            updateProgress('examProgress', progressPercentage);
         }
 
         // بدء المؤقت
@@ -940,8 +1460,13 @@
                 timeLeft--;
                 const minutes = Math.floor(timeLeft / 60);
                 const seconds = timeLeft % 60;
-                document.getElementById('timer').textContent = 
-                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                const timerElement = document.getElementById('timer');
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 300) { // 5 دقائق متبقية
+                    timerElement.classList.add('warning');
+                }
                 
                 if (timeLeft <= 0) {
                     clearInterval(systemData.timerInterval);
@@ -953,14 +1478,29 @@
         // تسليم الامتحان
         async function submitExam() {
             clearInterval(systemData.timerInterval);
+            clearInterval(systemData.security.activityCheckInterval);
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التسليم...';
             
             let score = 0;
             let correctAnswers = 0;
             const results = [];
             
             systemData.currentExam.questions.forEach(question => {
+                let isCorrect = false;
                 const selected = systemData.selectedAnswers[question.id];
-                const isCorrect = selected === question.correct;
+                
+                if (question.type === 'true-false') {
+                    // معالجة أسئلة الصح والخطأ
+                    const correctAnswer = question.correct ? 'true' : 'false';
+                    isCorrect = selected === correctAnswer;
+                } else {
+                    // معالجة أسئلة الاختيار من متعدد
+                    isCorrect = selected === question.correct;
+                }
+                
                 if (isCorrect) {
                     score += 100; // 100 نقطة في قاعدة البيانات
                     correctAnswers += 1; // درجة واحدة للطالب
@@ -969,14 +1509,18 @@
                 results.push({
                     questionId: question.id,
                     selected,
-                    correct: question.correct,
+                    correct: question.type === 'true-false' ? (question.correct ? 'true' : 'false') : question.correct,
                     isCorrect,
-                    explanation: question.explanation
+                    explanation: question.explanation,
+                    type: question.type || 'multiple-choice'
                 });
             });
             
             await saveExamResults(score, results, correctAnswers);
             showResults(correctAnswers, results);
+            
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> تسليم الإجابات';
         }
 
         // حفظ نتائج الامتحان
@@ -987,6 +1531,7 @@
                 const exam = systemData.currentExam;
                 const now = new Date();
                 const examDate = now.toISOString();
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
                 
                 const studentRef = window.firestore.doc(db, systemData.collections.students, student.code);
                 const studentSnap = await window.firestore.getDoc(studentRef);
@@ -997,10 +1542,20 @@
                 
                 const dayOfWeek = now.getDay();
                 const subjects = ['arabic', 'english', 'math', 'science', 'social'];
-                const currentSubject = subjects[dayOfWeek] || 'math';
+                const currentSubject = subjects[dayOfWeek] || 'science';
                 
                 const monthlyScores = { ...student.monthlyScores };
-                monthlyScores[currentSubject].push(score); // حفظ النقاط في السيرفر
+                monthlyScores[currentSubject].push(score);
+                
+                // إضافة تاريخ الامتحان إلى التاريخ
+                const examHistory = [...(student.examHistory || [])];
+                examHistory.push({
+                    date: today,
+                    subject: exam.subject,
+                    score: studentScore,
+                    firestoreScore: score,
+                    timestamp: now.getTime()
+                });
                 
                 await window.firestore.updateDoc(studentRef, {
                     totalScore: newTotalScore,
@@ -1008,10 +1563,13 @@
                     average: newAverage,
                     monthlyScores: monthlyScores,
                     lastExam: examDate,
-                    lastStudentScore: studentScore // حفظ درجة الطالب الظاهرة له
+                    lastExamDate: today, // إضافة تاريخ اليوم
+                    lastStudentScore: studentScore,
+                    lastLogin: examDate,
+                    examHistory: examHistory
                 });
                 
-                const attemptId = `${student.code}_${Date.now()}`;
+                const attemptId = `${student.code}_${exam.id}_${Date.now()}`;
                 const attemptRef = window.firestore.doc(db, systemData.collections.attempts, attemptId);
                 await window.firestore.setDoc(attemptRef, {
                     studentCode: student.code,
@@ -1019,29 +1577,79 @@
                     grade: student.grade,
                     examId: exam.id,
                     subject: exam.subject,
-                    score: score, // 100 نقطة لكل سؤال في السيرفر
-                    studentScore: studentScore, // درجة من 10 للطالب
-                    maxScore: 1000, // 10 أسئلة × 100 نقطة
+                    score: score,
+                    studentScore: studentScore,
+                    maxScore: 1000,
                     answers: results,
                     date: examDate,
-                    timestamp: now.getTime()
+                    examDay: today, // إضافة يوم الامتحان
+                    timestamp: now.getTime(),
+                    deviceInfo: navigator.userAgent
                 });
                 
-                await updateStatistics(score, student.grade);
+                await updateStatistics(score, student.grade, exam.subject);
                 await updateRanking(student.code, newAverage, student.grade);
+                await updateSubjectScores(student.code, studentScore, exam.subject, today);
                 
                 student.totalScore = newTotalScore;
                 student.examsCount = newExamsCount;
                 student.average = newAverage;
                 student.monthlyScores = monthlyScores;
+                student.examHistory = examHistory;
                 
             } catch (error) {
                 console.error("Error saving results:", error);
+                showAlert("حدث خطأ في حفظ النتائج، لكن سيتم عرض نتيجتك", 'error');
             }
         }
 
-        // تحديث الإحصائيات
-        async function updateStatistics(score, grade) {
+        // تحديث إحصائيات المادة مع التاريخ
+        async function updateSubjectScores(studentCode, score, subject, examDate) {
+            try {
+                const db = window.db;
+                const subjectRef = window.firestore.doc(db, systemData.collections.subjects[subject], studentCode);
+                const subjectSnap = await window.firestore.getDoc(subjectRef);
+                
+                const now = new Date();
+                const scoreData = {
+                    score: score,
+                    date: now.toISOString(),
+                    examDay: examDate, // إضافة يوم الامتحان
+                    maxScore: 10,
+                    percentage: (score / 10) * 100
+                };
+                
+                if (subjectSnap.exists()) {
+                    const existingData = subjectSnap.data();
+                    const updatedScores = [...(existingData.scores || []), scoreData];
+                    const average = updatedScores.reduce((sum, s) => sum + s.score, 0) / updatedScores.length;
+                    
+                    await window.firestore.updateDoc(subjectRef, {
+                        scores: updatedScores,
+                        lastScore: score,
+                        lastExamDay: examDate,
+                        average: average,
+                        lastUpdated: now.toISOString()
+                    });
+                } else {
+                    await window.firestore.setDoc(subjectRef, {
+                        studentCode: studentCode,
+                        studentName: systemData.currentStudent.name,
+                        scores: [scoreData],
+                        lastScore: score,
+                        lastExamDay: examDate,
+                        average: score,
+                        firstExam: now.toISOString(),
+                        lastUpdated: now.toISOString()
+                    });
+                }
+            } catch (error) {
+                console.error("Error updating subject scores:", error);
+            }
+        }
+
+        // تحديث الإحصائيات العامة
+        async function updateStatistics(score, grade, subject) {
             try {
                 const db = window.db;
                 const statsRef = window.firestore.doc(db, systemData.collections.statistics, 'system_stats');
@@ -1050,6 +1658,7 @@
                 const now = new Date();
                 const monthYear = `${now.getMonth()+1}_${now.getFullYear()}`;
                 const gradeKey = `grade_${grade}`;
+                const subjectKey = `subject_${subject}`;
                 
                 let statsData = statsSnap.exists() ? statsSnap.data() : {
                     totalStudents: 0,
@@ -1067,7 +1676,8 @@
                     statsData.monthlyData[monthYear] = {
                         totalExams: 0,
                         averageScore: 0,
-                        gradeStats: {}
+                        gradeStats: {},
+                        subjectStats: {}
                     };
                 }
                 
@@ -1075,6 +1685,7 @@
                 monthData.totalExams++;
                 monthData.averageScore = ((monthData.averageScore || 0) * (monthData.totalExams - 1) + score) / monthData.totalExams;
                 
+                // إحصائيات الصف
                 if (!monthData.gradeStats[gradeKey]) {
                     monthData.gradeStats[gradeKey] = {
                         totalExams: 0,
@@ -1086,6 +1697,20 @@
                 const gradeStat = monthData.gradeStats[gradeKey];
                 gradeStat.totalExams++;
                 gradeStat.averageScore = ((gradeStat.averageScore || 0) * (gradeStat.totalExams - 1) + score) / gradeStat.totalExams;
+                
+                // إحصائيات المادة
+                if (!monthData.subjectStats[subjectKey]) {
+                    monthData.subjectStats[subjectKey] = {
+                        totalExams: 0,
+                        averageScore: 0,
+                        topScore: 0
+                    };
+                }
+                
+                const subjectStat = monthData.subjectStats[subjectKey];
+                subjectStat.totalExams++;
+                subjectStat.averageScore = ((subjectStat.averageScore || 0) * (subjectStat.totalExams - 1) + score) / subjectStat.totalExams;
+                subjectStat.topScore = Math.max(subjectStat.topScore || 0, score);
                 
                 await window.firestore.setDoc(statsRef, statsData, { merge: true });
                 
@@ -1116,6 +1741,7 @@
                 
                 if (studentIndex !== -1) {
                     rankingData.students[studentIndex].average = studentAverage;
+                    rankingData.students[studentIndex].examsCount = systemData.currentStudent.examsCount;
                     rankingData.students[studentIndex].lastUpdated = now.toISOString();
                 } else {
                     rankingData.students.push({
@@ -1150,17 +1776,45 @@
             document.getElementById('finalScore').textContent = studentScore;
             document.getElementById('scoreOutOf').textContent = "من 10";
             
+            // إظهار النجوم حسب الدرجة
+            const starsElement = document.getElementById('resultStars');
+            starsElement.innerHTML = '';
+            const starCount = Math.min(5, Math.ceil(studentScore / 2));
+            
+            for (let i = 0; i < 5; i++) {
+                const star = document.createElement('i');
+                star.className = i < starCount ? 'fas fa-star' : 'far fa-star';
+                starsElement.appendChild(star);
+                if (i < 4) starsElement.appendChild(document.createTextNode(' '));
+            }
+            
+            // رسالة النتيجة
             let message = "";
-            if (studentScore === 10) message = "🎉 درجة كاملة! ممتاز";
-            else if (studentScore >= 8) message = "👏 أحسنت! أداء ممتاز";
-            else if (studentScore >= 6) message = "👍 جيد جداً";
-            else if (studentScore >= 5) message = "✨ مقبول";
-            else message = "📚 تحتاج للمزيد من المراجعة";
+            let messageClass = "";
+            
+            if (studentScore === 10) {
+                message = "🎉 درجة كاملة! إبداع رائع";
+                messageClass = "excellent";
+            } else if (studentScore >= 8) {
+                message = "👏 أحسنت! أداء ممتاز";
+                messageClass = "very-good";
+            } else if (studentScore >= 6) {
+                message = "👍 جيد جداً، استمر في التميز";
+                messageClass = "good";
+            } else if (studentScore >= 5) {
+                message = "✨ مقبول، يمكنك التحسين";
+                messageClass = "acceptable";
+            } else {
+                message = "📚 تحتاج للمزيد من المراجعة والمذاكرة";
+                messageClass = "needs-improvement";
+            }
             
             document.getElementById('resultMessage').textContent = message;
+            document.getElementById('resultMessage').className = `result-message ${messageClass}`;
             
+            // عرض مراجعة الإجابات
             const reviewContainer = document.getElementById('answersReview');
-            reviewContainer.innerHTML = '<h3 style="margin-bottom: 15px; color: #1a237e;">مراجعة الإجابات:</h3>';
+            reviewContainer.innerHTML = '<h3 style="margin-bottom: 20px; color: var(--primary-color); text-align: center;"><i class="fas fa-clipboard-check"></i> مراجعة الإجابات:</h3>';
             
             results.forEach(result => {
                 const question = systemData.currentExam.questions[result.questionId - 1];
@@ -1168,35 +1822,106 @@
                 
                 const answerDiv = document.createElement('div');
                 answerDiv.className = `review-answer ${isCorrect ? 'correct' : 'incorrect'}`;
-                answerDiv.innerHTML = `
-                    <div>
-                        <span class="question-status ${isCorrect ? 'status-correct' : 'status-incorrect'}">
-                            ${isCorrect ? '✓ صحيح' : '✗ خطأ'}
-                        </span>
-                        <strong>السؤال ${result.questionId}:</strong>
-                    </div>
-                    <div style="margin: 8px 0;">${question.text}</div>
-                    <div style="margin: 5px 0;">
-                        <span style="color: ${isCorrect ? 'green' : 'red'}">
-                            ${result.selected !== undefined ? question.options[result.selected] : 'لم تجب'}
-                        </span>
-                    </div>
-                    <div style="margin: 5px 0; color: green">
-                        <strong>الإجابة الصحيحة:</strong> ${question.options[question.correct]}
-                    </div>
-                    <div class="explanation">
-                        <strong>شرح:</strong> ${question.explanation}
-                    </div>
-                `;
+                
+                if (question.type === 'true-false') {
+                    const selectedAnswerText = result.selected === 'true' ? 'صح' : 'خطأ';
+                    const correctAnswerText = question.correct ? 'صح' : 'خطأ';
+                    
+                    answerDiv.innerHTML = `
+                        <div style="margin-bottom: 10px;">
+                            <span class="question-status ${isCorrect ? 'status-correct' : 'status-incorrect'}">
+                                ${isCorrect ? '✓ إجابة صحيحة' : '✗ إجابة خاطئة'}
+                            </span>
+                            <strong>السؤال ${result.questionId} (صح أو خطأ):</strong>
+                        </div>
+                        <div style="margin: 10px 0; font-size: 16px; font-weight: 600;">${question.text}</div>
+                        <div style="margin: 8px 0;">
+                            <span style="color: ${isCorrect ? 'green' : 'red'}; font-weight: 600;">
+                                <i class="fas fa-user-circle"></i> إجابتك: 
+                                ${selectedAnswerText || 'لم تجب على هذا السؤال'}
+                            </span>
+                        </div>
+                        <div style="margin: 8px 0; color: green; font-weight: 600;">
+                            <i class="fas fa-check-circle"></i> الإجابة الصحيحة: 
+                            ${correctAnswerText}
+                        </div>
+                        <div class="explanation">
+                            <strong><i class="fas fa-lightbulb"></i> الشرح:</strong> ${question.explanation}
+                        </div>
+                    `;
+                } else {
+                    const selectedAnswerText = result.selected !== undefined ? question.options[result.selected] : 'لم تجب على هذا السؤال';
+                    
+                    answerDiv.innerHTML = `
+                        <div style="margin-bottom: 10px;">
+                            <span class="question-status ${isCorrect ? 'status-correct' : 'status-incorrect'}">
+                                ${isCorrect ? '✓ إجابة صحيحة' : '✗ إجابة خاطئة'}
+                            </span>
+                            <strong>السؤال ${result.questionId}:</strong>
+                        </div>
+                        <div style="margin: 10px 0; font-size: 16px; font-weight: 600;">${question.text}</div>
+                        <div style="margin: 8px 0;">
+                            <span style="color: ${isCorrect ? 'green' : 'red'}; font-weight: 600;">
+                                <i class="fas fa-user-circle"></i> إجابتك: 
+                                ${selectedAnswerText}
+                            </span>
+                        </div>
+                        <div style="margin: 8px 0; color: green; font-weight: 600;">
+                            <i class="fas fa-check-circle"></i> الإجابة الصحيحة: 
+                            ${question.options[question.correct]}
+                        </div>
+                        <div class="explanation">
+                            <strong><i class="fas fa-lightbulb"></i> الشرح:</strong> ${question.explanation}
+                        </div>
+                    `;
+                }
                 reviewContainer.appendChild(answerDiv);
             });
+            
+            // إضافة ملخص النتيجة
+            const summaryDiv = document.createElement('div');
+            summaryDiv.className = 'review-answer';
+            summaryDiv.innerHTML = `
+                <div style="text-align: center; padding: 15px;">
+                    <h4 style="color: var(--primary-color); margin-bottom: 10px;">
+                        <i class="fas fa-chart-bar"></i> ملخص أدائك
+                    </h4>
+                    <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: var(--secondary-color);">${studentScore}</div>
+                            <div style="font-size: 14px; color: #666;">الدرجة النهائية</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: var(--success-color);">${results.filter(r => r.isCorrect).length}</div>
+                            <div style="font-size: 14px; color: #666;">إجابات صحيحة</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: var(--accent-color);">${results.filter(r => !r.isCorrect).length}</div>
+                            <div style="font-size: 14px; color: #666;">إجابات خاطئة</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: var(--warning-color);">${results.filter(r => r.selected === undefined).length}</div>
+                            <div style="font-size: 14px; color: #666;">أسئلة لم تُجب</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            reviewContainer.insertBefore(summaryDiv, reviewContainer.firstChild);
         }
 
         // العودة لصفحة التحقق
         function showVerification() {
+            if (systemData.timerInterval) {
+                clearInterval(systemData.timerInterval);
+            }
+            
+            if (systemData.security.activityCheckInterval) {
+                clearInterval(systemData.security.activityCheckInterval);
+            }
+            
             systemData.selectedAnswers = {};
             systemData.currentExam = null;
-            clearInterval(systemData.timerInterval);
+            systemData.currentStudent = null;
             
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active-section');
@@ -1205,10 +1930,46 @@
             
             document.getElementById('studentName').value = '';
             document.getElementById('studentCode').value = '';
+            
+            updateProgress('verificationProgress', 0);
+            updateProgress('examProgress', 0);
+            
+            const verifyBtn = document.getElementById('verifyBtn');
+            verifyBtn.disabled = false;
+            verifyBtn.innerHTML = '<i class="fas fa-play-circle"></i> بدء الامتحان';
+            
+            // إزالة مستمعي الأحداث الأمنية
+            document.removeEventListener('mousemove', updateLastActivity);
+            document.removeEventListener('keydown', updateLastActivity);
+            document.removeEventListener('click', updateLastActivity);
+            document.removeEventListener('scroll', updateLastActivity);
         }
 
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            setupSecurity();
+            
+            // تحميل بيانات الكودات المستخدمة مع التواريخ
+            const usedCodesData = JSON.parse(localStorage.getItem('usedCodesWithDate') || '{}');
+            systemData.usedCodes = usedCodesData;
+            
+            // إضافة تأثيرات عند تحميل الصفحة
+            setTimeout(() => {
+                document.getElementById('verificationProgress').style.width = '0%';
+            }, 100);
+            
+            // تفعيل الإدخال عند الضغط على Enter
+            document.getElementById('studentCode').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    startVerification();
+                }
+            });
+        });
+
+        // تعيين الدوال للنافذة
         window.startVerification = startVerification;
         window.selectAnswer = selectAnswer;
+        window.selectTrueFalse = selectTrueFalse;
         window.submitExam = submitExam;
         window.showVerification = showVerification;
     </script>
