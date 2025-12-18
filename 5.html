@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>امتحان الدراسات الاجتماعية - الصف الخامس الابتدائي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 10px;
+            font-size: 14px;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #1b5e20, #2e7d32);
+            color: white;
+            padding: 12px 15px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        
+        .header h1 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .header h2 {
+            font-size: 14px;
+            font-weight: 400;
+            color: #e8f5e9;
+        }
+        
+        .exam-section {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        
+        #loginSection {
+            display: block;
+        }
+        
+        .section-title {
+            color: #1b5e20;
+            border-bottom: 2px solid #1b5e20;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border 0.3s;
+            background-color: #f9f9f9;
+        }
+        
+        .form-control:focus {
+            border-color: #1b5e20;
+            outline: none;
+            background-color: #fff;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #1b5e20, #2e7d32);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(to right, #2e7d32, #388e3c);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .alert {
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .alert-danger {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+        
+        .alert-success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        
+        .alert-warning {
+            background-color: #fff3e0;
+            color: #ef6c00;
+            border: 1px solid #ffcc80;
+        }
+        
+        .question-container {
+            margin-bottom: 20px;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        
+        .question-number {
+            background-color: #1b5e20;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        
+        .question-text {
+            font-weight: 600;
+            margin: 8px 0;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+        }
+        
+        .options {
+            margin-top: 10px;
+        }
+        
+        .option {
+            margin-bottom: 8px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+        
+        .option:hover {
+            background-color: #e8f5e9;
+            border-color: #1b5e20;
+        }
+        
+        .option.selected {
+            background-color: #c8e6c9;
+            border-color: #1b5e20;
+            font-weight: bold;
+        }
+        
+        .timer-container {
+            background: linear-gradient(to right, #d32f2f, #f44336);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .timer {
+            font-size: 18px;
+            direction: ltr;
+        }
+        
+        .results-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        
+        .score {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(to right, #1b5e20, #2e7d32);
+            color: white;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        .correct-answer {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        
+        .wrong-answer {
+            color: #c62828;
+            font-weight: bold;
+        }
+        
+        .student-info {
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            border-right: 4px solid #1b5e20;
+        }
+        
+        .student-info div {
+            margin-bottom: 5px;
+        }
+        
+        .grade-info {
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border-right: 4px solid #1b5e20;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        /* تصميم متجاوب للهواتف */
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+                font-size: 13px;
+            }
+            
+            .header h1 {
+                font-size: 15px;
+            }
+            
+            .header h2 {
+                font-size: 13px;
+            }
+            
+            .section-title {
+                font-size: 15px;
+            }
+            
+            .question-text {
+                font-size: 13px;
+            }
+            
+            .option {
+                font-size: 12.5px;
+                padding: 7px;
+            }
+            
+            .timer-container {
+                font-size: 14px;
+                padding: 8px;
+            }
+            
+            .timer {
+                font-size: 16px;
+            }
+        }
+        
+        /* منع النسخ واللصق */
+        .no-copy {
+            user-select: none;
+        }
+        
+        /* إخفاء الأسئلة والإجابات في البداية */
+        #questionsSection, #resultsSection {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- رأس الصفحة -->
+        <div class="header">
+            <h1>امتحان الدراسات الاجتماعية للصف الخامس الابتدائي</h1>
+            <h2>اختر الإجابة الصحيحة مما بين القوسين</h2>
+        </div>
+        
+        <!-- قسم تسجيل الدخول -->
+        <section id="loginSection" class="exam-section">
+            <h3 class="section-title">تسجيل بيانات الطالب</h3>
+            
+            <div id="loginAlert" class="alert" style="display: none;"></div>
+            
+            <div class="form-group">
+                <label for="studentName"><i class="fas fa-user"></i> الاسم الثلاثي على الأقل</label>
+                <input type="text" id="studentName" class="form-control no-copy" placeholder="أدخل اسمك ثلاثي أو رباعي (باللغة العربية)" autocomplete="off">
+                <small class="text-muted">يجب أن يحتوي الاسم على مسافتين على الأقل (10 أحرف كحد أدنى)</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="studentCode"><i class="fas fa-id-card"></i> الكود الخاص بالطالب</label>
+                <input type="text" id="studentCode" class="form-control no-copy" placeholder="أدخل الكود المكون من 9 أرقام (مثال: 135205123)" autocomplete="off" maxlength="9">
+                <small class="text-muted">الكود مكون من 9 أرقام ويبدأ بـ 13520 (الرقم السادس يعبر عن الصف الدراسي)</small>
+            </div>
+            
+            <!-- سيتم عرض معلومات الصف هنا -->
+            <div id="gradeInfo" class="grade-info" style="display: none;">
+                <i class="fas fa-graduation-cap"></i> <span id="gradeText"></span>
+            </div>
+            
+            <button id="startExamBtn" class="btn">
+                <i class="fas fa-play-circle"></i> بدء الامتحان
+            </button>
+        </section>
+        
+        <!-- قسم الأسئلة -->
+        <section id="questionsSection" class="exam-section">
+            <div class="timer-container">
+                <i class="fas fa-clock"></i> الوقت المتبقي: <span id="timer" class="timer">10:00</span>
+            </div>
+            
+            <div class="student-info">
+                <div><strong>الطالب:</strong> <span id="displayName"></span></div>
+                <div><strong>الصف:</strong> <span id="displayGrade"></span></div>
+                <div><strong>الكود:</strong> <span id="displayCode"></span></div>
+            </div>
+            
+            <h3 class="section-title">اختر الإجابة الصحيحة مما بين القوسين</h3>
+            
+            <!-- سيتم إضافة الأسئلة هنا ديناميكياً -->
+            <div id="questionsContainer"></div>
+            
+            <button id="submitExamBtn" class="btn">
+                <i class="fas fa-paper-plane"></i> إنهاء الامتحان
+            </button>
+        </section>
+        
+        <!-- قسم النتائج -->
+        <section id="resultsSection" class="results-container">
+            <h3 class="section-title">نتيجة الامتحان</h3>
+            
+            <div class="student-info">
+                <div><strong>الطالب:</strong> <span id="resultName"></span></div>
+                <div><strong>الصف:</strong> <span id="resultGrade"></span></div>
+                <div><strong>الكود:</strong> <span id="resultCode"></span></div>
+                <div><strong>وقت الانتهاء:</strong> <span id="finishTime"></span></div>
+            </div>
+            
+            <div id="scoreDisplay" class="score">
+                <!-- سيتم عرض النتيجة هنا -->
+            </div>
+            
+            <h4 class="section-title">تفاصيل الإجابات</h4>
+            <div id="resultsDetails"></div>
+            
+            <button id="restartExamBtn" class="btn">
+                <i class="fas fa-redo"></i> امتحان جديد
+            </button>
+        </section>
+    </div>
+
+    <script>
+        // بيانات امتحان الصف الخامس الابتدائي
+        const examData = {
+            title: "امتحان الدراسات الاجتماعية للصف الخامس الابتدائي",
+            timeLimit: 10, // بالدقائق
+            questions: [
+                {
+                    id: 1,
+                    question: "أُنشئت مكتبة الإسكندرية في عهد: ....................",
+                    options: [
+                        "الرومان",
+                        "العرب", 
+                        "البطالمة",
+                        "الفرس"
+                    ],
+                    correctAnswer: 2 // الفهرس الثالث (ج)
+                },
+                {
+                    id: 2,
+                    question: "من أشهر معابد البطالمة في أسوان: ....................",
+                    options: [
+                        "الكرنك",
+                        "فيلة",
+                        "دندرة",
+                        "إدفو"
+                    ],
+                    correctAnswer: 1 // الفهرس الثاني (ب)
+                },
+                {
+                    id: 3,
+                    question: "تحولت مصر إلى ولاية رومانية عام: ....................",
+                    options: [
+                        "31 ق.م",
+                        "323 ق.م",
+                        "641 م",
+                        "331 ق.م"
+                    ],
+                    correctAnswer: 0 // الفهرس الأول (أ)
+                },
+                {
+                    id: 4,
+                    question: "قائد الفتح الإسلامي لمصر هو: ....................",
+                    options: [
+                        "خالد بن الوليد",
+                        "طارق بن زياد", 
+                        "عمرو بن العاص",
+                        "صلاح الدين"
+                    ],
+                    correctAnswer: 2 // الفهرس الثالث (ج)
+                },
+                {
+                    id: 5,
+                    question: "تم الفتح الإسلامي لمصر في عام: ....................",
+                    options: [
+                        "323 ق.م",
+                        "31 ق.م",
+                        "641 م",
+                        "15 هـ"
+                    ],
+                    correctAnswer: 2 // الفهرس الثالث (ج)
+                },
+                {
+                    id: 6,
+                    question: "أي من العوامل التالية ساهمت في ترحيب المصريين بالإسكندر الأكبر؟ ....................",
+                    options: [
+                        "رغبة المصريين في الاستقلال",
+                        "سوء معاملة الفرس",
+                        "اهتمام الإسكندر بالديانة المصرية",
+                        "بناء منارة الإسكندرية"
+                    ],
+                    correctAnswer: 1 // الفهرس الثاني (ب)
+                },
+                {
+                    id: 7,
+                    question: "إذا لم يتم إنشاء منارة الإسكندرية في عهد البطالمة، فمن المتوقع أن: ....................",
+                    options: [
+                        "تتدهور الصناعة",
+                        "تقل حركة التجارة البحرية",
+                        "يضعف احترام الديانة المصرية",
+                        "يرفض المصريون حكم البطالمة"
+                    ],
+                    correctAnswer: 1 // الفهرس الثاني (ب)
+                },
+                {
+                    id: 8,
+                    question: "ما العلاقة المنطقية بين زيارة الإسكندر لمعبد آمون وتخطيطه لبناء مدينة الإسكندرية؟ ....................",
+                    options: [
+                        "نشر الثقافة الإغريقية",
+                        "كسب دعم المصريين",
+                        "زيادة الضرائب",
+                        "تقوية حكم البطالمة"
+                    ],
+                    correctAnswer: 1 // الفهرس الثاني (ب)
+                },
+                {
+                    id: 9,
+                    question: "ازدهرت الصناعات في عهد البطالمة، فما النتيجة المحتملة لذلك؟ ....................",
+                    options: [
+                        "تراجع التجارة",
+                        "انخفاض قيمة الزراعة",
+                        "زيادة التبادل التجاري",
+                        "ضعف الحياة الثقافية"
+                    ],
+                    correctAnswer: 2 // الفهرس الثالث (ج)
+                },
+                {
+                    id: 10,
+                    question: "أي من العوامل التالية ساهم في قيام المصريين بثورات ضد الرومان؟ ....................",
+                    options: [
+                        "ازدهار التعليم",
+                        "اضطهاد المسيحيين",
+                        "بناء المسارح",
+                        "إدخال السواقي للزراعة"
+                    ],
+                    correctAnswer: 1 // الفهرس الثاني (ب)
+                }
+            ]
+        };
+
+        // العناصر DOM
+        const loginSection = document.getElementById('loginSection');
+        const questionsSection = document.getElementById('questionsSection');
+        const resultsSection = document.getElementById('resultsSection');
+        const startExamBtn = document.getElementById('startExamBtn');
+        const submitExamBtn = document.getElementById('submitExamBtn');
+        const restartExamBtn = document.getElementById('restartExamBtn');
+        const studentNameInput = document.getElementById('studentName');
+        const studentCodeInput = document.getElementById('studentCode');
+        const gradeInfo = document.getElementById('gradeInfo');
+        const gradeText = document.getElementById('gradeText');
+        const questionsContainer = document.getElementById('questionsContainer');
+        const timerDisplay = document.getElementById('timer');
+        const loginAlert = document.getElementById('loginAlert');
+        
+        // عناصر عرض البيانات
+        const displayName = document.getElementById('displayName');
+        const displayGrade = document.getElementById('displayGrade');
+        const displayCode = document.getElementById('displayCode');
+        const resultName = document.getElementById('resultName');
+        const resultGrade = document.getElementById('resultGrade');
+        const resultCode = document.getElementById('resultCode');
+        const finishTime = document.getElementById('finishTime');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const resultsDetails = document.getElementById('resultsDetails');
+        
+        // متغيرات النظام
+        let timer;
+        let timeLeft = examData.timeLimit * 60; // ثواني
+        let studentAnswers = {};
+        let examStarted = false;
+        let detectedGrade = '';
+        
+        // تهيئة النظام
+        function initSystem() {
+            // منع النسخ واللصق
+            document.querySelectorAll('.no-copy').forEach(element => {
+                element.onpaste = e => e.preventDefault();
+                element.oncopy = e => e.preventDefault();
+                element.oncut = e => e.preventDefault();
+            });
+            
+            // تحويل الأرقام العربية إلى إنجليزية
+            studentCodeInput.addEventListener('input', function() {
+                let value = this.value;
+                // تحويل الأرقام العربية إلى إنجليزية
+                value = value.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
+                // السماح فقط بالأرقام
+                value = value.replace(/\D/g, '');
+                this.value = value;
+                
+                // عند إدخال 6 أرقام على الأقل، استخراج الصف
+                if (value.length >= 6) {
+                    detectGradeFromCode(value);
+                } else {
+                    gradeInfo.style.display = 'none';
+                }
+            });
+            
+            // إضافة المستمعين للأحداث
+            startExamBtn.addEventListener('click', startExam);
+            submitExamBtn.addEventListener('click', submitExam);
+            restartExamBtn.addEventListener('click', restartExam);
+            
+            // تحميل الأسئلة
+            loadQuestions();
+        }
+        
+        // اكتشاف الصف من الكود
+        function detectGradeFromCode(code) {
+            if (code.length < 6) return;
+            
+            // الرقم السادس من اليسار (المؤشر 5 في المصفوفة)
+            const gradeDigit = code.charAt(5);
+            
+            // تحويل الرقم إلى اسم الصف
+            const gradeMap = {
+                '4': 'الرابع الابتدائي',
+                '5': 'الخامس الابتدائي',
+                '6': 'السادس الابتدائي',
+                '7': 'الأول الإعدادي',
+                '8': 'الثاني الإعدادي'
+            };
+            
+            if (gradeMap[gradeDigit]) {
+                detectedGrade = gradeDigit;
+                gradeText.textContent = `الصف: ${gradeMap[gradeDigit]}`;
+                gradeInfo.style.display = 'block';
+            } else {
+                detectedGrade = '';
+                gradeInfo.style.display = 'none';
+            }
+        }
+        
+        // تحميل الأسئلة في الصفحة
+        function loadQuestions() {
+            questionsContainer.innerHTML = '';
+            
+            examData.questions.forEach((q, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question-container';
+                questionElement.id = `question-${q.id}`;
+                
+                let optionsHTML = '';
+                q.options.forEach((option, optIndex) => {
+                    const letter = String.fromCharCode(1570 + optIndex); // أ, ب, ج, د
+                    optionsHTML += `
+                        <div class="option" data-question="${q.id}" data-option="${optIndex}">
+                            <strong>${letter}-</strong> ${option}
+                        </div>
+                    `;
+                });
+                
+                questionElement.innerHTML = `
+                    <div>
+                        <span class="question-number">${q.id}</span>
+                        <span class="question-text">${q.question}</span>
+                    </div>
+                    <div class="options">${optionsHTML}</div>
+                `;
+                
+                questionsContainer.appendChild(questionElement);
+            });
+            
+            // إضافة مستمعين لاختيار الإجابات
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionId = this.getAttribute('data-question');
+                    const optionIndex = parseInt(this.getAttribute('data-option'));
+                    
+                    // إزالة التحديد من جميع خيارات هذا السؤال
+                    document.querySelectorAll(`[data-question="${questionId}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // تحديد الخيار المختار
+                    this.classList.add('selected');
+                    
+                    // حفظ الإجابة
+                    studentAnswers[questionId] = optionIndex;
+                });
+            });
+        }
+        
+        // بدء الامتحان
+        function startExam() {
+            const name = studentNameInput.value.trim();
+            const code = studentCodeInput.value.trim();
+            
+            // التحقق من الاسم
+            if (!validateName(name)) {
+                showAlert('يرجى كتابة الاسم ثلاثي على الأقل (10 أحرف كحد أدنى) ويحتوي على مسافتين', 'danger');
+                return;
+            }
+            
+            // التحقق من الكود
+            const codeValidation = validateCode(code);
+            if (!codeValidation.valid) {
+                showAlert(codeValidation.message, 'danger');
+                return;
+            }
+            
+            // يجب أن يكون الكود للصف الخامس الابتدائي (رقم 5 في المركز السادس)
+            if (detectedGrade !== '5') {
+                showAlert('هذا الامتحان مخصص للصف الخامس الابتدائي فقط. الكود لا يتطابق مع هذه المرحلة.', 'danger');
+                return;
+            }
+            
+            // التحقق من تكرار الكود
+            if (isCodeUsed(code)) {
+                showAlert('عذراً، هذا الكود أدى الامتحان مسبقاً', 'danger');
+                return;
+            }
+            
+            // حفظ بيانات الطالب في localStorage
+            saveStudentData(name, detectedGrade, code);
+            
+            // عرض بيانات الطالب
+            displayName.textContent = name;
+            displayGrade.textContent = getGradeName(detectedGrade);
+            displayCode.textContent = code;
+            
+            // تبديل الأقسام
+            loginSection.style.display = 'none';
+            questionsSection.style.display = 'block';
+            
+            // بدء المؤقت
+            startTimer();
+            examStarted = true;
+        }
+        
+        // التحقق من الاسم
+        function validateName(name) {
+            // يجب أن يكون باللغة العربية
+            const arabicPattern = /^[\u0600-\u06FF\s]+$/;
+            if (!arabicPattern.test(name)) return false;
+            
+            // يجب أن يحتوي على مسافتين على الأقل (لاسم رباعي)
+            const spacesCount = (name.match(/\s/g) || []).length;
+            if (spacesCount < 2) return false;
+            
+            // يجب أن يكون طول الاسم 10 أحرف على الأقل
+            if (name.length < 10) return false;
+            
+            return true;
+        }
+        
+        // التحقق من الكود
+        function validateCode(code) {
+            // يجب أن يكون الكود مكون من أرقام فقط
+            if (!/^\d+$/.test(code)) {
+                return { valid: false, message: 'الكود يجب أن يتكون من أرقام فقط' };
+            }
+            
+            // يجب أن يكون طول الكود 9 أرقام
+            if (code.length !== 9) {
+                return { valid: false, message: 'الكود يجب أن يكون مكون من 9 أرقام' };
+            }
+            
+            // يجب أن يبدأ بـ 13520
+            if (!code.startsWith('13520')) {
+                return { valid: false, message: 'الكود يجب أن يبدأ بـ 13520' };
+            }
+            
+            // يجب أن يكون الرقم السادس بين 4 و 8
+            const gradeDigit = code.charAt(5);
+            if (!['4', '5', '6', '7', '8'].includes(gradeDigit)) {
+                return { valid: false, message: 'الكود غير صحيح، الرقم السادس يجب أن يكون بين 4 و 8' };
+            }
+            
+            return { valid: true, message: 'الكود صحيح' };
+        }
+        
+        // التحقق من تكرار الكود
+        function isCodeUsed(code) {
+            // الحصول على الكود الحالي من localStorage
+            const currentExam = localStorage.getItem('currentExamCode');
+            
+            // إذا كان الكود مستخدم في هذا الامتحان الحالي
+            if (currentExam === code) {
+                return true;
+            }
+            
+            return false;
+        }
+        
+        // حفظ بيانات الطالب
+        function saveStudentData(name, grade, code) {
+            // حفظ بيانات الطالب الحالية
+            localStorage.setItem('currentStudentName', name);
+            localStorage.setItem('currentStudentGrade', grade);
+            localStorage.setItem('currentStudentCode', code);
+            localStorage.setItem('currentExamCode', code);
+            localStorage.setItem('examStartTime', new Date().toISOString());
+        }
+        
+        // بدء المؤقت
+        function startTimer() {
+            clearInterval(timer);
+            timeLeft = examData.timeLimit * 60;
+            updateTimerDisplay();
+            
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    submitExam();
+                }
+            }, 1000);
+        }
+        
+        // تحديث عرض المؤقت
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // تغيير لون المؤقت إذا قل الوقت
+            if (timeLeft < 60) {
+                timerDisplay.style.color = '#ff5252';
+            }
+        }
+        
+        // تقديم الامتحان
+        function submitExam() {
+            if (!examStarted) return;
+            
+            clearInterval(timer);
+            examStarted = false;
+            
+            // حساب النتيجة
+            const result = calculateResult();
+            
+            // عرض النتائج
+            showResults(result);
+            
+            // تبديل الأقسام
+            questionsSection.style.display = 'none';
+            resultsSection.style.display = 'block';
+        }
+        
+        // حساب النتيجة
+        function calculateResult() {
+            let correctCount = 0;
+            const totalQuestions = examData.questions.length;
+            const results = [];
+            
+            examData.questions.forEach(q => {
+                const userAnswer = studentAnswers[q.id];
+                const isCorrect = userAnswer === q.correctAnswer;
+                
+                if (isCorrect) correctCount++;
+                
+                results.push({
+                    questionId: q.id,
+                    questionText: q.question,
+                    userAnswer: userAnswer !== undefined ? q.options[userAnswer] : 'لم يتم الإجابة',
+                    correctAnswer: q.options[q.correctAnswer],
+                    isCorrect: isCorrect,
+                    userAnswerIndex: userAnswer,
+                    correctAnswerIndex: q.correctAnswer
+                });
+            });
+            
+            const score = (correctCount / totalQuestions) * 100;
+            
+            return {
+                totalQuestions,
+                correctCount,
+                wrongCount: totalQuestions - correctCount,
+                score: Math.round(score),
+                results
+            };
+        }
+        
+        // عرض النتائج
+        function showResults(result) {
+            // عرض بيانات الطالب
+            resultName.textContent = localStorage.getItem('currentStudentName');
+            resultGrade.textContent = getGradeName(localStorage.getItem('currentStudentGrade'));
+            resultCode.textContent = localStorage.getItem('currentStudentCode');
+            finishTime.textContent = new Date().toLocaleTimeString('ar-EG');
+            
+            // عرض النتيجة
+            let scoreClass = 'success';
+            if (result.score < 50) scoreClass = 'danger';
+            else if (result.score < 75) scoreClass = 'warning';
+            
+            scoreDisplay.innerHTML = `
+                <div>النتيجة النهائية</div>
+                <div style="font-size: 24px; margin-top: 5px;">${result.score}%</div>
+                <div style="font-size: 14px; margin-top: 10px;">
+                    ${result.correctCount} إجابة صحيحة من ${result.totalQuestions}
+                </div>
+            `;
+            
+            // عرض تفاصيل الإجابات
+            resultsDetails.innerHTML = '';
+            result.results.forEach(r => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+                
+                let answerStatus = '';
+                if (r.userAnswerIndex === undefined) {
+                    answerStatus = '<span class="wrong-answer">لم يتم الإجابة</span>';
+                } else if (r.isCorrect) {
+                    answerStatus = '<span class="correct-answer">✓ إجابة صحيحة</span>';
+                } else {
+                    answerStatus = '<span class="wrong-answer">✗ إجابة خاطئة</span>';
+                }
+                
+                resultItem.innerHTML = `
+                    <div><strong>س ${r.questionId}:</strong> ${r.questionText}</div>
+                    <div>إجابتك: ${r.userAnswer} ${answerStatus}</div>
+                    <div>الإجابة الصحيحة: <span class="correct-answer">${r.correctAnswer}</span></div>
+                `;
+                
+                resultsDetails.appendChild(resultItem);
+            });
+            
+            // مسح بيانات الامتحان الحالي من localStorage
+            localStorage.removeItem('currentExamCode');
+        }
+        
+        // إعادة تشغيل الامتحان
+        function restartExam() {
+            // مسح البيانات
+            studentAnswers = {};
+            studentNameInput.value = '';
+            studentCodeInput.value = '';
+            detectedGrade = '';
+            gradeInfo.style.display = 'none';
+            
+            // إعادة تعيين الأسئلة
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // تبديل الأقسام
+            resultsSection.style.display = 'none';
+            loginSection.style.display = 'block';
+            
+            // إخفاء التنبيه
+            loginAlert.style.display = 'none';
+        }
+        
+        // عرض التنبيهات
+        function showAlert(message, type) {
+            loginAlert.textContent = message;
+            loginAlert.className = `alert alert-${type}`;
+            loginAlert.style.display = 'block';
+            
+            // إخفاء التنبيه بعد 5 ثواني
+            setTimeout(() => {
+                loginAlert.style.display = 'none';
+            }, 5000);
+        }
+        
+        // الحصول على اسم الصف
+        function getGradeName(gradeCode) {
+            const grades = {
+                '4': 'الرابع الابتدائي',
+                '5': 'الخامس الابتدائي',
+                '6': 'السادس الابتدائي',
+                '7': 'الأول الإعدادي',
+                '8': 'الثاني الإعدادي'
+            };
+            return grades[gradeCode] || 'غير معروف';
+        }
+        
+        // تهيئة النظام عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', initSystem);
+    </script>
+</body>
+</html>
