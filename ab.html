@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Meal Planner | Smart Organizer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            color: #2c3e50;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .subtitle {
+            opacity: 0.9;
+        }
+
+        /* Control Buttons */
+        .control-bar {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .week-navigation {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn {
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .week-display {
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn.primary {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .action-btn.success {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #3498db;
+            background: rgba(52, 152, 219, 0.1);
+            border-bottom: 3px solid #3498db;
+        }
+
+        /* Weekly Calendar */
+        .weekly-calendar {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .calendar-header {
+            display: grid;
+            grid-template-columns: 100px repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            min-width: 800px;
+        }
+
+        .day-header {
+            text-align: center;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .today .day-header {
+            background: #3498db;
+            color: white;
+        }
+
+        .meals-grid {
+            display: grid;
+            grid-template-columns: 100px repeat(7, 1fr);
+            gap: 0.5rem;
+            min-width: 800px;
+        }
+
+        .meal-time {
+            padding: 1rem 0.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .meal-time.breakfast {
+            background: rgba(255, 234, 167, 0.3);
+            border-right: 3px solid #ffcc00;
+        }
+
+        .meal-time.lunch {
+            background: rgba(162, 155, 254, 0.3);
+            border-right: 3px solid #8e44ad;
+        }
+
+        .meal-time.dinner {
+            background: rgba(253, 121, 168, 0.3);
+            border-right: 3px solid #e74c3c;
+        }
+
+        .meal-cell {
+            min-height: 100px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .meal-cell:hover {
+            background: rgba(52, 152, 219, 0.05);
+            border-color: #3498db;
+        }
+
+        .meal-cell.empty {
+            color: #666;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .meal-cell.filled {
+            background: white;
+            border: 2px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .meal-name {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        .meal-details {
+            font-size: 0.8rem;
+            color: #666;
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .meal-actions {
+            position: absolute;
+            top: 0.3rem;
+            right: 0.3rem;
+            display: flex;
+            gap: 0.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .meal-cell:hover .meal-actions {
+            opacity: 1;
+        }
+
+        .meal-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 5px;
+            background: white;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        .meal-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .meal-btn.delete:hover {
+            background: #e74c3c;
+        }
+
+        /* Monthly Calendar */
+        .monthly-calendar {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .monthly-calendar.active {
+            display: block;
+        }
+
+        .month-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .month-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .month-day {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 0.5rem;
+            min-height: 80px;
+            position: relative;
+        }
+
+        .month-day.empty {
+            background: transparent;
+            border: none;
+        }
+
+        .day-number {
+            font-weight: bold;
+            text-align: center;
+            background: #f8f9fa;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 50%;
+            margin: 0 auto 0.3rem;
+        }
+
+        .month-day.today .day-number {
+            background: #3498db;
+            color: white;
+        }
+
+        .day-meals {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .day-meal {
+            font-size: 0.7rem;
+            padding: 0.1rem 0.3rem;
+            border-radius: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .meal-breakfast {
+            background: rgba(255, 234, 167, 0.5);
+            color: #856404;
+        }
+
+        .meal-lunch {
+            background: rgba(162, 155, 254, 0.5);
+            color: white;
+        }
+
+        .meal-dinner {
+            background: rgba(253, 121, 168, 0.5);
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+            display: none;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1rem;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .modal-header h2 {
+            color: #2c3e50;
+        }
+
+        .modal-body {
+            padding: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .modal-footer {
+            padding: 1rem;
+            border-top: 1px solid #ddd;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #2c3e50;
+            border: 1px solid #ddd;
+        }
+
+        /* Alerts */
+        .alert {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            z-index: 2000;
+            border-left: 5px solid #3498db;
+            display: none;
+        }
+
+        .alert.show {
+            display: flex;
+            animation: slideIn 0.3s ease;
+        }
+
+        .alert.success {
+            border-left-color: #27ae60;
+        }
+
+        .alert.error {
+            border-left-color: #e74c3c;
+        }
+
+        @keyframes slideIn {
+            from { top: -100px; opacity: 0; }
+            to { top: 1rem; opacity: 1; }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #666;
+            display: none;
+        }
+
+        .empty-state.active {
+            display: block;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .control-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .week-navigation {
+                order: 1;
+            }
+            
+            .action-buttons {
+                order: 2;
+                justify-content: center;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .meal-cell {
+                min-height: 80px;
+            }
+            
+            .month-day {
+                min-height: 70px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.5rem;
+            }
+            
+            .header h1 {
+                font-size: 1.2rem;
+            }
+            
+            .tab {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .meal-cell {
+                min-height: 70px;
+                padding: 0.3rem;
+            }
+            
+            .meal-name {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Weekly Meal Planner</h1>
+            <div class="subtitle">Organize your weekly and monthly meals easily</div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-view="weekly">
+                <i class="fas fa-calendar-week"></i> Weekly
+            </div>
+            <div class="tab" data-view="monthly">
+                <i class="fas fa-calendar-alt"></i> Monthly
+            </div>
+        </div>
+
+        <!-- Control -->
+        <div class="control-bar">
+            <div class="week-navigation">
+                <button class="nav-btn" id="prevWeek">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="week-display" id="weekDisplay">
+                    Loading...
+                </div>
+                <button class="nav-btn" id="nextWeek">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="action-buttons">
+                <button class="action-btn primary" id="addMealBtn">
+                    <i class="fas fa-plus"></i> Add Meal
+                </button>
+                <button class="action-btn success" id="clearWeekBtn">
+                    <i class="fas fa-trash"></i> Clear Week
+                </button>
+            </div>
+        </div>
+
+        <!-- Weekly Calendar -->
+        <div class="weekly-calendar" id="weeklyCalendar">
+            <div class="calendar-header">
+                <div class="day-header"></div>
+                <!-- Days will be added by JavaScript -->
+            </div>
+            <div class="meals-grid">
+                <!-- Breakfast -->
+                <div class="meal-time breakfast">
+                    <i class="fas fa-sun"></i> Breakfast
+                </div>
+                <!-- Cells will be added by JavaScript -->
+
+                <!-- Lunch -->
+                <div class="meal-time lunch">
+                    <i class="fas fa-utensils"></i> Lunch
+                </div>
+                <!-- Cells will be added by JavaScript -->
+
+                <!-- Dinner -->
+                <div class="meal-time dinner">
+                    <i class="fas fa-moon"></i> Dinner
+                </div>
+                <!-- Cells will be added by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Monthly Calendar -->
+        <div class="monthly-calendar" id="monthlyCalendar">
+            <div class="month-header">
+                <button class="nav-btn" id="prevMonth">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="month-name" id="monthName">Loading...</div>
+                <button class="nav-btn" id="nextMonth">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="month-grid" id="monthGrid">
+                <!-- Days will be added by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState">
+            <div class="empty-icon">
+                <i class="fas fa-calendar-plus"></i>
+            </div>
+            <h3>No Meals Planned Yet</h3>
+            <p>Start by adding meals to your week using the "Add Meal" button</p>
+            <button class="action-btn primary" id="quickAddBtn">
+                <i class="fas fa-plus"></i> Add Your First Meal
+            </button>
+        </div>
+
+        <!-- Add/Edit Meal Modal -->
+        <div class="modal" id="mealModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Add Meal</h2>
+                </div>
+                <div class="modal-body">
+                    <form id="mealForm">
+                        <input type="hidden" id="mealId">
+                        <input type="hidden" id="mealDay">
+                        <input type="hidden" id="mealType">
+                        
+                        <div class="form-group">
+                            <label class="form-label">Meal Type *</label>
+                            <select class="form-control" id="mealCategory" required>
+                                <option value="">Select meal type</option>
+                                <option value="breakfast">Breakfast</option>
+                                <option value="lunch">Lunch</option>
+                                <option value="dinner">Dinner</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Meal Name *</label>
+                            <input type="text" class="form-control" id="mealName" required 
+                                   placeholder="Example: Spaghetti Bolognese">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Prep Time (minutes)</label>
+                                <input type="number" class="form-control" id="prepTime" 
+                                       min="0" placeholder="Example: 30" value="30">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Servings</label>
+                                <input type="number" class="form-control" id="servings" 
+                                       min="1" placeholder="Example: 4" value="4">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Ingredients</label>
+                            <textarea class="form-control" id="mealIngredients" rows="3" 
+                                      placeholder="Example: 500g spaghetti, 400g ground beef, 2 onions, 3 garlic cloves"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelMealBtn">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveMealBtn">Save Meal</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert -->
+        <div class="alert" id="alert">
+            <div class="alert-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="alert-content" id="alertMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        // ================ Simple Storage System ================
+        class MealManager {
+            constructor() {
+                this.key = 'weeklyMeals';
+                this.currentDate = new Date();
+                this.meals = this.loadMeals();
+                this.initCalendar();
+                this.bindEvents();
+                this.render();
+            }
+
+            loadMeals() {
+                try {
+                    const data = localStorage.getItem(this.key);
+                    return data ? JSON.parse(data) : {};
+                } catch {
+                    return {};
+                }
+            }
+
+            saveMeals() {
+                localStorage.setItem(this.key, JSON.stringify(this.meals));
+            }
+
+            getWeekKey(date) {
+                const d = new Date(date);
+                d.setHours(0, 0, 0, 0);
+                // Calculate week start (Sunday)
+                const day = d.getDay();
+                const diff = d.getDate() - day;
+                const weekStart = new Date(d.setDate(diff));
+                return weekStart.toISOString().split('T')[0];
+            }
+
+            getMealKey(day, mealType) {
+                const weekKey = this.getWeekKey(this.currentDate);
+                return `${weekKey}_${day}_${mealType}`;
+            }
+
+            addMeal(day, mealType, mealData) {
+                const key = this.getMealKey(day, mealType);
+                this.meals[key] = {
+                    ...mealData,
+                    id: Date.now(),
+                    date: new Date().toISOString()
+                };
+                this.saveMeals();
+                return this.meals[key];
+            }
+
+            updateMeal(day, mealType, mealData) {
+                const key = this.getMealKey(day, mealType);
+                if (this.meals[key]) {
+                    this.meals[key] = { ...this.meals[key], ...mealData };
+                    this.saveMeals();
+                    return this.meals[key];
+                }
+                return null;
+            }
+
+            deleteMeal(day, mealType) {
+                const key = this.getMealKey(day, mealType);
+                if (this.meals[key]) {
+                    delete this.meals[key];
+                    this.saveMeals();
+                    return true;
+                }
+                return false;
+            }
+
+            getMeal(day, mealType) {
+                const key = this.getMealKey(day, mealType);
+                return this.meals[key] || null;
+            }
+
+            getWeekMeals() {
+                const weekMeals = {};
+                const weekKey = this.getWeekKey(this.currentDate);
+                
+                for (let day = 0; day < 7; day++) {
+                    weekMeals[day] = {
+                        breakfast: this.getMeal(day, 'breakfast'),
+                        lunch: this.getMeal(day, 'lunch'),
+                        dinner: this.getMeal(day, 'dinner')
+                    };
+                }
+                
+                return weekMeals;
+            }
+
+            clearWeek() {
+                const weekKey = this.getWeekKey(this.currentDate);
+                Object.keys(this.meals).forEach(key => {
+                    if (key.startsWith(weekKey)) {
+                        delete this.meals[key];
+                    }
+                });
+                this.saveMeals();
+            }
+
+            // ================ Calendar Display ================
+            initCalendar() {
+                this.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                this.months = [
+                    'January', 'February', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'
+                ];
+            }
+
+            getCurrentWeekRange() {
+                const start = new Date(this.currentDate);
+                start.setDate(start.getDate() - start.getDay());
+                
+                const end = new Date(start);
+                end.setDate(end.getDate() + 6);
+                
+                return {
+                    start,
+                    end,
+                    display: `${this.formatDate(start)} - ${this.formatDate(end)}, ${start.getFullYear()}`
+                };
+            }
+
+            formatDate(date) {
+                return `${date.getDate()} ${this.months[date.getMonth()].substring(0, 3)}`;
+            }
+
+            // ================ Event Binding ================
+            bindEvents() {
+                // Tabs
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.addEventListener('click', () => this.switchView(tab.dataset.view));
+                });
+
+                // Week Navigation
+                document.getElementById('prevWeek').addEventListener('click', () => this.navigateWeek(-1));
+                document.getElementById('nextWeek').addEventListener('click', () => this.navigateWeek(1));
+                document.getElementById('prevMonth').addEventListener('click', () => this.navigateMonth(-1));
+                document.getElementById('nextMonth').addEventListener('click', () => this.navigateMonth(1));
+
+                // Control Buttons
+                document.getElementById('addMealBtn').addEventListener('click', () => this.openAddModal());
+                document.getElementById('quickAddBtn').addEventListener('click', () => this.openAddModal());
+                document.getElementById('clearWeekBtn').addEventListener('click', () => this.clearCurrentWeek());
+                document.getElementById('saveMealBtn').addEventListener('click', () => this.saveMeal());
+                document.getElementById('cancelMealBtn').addEventListener('click', () => this.closeModal());
+
+                // Meal Cell Clicks
+                document.addEventListener('click', (e) => {
+                    const cell = e.target.closest('.meal-cell');
+                    if (cell) {
+                        if (e.target.closest('.meal-btn.delete')) {
+                            this.deleteMealFromCell(cell);
+                        } else {
+                            this.openEditModal(cell);
+                        }
+                    }
+                });
+
+                // Close modal by clicking outside
+                document.getElementById('mealModal').addEventListener('click', (e) => {
+                    if (e.target === document.getElementById('mealModal')) {
+                        this.closeModal();
+                    }
+                });
+            }
+
+            // ================ Rendering ================
+            render() {
+                this.renderWeekDisplay();
+                this.renderWeeklyCalendar();
+                this.renderMonthlyCalendar();
+                this.toggleEmptyState();
+            }
+
+            renderWeekDisplay() {
+                const week = this.getCurrentWeekRange();
+                document.getElementById('weekDisplay').textContent = week.display;
+            }
+
+            renderWeeklyCalendar() {
+                const week = this.getCurrentWeekRange();
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                // Update day headers
+                const header = document.querySelector('.calendar-header');
+                header.innerHTML = '<div class="day-header"></div>';
+                
+                for (let i = 0; i < 7; i++) {
+                    const dayDate = new Date(week.start);
+                    dayDate.setDate(dayDate.getDate() + i);
+                    
+                    const dayHeader = document.createElement('div');
+                    dayHeader.className = 'day-header';
+                    dayHeader.innerHTML = `
+                        <div>${this.days[i]}</div>
+                        <div style="font-size: 0.8rem; opacity: 0.7;">${dayDate.getDate()}/${dayDate.getMonth() + 1}</div>
+                    `;
+                    
+                    if (dayDate.getTime() === today.getTime()) {
+                        dayHeader.parentElement.classList.add('today');
+                    }
+                    
+                    header.appendChild(dayHeader);
+                }
+
+                // Render meal cells
+                const mealsGrid = document.querySelector('.meals-grid');
+                mealsGrid.innerHTML = '';
+                
+                const mealTypes = [
+                    { type: 'breakfast', icon: 'fas fa-sun', label: 'Breakfast' },
+                    { type: 'lunch', icon: 'fas fa-utensils', label: 'Lunch' },
+                    { type: 'dinner', icon: 'fas fa-moon', label: 'Dinner' }
+                ];
+                
+                const weekMeals = this.getWeekMeals();
+                
+                mealTypes.forEach(mealType => {
+                    // Meal time cell
+                    const timeCell = document.createElement('div');
+                    timeCell.className = `meal-time ${mealType.type}`;
+                    timeCell.innerHTML = `<i class="${mealType.icon}"></i> ${mealType.label}`;
+                    mealsGrid.appendChild(timeCell);
+                    
+                    // Seven day cells
+                    for (let day = 0; day < 7; day++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'meal-cell';
+                        cell.dataset.day = day;
+                        cell.dataset.meal = mealType.type;
+                        
+                        const meal = weekMeals[day][mealType.type];
+                        
+                        if (meal) {
+                            cell.classList.add('filled');
+                            cell.innerHTML = `
+                                <div class="meal-actions">
+                                    <button class="meal-btn edit" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="meal-btn delete" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <div class="meal-name">${meal.name}</div>
+                                <div class="meal-details">
+                                    <span><i class="fas fa-clock"></i> ${meal.prepTime || 30}m</span>
+                                    <span><i class="fas fa-users"></i> ${meal.servings || 4}</span>
+                                </div>
+                                ${meal.ingredients ? `<div style="font-size: 0.7rem; color: #666;">${meal.ingredients.substring(0, 30)}${meal.ingredients.length > 30 ? '...' : ''}</div>` : ''}
+                            `;
+                        } else {
+                            cell.classList.add('empty');
+                            cell.innerHTML = `
+                                <i class="fas fa-plus-circle" style="font-size: 1.2rem;"></i>
+                                <div style="font-size: 0.8rem;">Add Meal</div>
+                            `;
+                        }
+                        
+                        mealsGrid.appendChild(cell);
+                    }
+                });
+            }
+
+            renderMonthlyCalendar() {
+                const year = this.currentDate.getFullYear();
+                const month = this.currentDate.getMonth();
+                
+                document.getElementById('monthName').textContent = `${this.months[month]} ${year}`;
+                
+                // Calculate first day of month
+                const firstDay = new Date(year, month, 1);
+                const startingDay = firstDay.getDay();
+                
+                // Calculate last day of month
+                const lastDay = new Date(year, month + 1, 0);
+                const daysInMonth = lastDay.getDate();
+                
+                // Clear grid
+                const grid = document.getElementById('monthGrid');
+                grid.innerHTML = '';
+                
+                // Add empty days before month start
+                for (let i = 0; i < startingDay; i++) {
+                    const emptyDay = document.createElement('div');
+                    emptyDay.className = 'month-day empty';
+                    grid.appendChild(emptyDay);
+                }
+                
+                // Add month days
+                const today = new Date();
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'month-day';
+                    
+                    const currentDate = new Date(year, month, day);
+                    if (currentDate.getDate() === today.getDate() && 
+                        currentDate.getMonth() === today.getMonth() && 
+                        currentDate.getFullYear() === today.getFullYear()) {
+                        dayElement.classList.add('today');
+                    }
+                    
+                    // Day number
+                    const dayNumber = document.createElement('div');
+                    dayNumber.className = 'day-number';
+                    dayNumber.textContent = day;
+                    dayElement.appendChild(dayNumber);
+                    
+                    // Display meals for this day
+                    const weekKey = this.getWeekKey(currentDate);
+                    const dayOfWeek = currentDate.getDay();
+                    
+                    let hasMeals = false;
+                    const mealsContainer = document.createElement('div');
+                    mealsContainer.className = 'day-meals';
+                    
+                    ['breakfast', 'lunch', 'dinner'].forEach(mealType => {
+                        const key = `${weekKey}_${dayOfWeek}_${mealType}`;
+                        const meal = this.meals[key];
+                        if (meal) {
+                            hasMeals = true;
+                            const mealEl = document.createElement('div');
+                            mealEl.className = `day-meal meal-${mealType}`;
+                            mealEl.textContent = this.getMealAbbreviation(mealType) + ': ' + 
+                                               (meal.name.length > 8 ? meal.name.substring(0, 8) + '...' : meal.name);
+                            mealsContainer.appendChild(mealEl);
+                        }
+                    });
+                    
+                    if (hasMeals) {
+                        dayElement.appendChild(mealsContainer);
+                    }
+                    
+                    grid.appendChild(dayElement);
+                }
+            }
+
+            getMealAbbreviation(mealType) {
+                const abbreviations = {
+                    breakfast: 'B',
+                    lunch: 'L',
+                    dinner: 'D'
+                };
+                return abbreviations[mealType] || mealType.charAt(0);
+            }
+
+            toggleEmptyState() {
+                const weekMeals = this.getWeekMeals();
+                let hasMeals = false;
+                
+                for (let day = 0; day < 7; day++) {
+                    if (weekMeals[day].breakfast || weekMeals[day].lunch || weekMeals[day].dinner) {
+                        hasMeals = true;
+                        break;
+                    }
+                }
+                
+                document.getElementById('emptyState').classList.toggle('active', !hasMeals);
+            }
+
+            // ================ View Control ================
+            switchView(view) {
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.classList.toggle('active', tab.dataset.view === view);
+                });
+                
+                if (view === 'weekly') {
+                    document.getElementById('weeklyCalendar').style.display = 'block';
+                    document.getElementById('monthlyCalendar').classList.remove('active');
+                } else {
+                    document.getElementById('weeklyCalendar').style.display = 'none';
+                    document.getElementById('monthlyCalendar').classList.add('active');
+                }
+            }
+
+            navigateWeek(direction) {
+                this.currentDate.setDate(this.currentDate.getDate() + (direction * 7));
+                this.render();
+            }
+
+            navigateMonth(direction) {
+                this.currentDate.setMonth(this.currentDate.getMonth() + direction);
+                this.render();
+            }
+
+            // ================ Meal Management ================
+            openAddModal() {
+                document.getElementById('modalTitle').textContent = 'Add Meal';
+                document.getElementById('mealId').value = '';
+                document.getElementById('mealDay').value = '';
+                document.getElementById('mealType').value = '';
+                document.getElementById('mealCategory').value = '';
+                document.getElementById('mealName').value = '';
+                document.getElementById('prepTime').value = '30';
+                document.getElementById('servings').value = '4';
+                document.getElementById('mealIngredients').value = '';
+                document.getElementById('mealModal').classList.add('active');
+            }
+
+            openEditModal(cell) {
+                const day = parseInt(cell.dataset.day);
+                const mealType = cell.dataset.meal;
+                const meal = this.getMeal(day, mealType);
+                
+                if (!meal) {
+                    this.openAddModal();
+                    document.getElementById('mealDay').value = day;
+                    document.getElementById('mealType').value = mealType;
+                    document.getElementById('mealCategory').value = mealType;
+                    return;
+                }
+                
+                document.getElementById('modalTitle').textContent = 'Edit Meal';
+                document.getElementById('mealId').value = meal.id;
+                document.getElementById('mealDay').value = day;
+                document.getElementById('mealType').value = mealType;
+                document.getElementById('mealCategory').value = mealType;
+                document.getElementById('mealName').value = meal.name;
+                document.getElementById('prepTime').value = meal.prepTime || 30;
+                document.getElementById('servings').value = meal.servings || 4;
+                document.getElementById('mealIngredients').value = meal.ingredients || '';
+                document.getElementById('mealModal').classList.add('active');
+            }
+
+            closeModal() {
+                document.getElementById('mealModal').classList.remove('active');
+            }
+
+            saveMeal() {
+                const id = document.getElementById('mealId').value;
+                const day = document.getElementById('mealDay').value;
+                const mealType = document.getElementById('mealType').value || document.getElementById('mealCategory').value;
+                const name = document.getElementById('mealName').value.trim();
+                
+                if (!name) {
+                    this.showAlert('Please enter meal name', 'error');
+                    return;
+                }
+                
+                if (!mealType) {
+                    this.showAlert('Please select meal type', 'error');
+                    return;
+                }
+                
+                const mealData = {
+                    name: name,
+                    prepTime: parseInt(document.getElementById('prepTime').value) || 30,
+                    servings: parseInt(document.getElementById('servings').value) || 4,
+                    ingredients: document.getElementById('mealIngredients').value.trim()
+                };
+                
+                if (id) {
+                    this.updateMeal(parseInt(day), mealType, mealData);
+                    this.showAlert('Meal updated successfully');
+                } else {
+                    const actualDay = day || 0;
+                    this.addMeal(parseInt(actualDay), mealType, mealData);
+                    this.showAlert('Meal added successfully');
+                }
+                
+                this.closeModal();
+                this.render();
+            }
+
+            deleteMealFromCell(cell) {
+                if (!confirm('Are you sure you want to delete this meal?')) return;
+                
+                const day = parseInt(cell.dataset.day);
+                const mealType = cell.dataset.meal;
+                
+                if (this.deleteMeal(day, mealType)) {
+                    this.showAlert('Meal deleted successfully');
+                    this.render();
+                }
+            }
+
+            clearCurrentWeek() {
+                if (!confirm('Are you sure you want to clear all meals for this week?')) return;
+                
+                this.clearWeek();
+                this.showAlert('All meals cleared for this week');
+                this.render();
+            }
+
+            // ================ Alerts ================
+            showAlert(message, type = 'success') {
+                const alert = document.getElementById('alert');
+                alert.className = `alert ${type}`;
+                document.getElementById('alertMessage').textContent = message;
+                
+                // Update icon
+                const icon = alert.querySelector('.alert-icon i');
+                icon.className = type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+                
+                alert.classList.add('show');
+                
+                setTimeout(() => {
+                    alert.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // ================ Initialize App ================
+        document.addEventListener('DOMContentLoaded', () => {
+            const mealManager = new MealManager();
+            
+            // Make manager available globally for debugging
+            window.mealManager = mealManager;
+        });
+    </script>
+</body>
+</html>
