@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>امتحان اللغة العربية - الصف السادس الابتدائي</title>
+    <title>امتحان اللغة العربية - الصف الخامس الابتدائي</title>
     <style>
         * {
             box-sizing: border-box;
@@ -86,6 +86,17 @@
             border: 2px solid #d32f2f;
         }
         
+        .retry-section {
+            display: none;
+            text-align: center;
+            padding: 30px 15px;
+            background-color: #FFF3E0;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            color: #EF6C00;
+            border: 2px solid #FF9800;
+        }
+        
         .time-restriction {
             display: none;
             text-align: center;
@@ -132,6 +143,14 @@
             background-color: #545b62;
         }
         
+        .btn-warning {
+            background-color: #FF9800;
+        }
+        
+        .btn-warning:hover {
+            background-color: #F57C00;
+        }
+        
         .btn-success {
             background-color: #388e3c;
         }
@@ -150,9 +169,21 @@
         
         .question-title {
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: #2c5aa0;
             font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .sentence-example {
+            background-color: #E3F2FD;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 10px 0 15px 0;
+            border-right: 3px solid #1976D2;
+            font-weight: bold;
+            font-size: 15px;
+            text-align: center;
         }
         
         .options {
@@ -161,7 +192,7 @@
         
         .option {
             margin-bottom: 8px;
-            padding: 8px;
+            padding: 10px;
             background-color: white;
             border-radius: 5px;
             border: 1px solid #ddd;
@@ -178,6 +209,19 @@
             border-color: #2c5aa0;
         }
         
+        .option-letter {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-color: #78909C;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 25px;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        
         .exam-footer {
             text-align: center;
             margin-top: 30px;
@@ -192,11 +236,19 @@
             margin: 15px 0;
         }
         
+        .result-fail {
+            color: #d32f2f;
+        }
+        
+        .result-pass {
+            color: #388e3c;
+        }
+        
         .mistakes-list {
             text-align: right;
             margin-top: 20px;
             padding: 15px;
-            background-color: #ffebee;
+            background-color: #f9f9f9;
             border-radius: 5px;
             font-size: 13px;
         }
@@ -205,6 +257,13 @@
             margin-bottom: 10px;
             padding-bottom: 10px;
             border-bottom: 1px dashed #ffcdd2;
+        }
+        
+        .correct-item {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #C8E6C9;
+            color: #2E7D32;
         }
         
         .small-text {
@@ -229,6 +288,26 @@
             border-radius: 5px;
             font-weight: bold;
             z-index: 1000;
+            font-size: 14px;
+        }
+        
+        .section-title {
+            text-align: center;
+            background-color: #E3F2FD;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 25px 0 15px 0;
+            color: #1565C0;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .question-number {
+            background-color: #2c5aa0;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 4px;
+            margin-left: 5px;
             font-size: 14px;
         }
         
@@ -264,6 +343,11 @@
                 font-size: 12px;
                 padding: 5px 8px;
             }
+            
+            .sentence-example {
+                font-size: 14px;
+                padding: 10px;
+            }
         }
     </style>
 </head>
@@ -271,14 +355,15 @@
     <div class="container">
         <div class="header">
             <h1>مدرسة الجيل الجديد الخاصة</h1>
-            <h2>امتحان اللغة العربية للصف السادس الابتدائي</h2>
-            <h3>هذا أول امتحان</h3>
+            <h2>امتحان اللغة العربية للصف الخامس الابتدائي</h2>
+            <h3>قواعد النحو والإعراب -     </h3>
         </div>
         
         <!-- قسم إدخال الكود -->
         <div class="code-input-section" id="codeSection">
             <h3>أدخل كود الطالب (مكون من 9 أرقام)</h3>
-            <input type="text" id="studentCode" class="input-field" maxlength="9" placeholder="">
+            <input type="text" id="studentCode" class="input-field" maxlength="9" placeholder="
+">
             <p class="small-text">يرجى إدخال الكود المكون من 9 أرقام باللغة الإنجليزية</p>
             <button class="btn" onclick="validateCode()">بدء الامتحان</button>
             <div id="codeError" style="color: red; margin-top: 10px; display: none;">الكود المدخل غير صحيح. يجب أن يكون مكونًا من 9 أرقام.</div>
@@ -294,7 +379,17 @@
         <!-- قسم رسالة الخطأ -->
         <div class="error-section" id="errorSection">
             <h3>غير مسموح بالدخول إلى الامتحان</h3>
-            <p id="errorMessage">لقد قمت بالفعل بأداء الامتحان من قبل.</p>
+            <p id="errorMessage">لقد استخدمت هذا الكود مسبقًا على هذا الجهاز.</p>
+            <button class="btn btn-secondary" onclick="resetExam()">العودة لإدخال كود جديد</button>
+        </div>
+        
+        <!-- قسم إعادة المحاولة -->
+        <div class="retry-section" id="retrySection">
+            <h3>مرحبًا بك مرة أخرى!</h3>
+            <p>لقد أديت هذا الامتحان من قبل، ولكن مسموح لك بإعادة المحاولة مرة واحدة فقط.</p>
+            <p>سيتم حذف نتيجتك السابقة وتخزين النتيجة الجديدة فقط.</p>
+            <div class="small-text" id="previousResultInfo"></div>
+            <button class="btn btn-warning" onclick="allowRetry()">إعادة المحاولة</button>
             <button class="btn btn-secondary" onclick="resetExam()">العودة لإدخال كود جديد</button>
         </div>
         
@@ -302,123 +397,192 @@
         <div class="exam-section" id="examSection">
             <div class="timer" id="timer">الوقت: 30:00</div>
             
-            <h3 style="text-align: center; color: #2c5aa0;">أولاً: القواعد الإملائية (تخير الصواب)</h3>
+            <div class="section-title">امتحان النحو والإعراب - الصف الخامس الابتدائي</div>
             
             <!-- سؤال 1 -->
             <div class="question-section">
-                <div class="question-title">1 - شممت ........... العبير.</div>
+                <div class="question-title"><span class="question-number">1</span> حدِّد ظرف الزمان في الجملة:</div>
+                <div class="sentence-example">سافر أبي صباحًا.</div>
                 <div class="options">
-                    <div class="option" onclick="selectOption(1, 'راءحة')">راءحة</div>
-                    <div class="option" onclick="selectOption(1, 'رائحة')">رائحة</div>
-                    <div class="option" onclick="selectOption(1, 'راوحة')">راوحة</div>
+                    <div class="option" onclick="selectOption(1, 'سافر')">
+                        <span class="option-letter">أ</span> سافر
+                    </div>
+                    <div class="option" onclick="selectOption(1, 'أبي')">
+                        <span class="option-letter">ب</span> أبي
+                    </div>
+                    <div class="option" onclick="selectOption(1, 'صباحًا')">
+                        <span class="option-letter">ج</span> صباحًا
+                    </div>
                 </div>
             </div>
             
             <!-- سؤال 2 -->
             <div class="question-section">
-                <div class="question-title">2 - شارك أبي في ........... المناخ هذا العام.</div>
+                <div class="question-title"><span class="question-number">2</span> المفعول به في جملة:</div>
+                <div class="sentence-example">شرح الدرس المعلم</div>
                 <div class="options">
-                    <div class="option" onclick="selectOption(2, 'مأتمر')">مأتمر</div>
-                    <div class="option" onclick="selectOption(2, 'مؤتمر')">مؤتمر</div>
-                    <div class="option" onclick="selectOption(2, 'منتمر')">منتمر</div>
+                    <div class="option" onclick="selectOption(2, 'المعلم')">
+                        <span class="option-letter">أ</span> المعلم
+                    </div>
+                    <div class="option" onclick="selectOption(2, 'شرح')">
+                        <span class="option-letter">ب</span> شرح
+                    </div>
+                    <div class="option" onclick="selectOption(2, 'الدرس')">
+                        <span class="option-letter">ج</span> الدرس
+                    </div>
                 </div>
             </div>
             
             <!-- سؤال 3 -->
             <div class="question-section">
-                <div class="question-title">3 - أذن ........... لصلاة الفجر.</div>
+                <div class="question-title"><span class="question-number">3</span> المفعول لأجله في جملة:</div>
+                <div class="sentence-example">يذاكر التلميذ طلبًا للنجاح.</div>
                 <div class="options">
-                    <div class="option" onclick="selectOption(3, 'المئذن')">المئذن</div>
-                    <div class="option" onclick="selectOption(3, 'الماذن')">الماذن</div>
-                    <div class="option" onclick="selectOption(3, 'المؤذن')">المؤذن</div>
+                    <div class="option" onclick="selectOption(3, 'يذاكر')">
+                        <span class="option-letter">أ</span> يذاكر
+                    </div>
+                    <div class="option" onclick="selectOption(3, 'التلميذ')">
+                        <span class="option-letter">ب</span> التلميذ
+                    </div>
+                    <div class="option" onclick="selectOption(3, 'طلبًا')">
+                        <span class="option-letter">ج</span> طلبًا
+                    </div>
                 </div>
             </div>
             
             <!-- سؤال 4 -->
             <div class="question-section">
-                <div class="question-title">4 - لتحقق النجاح، اكتب ........... بأهدافك.</div>
+                <div class="question-title"><span class="question-number">4</span> إعراب كلمة (أمامَ) في الجملة:</div>
+                <div class="sentence-example">وقف الجندي أمامَ العلم.</div>
                 <div class="options">
-                    <div class="option" onclick="selectOption(4, 'قاءمة')">قاءمة</div>
-                    <div class="option" onclick="selectOption(4, 'قائمة')">قائمة</div>
-                    <div class="option" onclick="selectOption(4, 'قاومة')">قاومة</div>
+                    <div class="option" onclick="selectOption(4, 'ظرف زمان منصوب وعلامة نصبه الفتحة')">
+                        <span class="option-letter">أ</span> ظرف زمان منصوب وعلامة نصبه الفتحة
+                    </div>
+                    <div class="option" onclick="selectOption(4, 'ظرف مكان منصوب وعلامة نصبه الفتحة')">
+                        <span class="option-letter">ب</span> ظرف مكان منصوب وعلامة نصبه الفتحة
+                    </div>
+                    <div class="option" onclick="selectOption(4, 'مفعول به منصوب وعلامة نصبه الفتحة')">
+                        <span class="option-letter">ج</span> مفعول به منصوب وعلامة نصبه الفتحة
+                    </div>
                 </div>
             </div>
             
             <!-- سؤال 5 -->
             <div class="question-section">
-                <div class="question-title">5 - ........... الأسد بصوت مخيف.</div>
+                <div class="question-title"><span class="question-number">5</span> حدِّد المفعول لأجله:</div>
+                <div class="sentence-example">تعاونَ الطلابُ حبًّا في الخير.</div>
                 <div class="options">
-                    <div class="option" onclick="selectOption(5, 'زعر')">زعر</div>
-                    <div class="option" onclick="selectOption(5, 'زئر')">زئر</div>
-                    <div class="option" onclick="selectOption(5, 'زار')">زار</div>
+                    <div class="option" onclick="selectOption(5, 'تعاون')">
+                        <span class="option-letter">أ</span> تعاون
+                    </div>
+                    <div class="option" onclick="selectOption(5, 'الطلاب')">
+                        <span class="option-letter">ب</span> الطلاب
+                    </div>
+                    <div class="option" onclick="selectOption(5, 'حبًا')">
+                        <span class="option-letter">ج</span> حبًّا
+                    </div>
                 </div>
             </div>
             
-            <h3 style="text-align: center; color: #2c5aa0; margin-top: 30px;">ثانياً: القواعد النحوية (اختر الصواب)</h3>
-            
             <!-- سؤال 6 -->
             <div class="question-section">
-                <div class="question-title">1 - مصر هي المستقبل. عدد المعارف في الجملة:</div>
+                <div class="question-title"><span class="question-number">6</span> إعراب كلمة (صافية) في الجملة:</div>
+                <div class="sentence-example">صفاء مصر صافية</div>
                 <div class="options">
-                    <div class="option" onclick="selectOption(6, 'واحد')">واحد</div>
-                    <div class="option" onclick="selectOption(6, 'اثنان')">اثنان</div>
-                    <div class="option" onclick="selectOption(6, 'ثلاثة')">ثلاثة</div>
+                    <div class="option" onclick="selectOption(6, 'مفعول به منصوب بالفتحة')">
+                        <span class="option-letter">أ</span> مفعول به منصوب بالفتحة
+                    </div>
+                    <div class="option" onclick="selectOption(6, 'خبر مرفوع بالضمة')">
+                        <span class="option-letter">ب</span> خبر مرفوع بالضمة
+                    </div>
+                    <div class="option" onclick="selectOption(6, 'مفعول لأجله منصوب بالفتحة')">
+                        <span class="option-letter">ج</span> مفعول لأجله منصوب بالفتحة
+                    </div>
                 </div>
             </div>
             
             <!-- سؤال 7 -->
             <div class="question-section">
-                <div class="question-title">2 - الشباب ثروة حقيقية. عدد النكرات في الجملة:</div>
+                <div class="question-title"><span class="question-number">7</span> إعراب كلمة (صباحًا) في جملة:</div>
+                <div class="sentence-example">نستيقظ صباحًا</div>
                 <div class="options">
-                    <div class="option" onclick="selectOption(7, 'واحد')">واحد</div>
-                    <div class="option" onclick="selectOption(7, 'اثنان')">اثنان</div>
-                    <div class="option" onclick="selectOption(7, 'ثلاثة')">ثلاثة</div>
+                    <div class="option" onclick="selectOption(7, 'مفعول به منصوب بالفتحة')">
+                        <span class="option-letter">أ</span> مفعول به منصوب بالفتحة
+                    </div>
+                    <div class="option" onclick="selectOption(7, 'ظرف زمان منصوب بالفتحة')">
+                        <span class="option-letter">ب</span> ظرف زمان منصوب بالفتحة
+                    </div>
+                    <div class="option" onclick="selectOption(7, 'فاعل مرفوع بالضمة')">
+                        <span class="option-letter">ج</span> فاعل مرفوع بالضمة
+                    </div>
                 </div>
             </div>
             
             <!-- سؤال 8 -->
             <div class="question-section">
-                <div class="question-title">3 - أخوك مجتهد. علامة رفع المبتدأ هنا:</div>
+                <div class="question-title"><span class="question-number">8</span> إعراب كلمة (الفائزينَ) في جملة:</div>
+                <div class="sentence-example">هنَّأَ المدرسُ الفائزينَ.</div>
                 <div class="options">
-                    <div class="option" onclick="selectOption(8, 'الضمة')">الضمة</div>
-                    <div class="option" onclick="selectOption(8, 'الألف')">الألف</div>
-                    <div class="option" onclick="selectOption(8, 'الواو')">الواو</div>
+                    <div class="option" onclick="selectOption(8, 'مفعول به منصوب بالياء')">
+                        <span class="option-letter">أ</span> مفعول به منصوب بالياء
+                    </div>
+                    <div class="option" onclick="selectOption(8, 'فاعل مرفوع وعلامة رفعه الضمة')">
+                        <span class="option-letter">ب</span> فاعل مرفوع وعلامة رفعه الضمة
+                    </div>
+                    <div class="option" onclick="selectOption(8, 'مفعول به منصوب بالفتحة')">
+                        <span class="option-letter">ج</span> مفعول به منصوب بالفتحة
+                    </div>
                 </div>
             </div>
             
             <!-- سؤال 9 -->
             <div class="question-section">
-                <div class="question-title">4 - كن متفائلاً. كلمة "متفائلاً" تعرب:</div>
+                <div class="question-title"><span class="question-number">9</span> اختر الجملة الصحيحة:</div>
                 <div class="options">
-                    <div class="option" onclick="selectOption(9, 'مفعول به')">مفعول به</div>
-                    <div class="option" onclick="selectOption(9, 'اسم لفعل ناسخ')">اسم لفعل ناسخ</div>
-                    <div class="option" onclick="selectOption(9, 'خبر لفعل ناسخ')">خبر لفعل ناسخ</div>
+                    <div class="option" onclick="selectOption(9, 'كرَّمتُ الطالبانِ')">
+                        <span class="option-letter">أ</span> كرَّمتُ الطالبانِ
+                    </div>
+                    <div class="option" onclick="selectOption(9, 'كرَّمتُ الطالبَيْنِ')">
+                        <span class="option-letter">ب</span> كرَّمتُ الطالبَيْنِ
+                    </div>
+                    <div class="option" onclick="selectOption(9, 'كرَّمتُ الطالبونَ')">
+                        <span class="option-letter">ج</span> كرَّمتُ الطالبونَ
+                    </div>
                 </div>
             </div>
             
             <!-- سؤال 10 -->
             <div class="question-section">
-                <div class="question-title">5 - السمك يعيش تحت الماء. نوع الخبر هنا:</div>
+                <div class="question-title"><span class="question-number">10</span> إعراب كلمة (المتفوقينَ) في جملة:</div>
+                <div class="sentence-example">كرم المعلم المتفوقينَ</div>
                 <div class="options">
-                    <div class="option" onclick="selectOption(10, 'مفرد')">مفرد</div>
-                    <div class="option" onclick="selectOption(10, 'جملة فعلية')">جملة فعلية</div>
-                    <div class="option" onclick="selectOption(10, 'شبه جملة')">شبه جملة</div>
+                    <div class="option" onclick="selectOption(10, 'مفعول به منصوب بالياء')">
+                        <span class="option-letter">أ</span> مفعول به منصوب بالياء
+                    </div>
+                    <div class="option" onclick="selectOption(10, 'فاعل مرفوع وعلامة رفعه الألف')">
+                        <span class="option-letter">ب</span> فاعل مرفوع وعلامة رفعه الألف
+                    </div>
+                    <div class="option" onclick="selectOption(10, 'مفعول لأجله منصوب بالفتحة')">
+                        <span class="option-letter">ج</span> مفعول لأجله منصوب بالفتحة
+                    </div>
                 </div>
             </div>
             
             <div class="exam-footer">
                 <button class="btn btn-success" onclick="submitExam()">إنهاء الامتحان</button>
                 <p class="small-text">بمجرد إنهاء الامتحان لا يمكنك الرجوع إليه مرة أخرى</p>
+                <p class="small-text">عدد الأسئلة: 10 أسئلة</p>
             </div>
         </div>
         
         <!-- قسم النتائج -->
         <div class="result-section" id="resultSection">
-            <h3>نتيجة امتحان اللغة العربية</h3>
+            <h3>نتيجة امتحان اللغة العربية للصف الخامس الابتدائي</h3>
             <div class="result-score" id="finalScore">0/10</div>
-            <p>تم الانتهاء من تصحيح الامتحان</p>
+            <div id="resultMessage"></div>
+            <div id="attemptInfo" class="small-text"></div>
             
-            <div id="mistakesContainer" class="mistakes-list"></div>
+            <div id="resultsContainer"></div>
             
             <button class="btn" onclick="resetExam()">العودة للصفحة الرئيسية</button>
         </div>
@@ -431,33 +595,35 @@
         let examCompleted = false;
         let timeLeft = 30 * 60; // 30 دقيقة بالثواني
         let timerInterval;
+        let isRetryAttempt = false;
+        let attemptNumber = 1;
         
-        // الإجابات الصحيحة
+        // الإجابات الصحيحة للأسئلة
         const correctAnswers = {
-            1: 'رائحة',
-            2: 'مؤتمر',
-            3: 'المؤذن',
-            4: 'قائمة',
-            5: 'زئر',
-            6: 'ثلاثة',
-            7: 'اثنان',
-            8: 'الواو',
-            9: 'خبر لفعل ناسخ',
-            10: 'جملة فعلية'
+            1: 'صباحًا',
+            2: 'الدرس',
+            3: 'طلبًا',
+            4: 'ظرف مكان منصوب وعلامة نصبه الفتحة',
+            5: 'حبًا',
+            6: 'خبر مرفوع بالضمة',
+            7: 'ظرف زمان منصوب بالفتحة',
+            8: 'مفعول به منصوب بالياء',
+            9: 'كرَّمتُ الطالبَيْنِ',
+            10: 'مفعول به منصوب بالياء'
         };
         
-        // شرح الأخطاء
-        const mistakesExplanation = {
-            1: 'الحل: رائحة (لأن الهمزة مكسورة بعد ألف مد فترسم على نبرة).',
-            2: 'الحل: مؤتمر (لأن الهمزة ساكنة وما قبلها مضموم، والضم أقوى من السكون فترسم على واو).',
-            3: 'الحل: المؤذن (لأن الهمزة مفتوحة وما قبلها مضموم، والضم أقوى من الفتح فترسم على واو).',
-            4: 'الحل: قائمة (لأن الهمزة مكسورة بعد ألف مد فترسم على نبرة).',
-            5: 'الحل: زئر (لأن الهمزة مكسورة وما قبلها مفتوح، والكسر أقوى الحركات فترسم على نبرة).',
-            6: 'الحل: ثلاثة (المعارف هي: "مصر" علم، "هي" ضمير، "المستقبل" معرف بأل).',
-            7: 'الحل: اثنان (النكرات هي: "ثروة"، "حقيقية").',
-            8: 'الحل: الواو (لأن "أخوك" من الأسماء الخمسة).',
-            9: 'الحل: خبر لفعل ناسخ (خبر "كن" منصوب، واسمها ضمير مستتر تقديره أنت).',
-            10: 'الحل: جملة فعلية (الخبر هو الفعل "يعيش" والفاعل المستتر، والجملة في محل رفع خبر المبتدأ).'
+        // شرح الإجابات
+        const answersExplanation = {
+            1: 'صباحًا ظرف زمان منصوب وعلامة نصبه الفتحة الظاهرة',
+            2: 'الدرس مفعول به منصوب وعلامة نصبه الفتحة الظاهرة',
+            3: 'طلبًا مفعول لأجله منصوب وعلامة نصبه الفتحة الظاهرة',
+            4: 'أمامَ ظرف مكان منصوب وعلامة نصبه الفتحة الظاهرة',
+            5: 'حبًّا مفعول لأجله منصوب وعلامة نصبه الفتحة الظاهرة',
+            6: 'صافية خبر مرفوع وعلامة رفعه الضمة الظاهرة',
+            7: 'صباحًا ظرف زمان منصوب وعلامة نصبه الفتحة الظاهرة',
+            8: 'الفائزينَ مفعول به منصوب وعلامة نصبه الياء لأنه جمع مذكر سالم',
+            9: 'كرَّمتُ الطالبَيْنِ (المثنى منصوب بالياء)',
+            10: 'المتفوقينَ مفعول به منصوب وعلامة نصبه الياء لأنه جمع مذكر سالم'
         };
         
         // التحقق من الوقت (لا يفتح بعد منتصف الليل)
@@ -495,14 +661,7 @@
             }
             
             // التحقق من استخدام الكود على هذا الجهاز
-            if (!checkCodeUsage(code)) {
-                // إذا تم رفض الكود
-                showError("لقد استخدمت هذا الكود مسبقًا على هذا الجهاز.");
-                return;
-            }
-            
-            // بدء الامتحان
-            startExam();
+            checkCodeUsage(code);
         }
         
         // التحقق من استخدام الكود على الجهاز
@@ -511,46 +670,92 @@
             const deviceKey = generateDeviceKey();
             
             // تخزين المعلومات في localStorage مع ترميز خاص لمنع التداخل
-            const examKey = `exam_${deviceKey}_${code}`;
-            const previousAttempt = localStorage.getItem(examKey);
+            const examKey = `exam5prim_${deviceKey}_${code}`;
+            const attemptsKey = `attempts5prim_${deviceKey}_${code}`;
+            const retryKey = `retry5prim_${deviceKey}_${code}`;
             
-            // إذا كان الكود مستخدمًا مسبقًا على هذا الجهاز
-            if (previousAttempt) {
-                return false;
+            // التحقق من عدد المحاولات
+            let attempts = localStorage.getItem(attemptsKey);
+            attempts = attempts ? parseInt(attempts) : 0;
+            
+            // التحقق إذا كانت هذه محاولة إعادة
+            const retryAllowed = localStorage.getItem(retryKey);
+            
+            // إذا كانت المحاولة الأولى
+            if (attempts === 0) {
+                // تسجيل المحاولة الأولى
+                localStorage.setItem(attemptsKey, 1);
+                startExam();
+            } 
+            // إذا كانت المحاولة الثانية ولم يتم السماح بالإعادة بعد
+            else if (attempts === 1 && !retryAllowed) {
+                // عرض رسالة السماح بإعادة المحاولة
+                showRetryOption(code, deviceKey);
             }
-            
-            // التحقق من عدد المرات التي استخدم فيها هذا الهاتف الامتحان
-            const phoneUsageKey = `phone_${deviceKey}`;
-            let phoneUsage = localStorage.getItem(phoneUsageKey);
-            phoneUsage = phoneUsage ? parseInt(phoneUsage) : 0;
-            
-            // إذا استخدم الهاتف الامتحان مرتين بالفعل
-            if (phoneUsage >= 2) {
-                showError("لقد استخدمت هذا الهاتف لأداء الامتحان مرتين بالفعل.");
-                return false;
+            // إذا كانت المحاولة الثانية وتم السماح بالإعادة
+            else if (attempts === 1 && retryAllowed) {
+                // السماح بالإعادة مرة واحدة فقط
+                isRetryAttempt = true;
+                attemptNumber = 2;
+                localStorage.setItem(attemptsKey, 2);
+                localStorage.removeItem(retryKey); // إزالة خيار الإعادة
+                startExam();
             }
+            // إذا تجاوز المحاولتين
+            else if (attempts >= 2) {
+                showError("لقد استخدمت هذا الكود لأداء الامتحان مرتين بالفعل.");
+            }
+        }
+        
+        // عرض خيار إعادة المحاولة
+        function showRetryOption(code, deviceKey) {
+            // عرض قسم إعادة المحاولة
+            document.getElementById('retrySection').style.display = 'block';
+            document.getElementById('codeSection').style.display = 'none';
             
-            // تسجيل محاولة جديدة
-            localStorage.setItem(examKey, 'attempted');
-            localStorage.setItem(phoneUsageKey, phoneUsage + 1);
+            // عرض معلومات النتيجة السابقة إن وجدت
+            const resultKey = `result5prim_${deviceKey}_${code}`;
+            const previousResult = localStorage.getItem(resultKey);
             
-            // تخزين معلومات إضافية مع ترميز مختلف
-            const encodedInfo = btoa(`${code}|${new Date().getTime()}|${deviceKey}|${Math.random()}`);
-            localStorage.setItem(`enc_${deviceKey}_${code}`, encodedInfo);
+            if (previousResult) {
+                try {
+                    const resultData = JSON.parse(previousResult);
+                    document.getElementById('previousResultInfo').innerHTML = 
+                        `النتيجة السابقة: ${resultData.score}/10 - التاريخ: ${new Date(resultData.date).toLocaleDateString('ar-EG')}`;
+                } catch (e) {
+                    console.log('لا توجد نتيجة سابقة');
+                }
+            }
+        }
+        
+        // السماح بإعادة المحاولة
+        function allowRetry() {
+            const codeInput = document.getElementById('studentCode');
+            const code = codeInput.value.trim();
+            const deviceKey = generateDeviceKey();
+            const retryKey = `retry5prim_${deviceKey}_${code}`;
             
-            return true;
+            // تسجيل السماح بالإعادة
+            localStorage.setItem(retryKey, 'allowed');
+            
+            // إخفاء قسم الإعادة وإظهار قسم الكود للتحقق مرة أخرى
+            document.getElementById('retrySection').style.display = 'none';
+            document.getElementById('codeSection').style.display = 'block';
+            
+            // إعادة التحقق من الكود
+            validateCode();
         }
         
         // إنشاء مفتاح فريد للجهاز
         function generateDeviceKey() {
             // محاولة الحصول على معرف فريد للجهاز من localStorage
-            let deviceKey = localStorage.getItem('device_key');
+            let deviceKey = localStorage.getItem('device_key_5prim');
             
             if (!deviceKey) {
                 // إنشاء مفتاح عشوائي إذا لم يكن موجودًا
-                deviceKey = 'device_' + Math.random().toString(36).substring(2, 15) + 
+                deviceKey = 'device5prim_' + Math.random().toString(36).substring(2, 15) + 
                            Math.random().toString(36).substring(2, 15);
-                localStorage.setItem('device_key', deviceKey);
+                localStorage.setItem('device_key_5prim', deviceKey);
             }
             
             return deviceKey;
@@ -599,12 +804,12 @@
         // تحديد إجابة
         function selectOption(questionId, option) {
             // إزالة التحديد من جميع خيارات هذا السؤال
-            const questionDiv = event.target.parentElement;
+            const questionDiv = event.target.closest('.question-section');
             const options = questionDiv.querySelectorAll('.option');
             options.forEach(opt => opt.classList.remove('selected'));
             
             // تحديد الخيار المختار
-            event.target.classList.add('selected');
+            event.target.closest('.option').classList.add('selected');
             
             // حفظ الإجابة
             studentAnswers[questionId] = option;
@@ -616,69 +821,105 @@
             
             // حساب النتيجة
             let score = 0;
-            let mistakes = [];
+            let results = [];
             
+            // تصحيح الأسئلة
             for (let i = 1; i <= 10; i++) {
-                if (studentAnswers[i] === correctAnswers[i]) {
-                    score++;
-                } else {
-                    mistakes.push({
-                        question: i,
-                        selected: studentAnswers[i] || 'لم يتم الإجابة',
-                        correct: correctAnswers[i],
-                        explanation: mistakesExplanation[i]
-                    });
-                }
+                const isCorrect = studentAnswers[i] === correctAnswers[i];
+                if (isCorrect) score++;
+                
+                results.push({
+                    question: i,
+                    selected: studentAnswers[i] || 'لم يتم الإجابة',
+                    correct: correctAnswers[i],
+                    isCorrect: isCorrect,
+                    explanation: answersExplanation[i]
+                });
             }
             
             // عرض النتيجة
-            showResults(score, mistakes);
+            showResults(score, results);
             
             // تسجيل أن الامتحان اكتمل
             examCompleted = true;
             
             // تخزين النتيجة محليًا مع ترميز
             const deviceKey = generateDeviceKey();
-            const resultKey = `result_${deviceKey}_${studentCode}`;
+            const resultKey = `result5prim_${deviceKey}_${studentCode}`;
             const resultData = {
                 score: score,
                 date: new Date().toISOString(),
-                code: studentCode
+                code: studentCode,
+                grade: 'الصف الخامس الابتدائي',
+                attempt: attemptNumber,
+                isRetry: isRetryAttempt
             };
             
             localStorage.setItem(resultKey, JSON.stringify(resultData));
         }
         
         // عرض النتائج
-        function showResults(score, mistakes) {
+        function showResults(score, results) {
             // إخفاء قسم الامتحان وإظهار قسم النتائج
             document.getElementById('examSection').style.display = 'none';
             document.getElementById('resultSection').style.display = 'block';
             
             // عرض النتيجة
-            document.getElementById('finalScore').textContent = `${score}/10`;
+            const scoreElement = document.getElementById('finalScore');
+            const resultMessage = document.getElementById('resultMessage');
+            const attemptInfo = document.getElementById('attemptInfo');
             
-            // عرض الأخطاء إن وجدت
-            const mistakesContainer = document.getElementById('mistakesContainer');
+            scoreElement.textContent = `${score}/10`;
             
-            if (mistakes.length > 0) {
-                let mistakesHTML = '<h4>التصحيح والأخطاء:</h4>';
-                
-                mistakes.forEach(mistake => {
-                    mistakesHTML += `
-                        <div class="mistake-item">
-                            <div><strong>السؤال ${mistake.question}:</strong></div>
-                            <div>إجابتك: ${mistake.selected}</div>
-                            <div>الإجابة الصحيحة: ${mistake.correct}</div>
-                            <div class="small-text">${mistake.explanation}</div>
+            // عرض معلومات المحاولة
+            if (isRetryAttempt) {
+                attemptInfo.innerHTML = `<p style="color:#FF9800">هذه إعادة المحاولة (المحاولة الثانية)</p>`;
+            } else {
+                attemptInfo.innerHTML = `<p style="color:#2196F3">هذه المحاولة الأولى</p>`;
+            }
+            
+            if (score >= 7) {
+                scoreElement.classList.add('result-pass');
+                scoreElement.classList.remove('result-fail');
+                resultMessage.innerHTML = '<p style="color:#388e3c; font-weight:bold;">ممتاز! أداء رائع</p>';
+            } else if (score >= 5) {
+                scoreElement.classList.remove('result-pass');
+                scoreElement.classList.remove('result-fail');
+                resultMessage.innerHTML = '<p style="color:#FF9800; font-weight:bold;">جيد، يمكنك التحسين</p>';
+            } else {
+                scoreElement.classList.add('result-fail');
+                scoreElement.classList.remove('result-pass');
+                resultMessage.innerHTML = '<p style="color:#d32f2f; font-weight:bold;">يجب مراجعة الدروس</p>';
+            }
+            
+            // عرض تفاصيل النتائج
+            const resultsContainer = document.getElementById('resultsContainer');
+            
+            let resultsHTML = '<div class="mistakes-list">';
+            resultsHTML += '<h4>تفاصيل الإجابات:</h4>';
+            
+            results.forEach(result => {
+                if (result.isCorrect) {
+                    resultsHTML += `
+                        <div class="correct-item">
+                            <div><strong>السؤال ${result.question}:</strong> إجابتك صحيحة ✓</div>
+                            <div class="small-text">${result.explanation}</div>
                         </div>
                     `;
-                });
-                
-                mistakesContainer.innerHTML = mistakesHTML;
-            } else {
-                mistakesContainer.innerHTML = '<p>مبروك! لقد أجبت على جميع الأسئلة بشكل صحيح.</p>';
-            }
+                } else {
+                    resultsHTML += `
+                        <div class="mistake-item">
+                            <div><strong>السؤال ${result.question}:</strong></div>
+                            <div>إجابتك: ${result.selected}</div>
+                            <div>الإجابة الصحيحة: ${result.correct}</div>
+                            <div class="small-text">${result.explanation}</div>
+                        </div>
+                    `;
+                }
+            });
+            
+            resultsHTML += '</div>';
+            resultsContainer.innerHTML = resultsHTML;
         }
         
         // إعادة تعيين الامتحان
@@ -687,12 +928,15 @@
             studentCode = '';
             studentAnswers = {};
             timeLeft = 30 * 60;
+            isRetryAttempt = false;
+            attemptNumber = 1;
             
             // إعادة تعيين العرض
             document.getElementById('codeSection').style.display = 'block';
             document.getElementById('examSection').style.display = 'none';
             document.getElementById('resultSection').style.display = 'none';
             document.getElementById('errorSection').style.display = 'none';
+            document.getElementById('retrySection').style.display = 'none';
             document.getElementById('timeRestriction').style.display = 'none';
             document.getElementById('studentCode').value = '';
             
