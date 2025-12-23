@@ -3,911 +3,586 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>امتحان الدراسات الاجتماعية - الصف السادس الابتدائي</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>امتحان اللغة العربية - الصف السادس الابتدائي</title>
     <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #4a148c 0%, #6a1b9a 100%);
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
             color: #333;
-            min-height: 100vh;
-            padding: 10px;
             font-size: 14px;
+            line-height: 1.6;
         }
         
         .container {
             max-width: 100%;
             margin: 0 auto;
-            padding: 0;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         
         .header {
-            background: linear-gradient(to right, #4a148c, #6a1b9a);
-            color: white;
-            padding: 12px 15px;
             text-align: center;
-            border-radius: 10px 10px 0 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
+            border-bottom: 3px solid #2c5aa0;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
         }
         
         .header h1 {
-            font-size: 16px;
-            margin-bottom: 5px;
-            font-weight: 600;
+            color: #2c5aa0;
+            margin: 0 0 5px 0;
+            font-size: 22px;
         }
         
         .header h2 {
-            font-size: 14px;
-            font-weight: 400;
-            color: #f3e5f5;
+            color: #d32f2f;
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        
+        .header h3 {
+            color: #388e3c;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        
+        .code-input-section {
+            text-align: center;
+            padding: 30px 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 2px dashed #ccc;
         }
         
         .exam-section {
             display: none;
-            background-color: white;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
         }
         
-        #loginSection {
-            display: block;
-        }
-        
-        .section-title {
-            color: #4a148c;
-            border-bottom: 2px solid #4a148c;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-        
-        .sub-section-title {
-            color: #6a1b9a;
-            border-right: 4px solid #6a1b9a;
-            padding-right: 10px;
-            margin: 20px 0 15px 0;
-            font-size: 15px;
-            font-weight: 600;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            color: #333;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: border 0.3s;
+        .result-section {
+            display: none;
+            text-align: center;
+            padding: 30px 15px;
             background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 30px;
         }
         
-        .form-control:focus {
-            border-color: #4a148c;
-            outline: none;
-            background-color: #fff;
+        .error-section {
+            display: none;
+            text-align: center;
+            padding: 30px 15px;
+            background-color: #ffebee;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            color: #d32f2f;
+            border: 2px solid #d32f2f;
+        }
+        
+        .time-restriction {
+            display: none;
+            text-align: center;
+            padding: 30px 15px;
+            background-color: #fff3e0;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            color: #f57c00;
+            border: 2px solid #f57c00;
+        }
+        
+        .input-field {
+            width: 250px;
+            padding: 12px;
+            font-size: 18px;
+            text-align: center;
+            border: 2px solid #2c5aa0;
+            border-radius: 5px;
+            margin: 10px 0;
+            direction: ltr;
         }
         
         .btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(to right, #4a148c, #6a1b9a);
+            padding: 12px 30px;
+            background-color: #2c5aa0;
             color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 15px;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: background-color 0.3s;
         }
         
         .btn:hover {
-            background: linear-gradient(to right, #6a1b9a, #8e24aa);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #1e3d6f;
         }
         
-        .btn:active {
-            transform: translateY(0);
+        .btn-secondary {
+            background-color: #6c757d;
         }
         
-        .alert {
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 13px;
-            text-align: center;
+        .btn-secondary:hover {
+            background-color: #545b62;
         }
         
-        .alert-danger {
-            background-color: #ffebee;
-            color: #c62828;
-            border: 1px solid #ffcdd2;
+        .btn-success {
+            background-color: #388e3c;
         }
         
-        .alert-success {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #c8e6c9;
+        .btn-success:hover {
+            background-color: #2e7d32;
         }
         
-        .alert-warning {
-            background-color: #fff3e0;
-            color: #ef6c00;
-            border: 1px solid #ffcc80;
-        }
-        
-        .question-container {
-            margin-bottom: 20px;
-            padding: 12px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
+        .question-section {
+            margin-bottom: 30px;
+            padding: 15px;
             background-color: #f9f9f9;
+            border-radius: 8px;
+            border-right: 4px solid #2c5aa0;
         }
         
-        .question-number {
-            background-color: #4a148c;
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 8px;
-            font-size: 13px;
+        .question-title {
             font-weight: bold;
-        }
-        
-        .question-text {
-            font-weight: 600;
-            margin: 8px 0;
-            font-size: 14px;
-            line-height: 1.5;
-            color: #333;
+            margin-bottom: 10px;
+            color: #2c5aa0;
+            font-size: 16px;
         }
         
         .options {
-            margin-top: 10px;
+            margin-right: 20px;
         }
         
         .option {
             margin-bottom: 8px;
             padding: 8px;
+            background-color: white;
+            border-radius: 5px;
             border: 1px solid #ddd;
-            border-radius: 6px;
             cursor: pointer;
             transition: all 0.2s;
-            font-size: 13px;
         }
         
         .option:hover {
-            background-color: #f3e5f5;
-            border-color: #4a148c;
+            background-color: #e3f2fd;
         }
         
         .option.selected {
-            background-color: #e1bee7;
-            border-color: #4a148c;
-            font-weight: bold;
+            background-color: #bbdefb;
+            border-color: #2c5aa0;
         }
         
-        .true-false-options {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        
-        .tf-option {
-            flex: 1;
-            margin: 0 5px;
-            padding: 10px;
+        .exam-footer {
             text-align: center;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .result-score {
+            font-size: 28px;
             font-weight: bold;
+            color: #2c5aa0;
+            margin: 15px 0;
         }
         
-        .tf-option.true {
-            color: #2e7d32;
-            border-color: #c8e6c9;
+        .mistakes-list {
+            text-align: right;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #ffebee;
+            border-radius: 5px;
+            font-size: 13px;
         }
         
-        .tf-option.false {
-            color: #c62828;
-            border-color: #ffcdd2;
+        .mistake-item {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ffcdd2;
         }
         
-        .tf-option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+        .small-text {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
         }
         
-        .tf-option.selected-true {
-            background-color: #c8e6c9;
-            border-color: #2e7d32;
-            color: #1b5e20;
-        }
-        
-        .tf-option.selected-false {
-            background-color: #ffcdd2;
-            border-color: #c62828;
-            color: #b71c1c;
-        }
-        
-        .timer-container {
-            background: linear-gradient(to right, #d32f2f, #f44336);
-            color: white;
-            padding: 10px;
-            text-align: center;
-            border-radius: 6px;
-            margin-bottom: 15px;
+        .warning-text {
+            color: #d32f2f;
             font-weight: bold;
-            font-size: 16px;
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+            margin: 10px 0;
         }
         
         .timer {
-            font-size: 18px;
-            direction: ltr;
-        }
-        
-        .results-container {
-            background-color: white;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
-        }
-        
-        .score {
-            text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            background: linear-gradient(to right, #4a148c, #6a1b9a);
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: #2c5aa0;
             color: white;
-            border-radius: 8px;
-            font-size: 18px;
+            padding: 8px 12px;
+            border-radius: 5px;
             font-weight: bold;
+            z-index: 1000;
+            font-size: 14px;
         }
         
-        .result-item {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-        
-        .correct-answer {
-            color: #2e7d32;
-            font-weight: bold;
-        }
-        
-        .wrong-answer {
-            color: #c62828;
-            font-weight: bold;
-        }
-        
-        .student-info {
-            background-color: #f3e5f5;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 13px;
-            border-right: 4px solid #4a148c;
-        }
-        
-        .student-info div {
-            margin-bottom: 5px;
-        }
-        
-        .grade-info {
-            background-color: #f3e5f5;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 10px;
-            border-right: 4px solid #4a148c;
-            font-size: 13px;
-            text-align: center;
-        }
-        
-        /* تصميم متجاوب للهواتف */
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             body {
-                padding: 8px;
+                padding: 10px;
                 font-size: 13px;
             }
             
             .header h1 {
-                font-size: 15px;
+                font-size: 18px;
             }
             
             .header h2 {
-                font-size: 13px;
+                font-size: 16px;
             }
             
-            .section-title {
-                font-size: 15px;
+            .input-field {
+                width: 90%;
+                max-width: 280px;
             }
             
-            .sub-section-title {
+            .question-title {
                 font-size: 14px;
             }
             
-            .question-text {
-                font-size: 13px;
-            }
-            
-            .option {
-                font-size: 12.5px;
-                padding: 7px;
-            }
-            
-            .tf-option {
-                padding: 8px;
-                font-size: 12.5px;
-            }
-            
-            .timer-container {
+            .btn {
+                padding: 10px 20px;
                 font-size: 14px;
-                padding: 8px;
             }
             
             .timer {
-                font-size: 16px;
+                font-size: 12px;
+                padding: 5px 8px;
             }
-        }
-        
-        /* منع النسخ واللصق */
-        .no-copy {
-            user-select: none;
-        }
-        
-        /* إخفاء الأسئلة والإجابات في البداية */
-        #questionsSection, #resultsSection {
-            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- رأس الصفحة -->
         <div class="header">
-            <h1>امتحان الدراسات الاجتماعية للصف السادس الابتدائي</h1>
-            <h2>اختر الإجابة الصحيحة</h2>
+            <h1>مدرسة الجيل الجديد الخاصة</h1>
+            <h2>امتحان اللغة العربية للصف السادس الابتدائي</h2>
+            <h3>هذا أول امتحان</h3>
         </div>
         
-        <!-- قسم تسجيل الدخول -->
-        <section id="loginSection" class="exam-section">
-            <h3 class="section-title">تسجيل بيانات الطالب</h3>
-            
-            <div id="loginAlert" class="alert" style="display: none;"></div>
-            
-            <div class="form-group">
-                <label for="studentName"><i class="fas fa-user"></i> الاسم الثلاثي على الأقل</label>
-                <input type="text" id="studentName" class="form-control no-copy" placeholder="أدخل اسمك ثلاثي أو رباعي (باللغة العربية)" autocomplete="off">
-                <small class="text-muted">يجب أن يحتوي الاسم على مسافتين على الأقل (10 أحرف كحد أدنى)</small>
-            </div>
-            
-            <div class="form-group">
-                <label for="studentCode"><i class="fas fa-id-card"></i> الكود الخاص بالطالب</label>
-                <input type="text" id="studentCode" class="form-control no-copy" placeholder="أدخل الكود المكون من 9 أرقام (مثال: 135206123)" autocomplete="off" maxlength="9">
-                <small class="text-muted">الكود مكون من 9 أرقام ويبدأ بـ 13520 (الرقم السادس يعبر عن الصف الدراسي)</small>
-            </div>
-            
-            <!-- سيتم عرض معلومات الصف هنا -->
-            <div id="gradeInfo" class="grade-info" style="display: none;">
-                <i class="fas fa-graduation-cap"></i> <span id="gradeText"></span>
-            </div>
-            
-            <button id="startExamBtn" class="btn">
-                <i class="fas fa-play-circle"></i> بدء الامتحان
-            </button>
-        </section>
+        <!-- قسم إدخال الكود -->
+        <div class="code-input-section" id="codeSection">
+            <h3>أدخل كود الطالب (مكون من 9 أرقام)</h3>
+            <input type="text" id="studentCode" class="input-field" maxlength="9" placeholder="">
+            <p class="small-text">يرجى إدخال الكود المكون من 9 أرقام باللغة الإنجليزية</p>
+            <button class="btn" onclick="validateCode()">بدء الامتحان</button>
+            <div id="codeError" style="color: red; margin-top: 10px; display: none;">الكود المدخل غير صحيح. يجب أن يكون مكونًا من 9 أرقام.</div>
+        </div>
         
-        <!-- قسم الأسئلة -->
-        <section id="questionsSection" class="exam-section">
-            <div class="timer-container">
-                <i class="fas fa-clock"></i> الوقت المتبقي: <span id="timer" class="timer">10:00</span>
+        <!-- قسم تقييد الوقت -->
+        <div class="time-restriction" id="timeRestriction">
+            <h3>غير مسموح بالدخول إلى الامتحان</h3>
+            <p>الامتحان غير متاح بعد الساعة 12:00 منتصف الليل.</p>
+            <p>يرجى المحاولة في وقت لاحق.</p>
+        </div>
+        
+        <!-- قسم رسالة الخطأ -->
+        <div class="error-section" id="errorSection">
+            <h3>غير مسموح بالدخول إلى الامتحان</h3>
+            <p id="errorMessage">لقد قمت بالفعل بأداء الامتحان من قبل.</p>
+            <button class="btn btn-secondary" onclick="resetExam()">العودة لإدخال كود جديد</button>
+        </div>
+        
+        <!-- قسم الامتحان -->
+        <div class="exam-section" id="examSection">
+            <div class="timer" id="timer">الوقت: 30:00</div>
+            
+            <h3 style="text-align: center; color: #2c5aa0;">أولاً: القواعد الإملائية (تخير الصواب)</h3>
+            
+            <!-- سؤال 1 -->
+            <div class="question-section">
+                <div class="question-title">1 - شممت ........... العبير.</div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(1, 'راءحة')">راءحة</div>
+                    <div class="option" onclick="selectOption(1, 'رائحة')">رائحة</div>
+                    <div class="option" onclick="selectOption(1, 'راوحة')">راوحة</div>
+                </div>
             </div>
             
-            <div class="student-info">
-                <div><strong>الطالب:</strong> <span id="displayName"></span></div>
-                <div><strong>الصف:</strong> <span id="displayGrade"></span></div>
-                <div><strong>الكود:</strong> <span id="displayCode"></span></div>
+            <!-- سؤال 2 -->
+            <div class="question-section">
+                <div class="question-title">2 - شارك أبي في ........... المناخ هذا العام.</div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(2, 'مأتمر')">مأتمر</div>
+                    <div class="option" onclick="selectOption(2, 'مؤتمر')">مؤتمر</div>
+                    <div class="option" onclick="selectOption(2, 'منتمر')">منتمر</div>
+                </div>
             </div>
             
-            <!-- سيتم إضافة الأسئلة هنا ديناميكياً -->
-            <div id="questionsContainer"></div>
+            <!-- سؤال 3 -->
+            <div class="question-section">
+                <div class="question-title">3 - أذن ........... لصلاة الفجر.</div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(3, 'المئذن')">المئذن</div>
+                    <div class="option" onclick="selectOption(3, 'الماذن')">الماذن</div>
+                    <div class="option" onclick="selectOption(3, 'المؤذن')">المؤذن</div>
+                </div>
+            </div>
             
-            <button id="submitExamBtn" class="btn">
-                <i class="fas fa-paper-plane"></i> إنهاء الامتحان
-            </button>
-        </section>
+            <!-- سؤال 4 -->
+            <div class="question-section">
+                <div class="question-title">4 - لتحقق النجاح، اكتب ........... بأهدافك.</div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(4, 'قاءمة')">قاءمة</div>
+                    <div class="option" onclick="selectOption(4, 'قائمة')">قائمة</div>
+                    <div class="option" onclick="selectOption(4, 'قاومة')">قاومة</div>
+                </div>
+            </div>
+            
+            <!-- سؤال 5 -->
+            <div class="question-section">
+                <div class="question-title">5 - ........... الأسد بصوت مخيف.</div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(5, 'زعر')">زعر</div>
+                    <div class="option" onclick="selectOption(5, 'زئر')">زئر</div>
+                    <div class="option" onclick="selectOption(5, 'زار')">زار</div>
+                </div>
+            </div>
+            
+            <h3 style="text-align: center; color: #2c5aa0; margin-top: 30px;">ثانياً: القواعد النحوية (اختر الصواب)</h3>
+            
+            <!-- سؤال 6 -->
+            <div class="question-section">
+                <div class="question-title">1 - مصر هي المستقبل. عدد المعارف في الجملة:</div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(6, 'واحد')">واحد</div>
+                    <div class="option" onclick="selectOption(6, 'اثنان')">اثنان</div>
+                    <div class="option" onclick="selectOption(6, 'ثلاثة')">ثلاثة</div>
+                </div>
+            </div>
+            
+            <!-- سؤال 7 -->
+            <div class="question-section">
+                <div class="question-title">2 - الشباب ثروة حقيقية. عدد النكرات في الجملة:</div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(7, 'واحد')">واحد</div>
+                    <div class="option" onclick="selectOption(7, 'اثنان')">اثنان</div>
+                    <div class="option" onclick="selectOption(7, 'ثلاثة')">ثلاثة</div>
+                </div>
+            </div>
+            
+            <!-- سؤال 8 -->
+            <div class="question-section">
+                <div class="question-title">3 - أخوك مجتهد. علامة رفع المبتدأ هنا:</div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(8, 'الضمة')">الضمة</div>
+                    <div class="option" onclick="selectOption(8, 'الألف')">الألف</div>
+                    <div class="option" onclick="selectOption(8, 'الواو')">الواو</div>
+                </div>
+            </div>
+            
+            <!-- سؤال 9 -->
+            <div class="question-section">
+                <div class="question-title">4 - كن متفائلاً. كلمة "متفائلاً" تعرب:</div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(9, 'مفعول به')">مفعول به</div>
+                    <div class="option" onclick="selectOption(9, 'اسم لفعل ناسخ')">اسم لفعل ناسخ</div>
+                    <div class="option" onclick="selectOption(9, 'خبر لفعل ناسخ')">خبر لفعل ناسخ</div>
+                </div>
+            </div>
+            
+            <!-- سؤال 10 -->
+            <div class="question-section">
+                <div class="question-title">5 - السمك يعيش تحت الماء. نوع الخبر هنا:</div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(10, 'مفرد')">مفرد</div>
+                    <div class="option" onclick="selectOption(10, 'جملة فعلية')">جملة فعلية</div>
+                    <div class="option" onclick="selectOption(10, 'شبه جملة')">شبه جملة</div>
+                </div>
+            </div>
+            
+            <div class="exam-footer">
+                <button class="btn btn-success" onclick="submitExam()">إنهاء الامتحان</button>
+                <p class="small-text">بمجرد إنهاء الامتحان لا يمكنك الرجوع إليه مرة أخرى</p>
+            </div>
+        </div>
         
         <!-- قسم النتائج -->
-        <section id="resultsSection" class="results-container">
-            <h3 class="section-title">نتيجة الامتحان</h3>
+        <div class="result-section" id="resultSection">
+            <h3>نتيجة امتحان اللغة العربية</h3>
+            <div class="result-score" id="finalScore">0/10</div>
+            <p>تم الانتهاء من تصحيح الامتحان</p>
             
-            <div class="student-info">
-                <div><strong>الطالب:</strong> <span id="resultName"></span></div>
-                <div><strong>الصف:</strong> <span id="resultGrade"></span></div>
-                <div><strong>الكود:</strong> <span id="resultCode"></span></div>
-                <div><strong>وقت الانتهاء:</strong> <span id="finishTime"></span></div>
-            </div>
+            <div id="mistakesContainer" class="mistakes-list"></div>
             
-            <div id="scoreDisplay" class="score">
-                <!-- سيتم عرض النتيجة هنا -->
-            </div>
-            
-            <h4 class="section-title">تفاصيل الإجابات</h4>
-            <div id="resultsDetails"></div>
-            
-            <button id="restartExamBtn" class="btn">
-                <i class="fas fa-redo"></i> امتحان جديد
-            </button>
-        </section>
+            <button class="btn" onclick="resetExam()">العودة للصفحة الرئيسية</button>
+        </div>
     </div>
 
     <script>
-        // بيانات امتحان الصف السادس الابتدائي
-        const examData = {
-            title: "امتحان الدراسات الاجتماعية للصف السادس الابتدائي",
-            timeLimit: 10, // بالدقائق
-            questions: [
-                // أسئلة صح ام خطأ
-                {
-                    id: 1,
-                    question: "بدأت الدولة العباسية بعد انتهاء عصر الخلفاء الراشدين.",
-                    type: "true-false",
-                    correctAnswer: "false" // خطأ
-                },
-                {
-                    id: 2,
-                    question: "شهدت الدولة الإسلامية نهضة علمية خلال عهد هارون الرشيد.",
-                    type: "true-false",
-                    correctAnswer: "true" // صواب
-                },
-                {
-                    id: 3,
-                    question: "أهمل الخليفة عمر بن عبد العزيز التنظيم الإداري للدولة.",
-                    type: "true-false",
-                    correctAnswer: "false" // خطأ
-                },
-                {
-                    id: 4,
-                    question: "اهتم الخليفة معاوية بن أبي سفيان ببناء البحرية الإسلامية.",
-                    type: "true-false",
-                    correctAnswer: "true" // صواب
-                },
-                {
-                    id: 5,
-                    question: "أصبحت اللغة الفارسية هي اللغة الرسمية للدولة الإسلامية خلال عصر الأمويين.",
-                    type: "true-false",
-                    correctAnswer: "false" // خطأ
-                },
-                // أسئلة الاختيار من متعدد
-                {
-                    id: 6,
-                    question: "أُنشئت مكتبة الإسكندرية في عهد:",
-                    type: "multiple-choice",
-                    options: [
-                        "الرومان",
-                        "العرب", 
-                        "البطالمة",
-                        "الفرس"
-                    ],
-                    correctAnswer: 2 // الفهرس الثالث (ج)
-                },
-                {
-                    id: 7,
-                    question: "قائد الفتح الإسلامي لمصر هو:",
-                    type: "multiple-choice",
-                    options: [
-                        "خالد بن الوليد",
-                        "طارق بن زياد", 
-                        "عمرو بن العاص",
-                        "صلاح الدين"
-                    ],
-                    correctAnswer: 2 // الفهرس الثالث (ج)
-                },
-                {
-                    id: 8,
-                    question: "تغيرت المعاملات المالية للدولة الإسلامية خلال عهد الخليفة:",
-                    type: "multiple-choice",
-                    options: [
-                        "علي بن أبي طالب",
-                        "معاوية بن أبي سفيان", 
-                        "عبد الملك بن مروان",
-                        "عثمان بن عفان"
-                    ],
-                    correctAnswer: 2 // الفهرس الثالث (ج)
-                },
-                {
-                    id: 9,
-                    question: "أنشأ الخليفة معاوية بن أبي سفيان ديواناً لمنع تزوير رسائل الخليفة يسمى بديوان:",
-                    type: "multiple-choice",
-                    options: [
-                        "البريد",
-                        "الخراج", 
-                        "الخاتم",
-                        "الجند"
-                    ],
-                    correctAnswer: 2 // الفهرس الثالث (ج)
-                },
-                {
-                    id: 10,
-                    question: "ظهرت الدولة العباسية بعد هزيمة:",
-                    type: "multiple-choice",
-                    options: [
-                        "الفرس",
-                        "الروم", 
-                        "المغول",
-                        "الأمويين"
-                    ],
-                    correctAnswer: 3 // الفهرس الرابع (د)
-                }
-            ]
-        };
-
-        // العناصر DOM
-        const loginSection = document.getElementById('loginSection');
-        const questionsSection = document.getElementById('questionsSection');
-        const resultsSection = document.getElementById('resultsSection');
-        const startExamBtn = document.getElementById('startExamBtn');
-        const submitExamBtn = document.getElementById('submitExamBtn');
-        const restartExamBtn = document.getElementById('restartExamBtn');
-        const studentNameInput = document.getElementById('studentName');
-        const studentCodeInput = document.getElementById('studentCode');
-        const gradeInfo = document.getElementById('gradeInfo');
-        const gradeText = document.getElementById('gradeText');
-        const questionsContainer = document.getElementById('questionsContainer');
-        const timerDisplay = document.getElementById('timer');
-        const loginAlert = document.getElementById('loginAlert');
-        
-        // عناصر عرض البيانات
-        const displayName = document.getElementById('displayName');
-        const displayGrade = document.getElementById('displayGrade');
-        const displayCode = document.getElementById('displayCode');
-        const resultName = document.getElementById('resultName');
-        const resultGrade = document.getElementById('resultGrade');
-        const resultCode = document.getElementById('resultCode');
-        const finishTime = document.getElementById('finishTime');
-        const scoreDisplay = document.getElementById('scoreDisplay');
-        const resultsDetails = document.getElementById('resultsDetails');
-        
-        // متغيرات النظام
-        let timer;
-        let timeLeft = examData.timeLimit * 60; // ثواني
+        // متغيرات الامتحان
+        let studentCode = '';
         let studentAnswers = {};
-        let examStarted = false;
-        let detectedGrade = '';
+        let examCompleted = false;
+        let timeLeft = 30 * 60; // 30 دقيقة بالثواني
+        let timerInterval;
         
-        // تهيئة النظام
-        function initSystem() {
-            // منع النسخ واللصق
-            document.querySelectorAll('.no-copy').forEach(element => {
-                element.onpaste = e => e.preventDefault();
-                element.oncopy = e => e.preventDefault();
-                element.oncut = e => e.preventDefault();
-            });
+        // الإجابات الصحيحة
+        const correctAnswers = {
+            1: 'رائحة',
+            2: 'مؤتمر',
+            3: 'المؤذن',
+            4: 'قائمة',
+            5: 'زئر',
+            6: 'ثلاثة',
+            7: 'اثنان',
+            8: 'الواو',
+            9: 'خبر لفعل ناسخ',
+            10: 'جملة فعلية'
+        };
+        
+        // شرح الأخطاء
+        const mistakesExplanation = {
+            1: 'الحل: رائحة (لأن الهمزة مكسورة بعد ألف مد فترسم على نبرة).',
+            2: 'الحل: مؤتمر (لأن الهمزة ساكنة وما قبلها مضموم، والضم أقوى من السكون فترسم على واو).',
+            3: 'الحل: المؤذن (لأن الهمزة مفتوحة وما قبلها مضموم، والضم أقوى من الفتح فترسم على واو).',
+            4: 'الحل: قائمة (لأن الهمزة مكسورة بعد ألف مد فترسم على نبرة).',
+            5: 'الحل: زئر (لأن الهمزة مكسورة وما قبلها مفتوح، والكسر أقوى الحركات فترسم على نبرة).',
+            6: 'الحل: ثلاثة (المعارف هي: "مصر" علم، "هي" ضمير، "المستقبل" معرف بأل).',
+            7: 'الحل: اثنان (النكرات هي: "ثروة"، "حقيقية").',
+            8: 'الحل: الواو (لأن "أخوك" من الأسماء الخمسة).',
+            9: 'الحل: خبر لفعل ناسخ (خبر "كن" منصوب، واسمها ضمير مستتر تقديره أنت).',
+            10: 'الحل: جملة فعلية (الخبر هو الفعل "يعيش" والفاعل المستتر، والجملة في محل رفع خبر المبتدأ).'
+        };
+        
+        // التحقق من الوقت (لا يفتح بعد منتصف الليل)
+        function checkTimeRestriction() {
+            const now = new Date();
+            const hours = now.getHours();
             
-            // تحويل الأرقام العربية إلى إنجليزية
-            studentCodeInput.addEventListener('input', function() {
-                let value = this.value;
-                // تحويل الأرقام العربية إلى إنجليزية
-                value = value.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
-                // السماح فقط بالأرقام
-                value = value.replace(/\D/g, '');
-                this.value = value;
-                
-                // عند إدخال 6 أرقام على الأقل، استخراج الصف
-                if (value.length >= 6) {
-                    detectGradeFromCode(value);
-                } else {
-                    gradeInfo.style.display = 'none';
-                }
-            });
-            
-            // إضافة المستمعين للأحداث
-            startExamBtn.addEventListener('click', startExam);
-            submitExamBtn.addEventListener('click', submitExam);
-            restartExamBtn.addEventListener('click', restartExam);
-            
-            // تحميل الأسئلة
-            loadQuestions();
+            // إذا كان الوقت بعد منتصف الليل (0) وقبل 1 صباحًا
+            if (hours >= 0 && hours < 1) {
+                document.getElementById('timeRestriction').style.display = 'block';
+                document.getElementById('codeSection').style.display = 'none';
+                return true;
+            }
+            return false;
         }
         
-        // اكتشاف الصف من الكود
-        function detectGradeFromCode(code) {
-            if (code.length < 6) return;
+        // التحقق من الكود وتخزينه محليًا
+        function validateCode() {
+            const codeInput = document.getElementById('studentCode');
+            const code = codeInput.value.trim();
+            const codeError = document.getElementById('codeError');
             
-            // الرقم السادس من اليسار (المؤشر 5 في المصفوفة)
-            const gradeDigit = code.charAt(5);
-            
-            // تحويل الرقم إلى اسم الصف
-            const gradeMap = {
-                '4': 'الرابع الابتدائي',
-                '5': 'الخامس الابتدائي',
-                '6': 'السادس الابتدائي',
-                '7': 'الأول الإعدادي',
-                '8': 'الثاني الإعدادي'
-            };
-            
-            if (gradeMap[gradeDigit]) {
-                detectedGrade = gradeDigit;
-                gradeText.textContent = `الصف: ${gradeMap[gradeDigit]}`;
-                gradeInfo.style.display = 'block';
-            } else {
-                detectedGrade = '';
-                gradeInfo.style.display = 'none';
-            }
-        }
-        
-        // تحميل الأسئلة في الصفحة
-        function loadQuestions() {
-            questionsContainer.innerHTML = '';
-            
-            // قسم أسئلة صح أم خطأ
-            const trueFalseQuestions = examData.questions.filter(q => q.type === "true-false");
-            const mcQuestions = examData.questions.filter(q => q.type === "multiple-choice");
-            
-            if (trueFalseQuestions.length > 0) {
-                const sectionTitle = document.createElement('h3');
-                sectionTitle.className = 'sub-section-title';
-                sectionTitle.textContent = 'أولاً: أسئلة صح ام خطأ';
-                questionsContainer.appendChild(sectionTitle);
-                
-                trueFalseQuestions.forEach(q => {
-                    const questionElement = document.createElement('div');
-                    questionElement.className = 'question-container';
-                    questionElement.id = `question-${q.id}`;
-                    
-                    questionElement.innerHTML = `
-                        <div>
-                            <span class="question-number">${q.id}</span>
-                            <span class="question-text">${q.question}</span>
-                        </div>
-                        <div class="true-false-options">
-                            <div class="tf-option true" data-question="${q.id}" data-answer="true">
-                                <i class="fas fa-check-circle"></i> صواب
-                            </div>
-                            <div class="tf-option false" data-question="${q.id}" data-answer="false">
-                                <i class="fas fa-times-circle"></i> خطأ
-                            </div>
-                        </div>
-                    `;
-                    
-                    questionsContainer.appendChild(questionElement);
-                });
-            }
-            
-            // قسم أسئلة الاختيار من متعدد
-            if (mcQuestions.length > 0) {
-                const sectionTitle = document.createElement('h3');
-                sectionTitle.className = 'sub-section-title';
-                sectionTitle.textContent = 'ثانياً: أسئلة الاختيار من متعدد';
-                questionsContainer.appendChild(sectionTitle);
-                
-                mcQuestions.forEach(q => {
-                    const questionElement = document.createElement('div');
-                    questionElement.className = 'question-container';
-                    questionElement.id = `question-${q.id}`;
-                    
-                    let optionsHTML = '';
-                    q.options.forEach((option, optIndex) => {
-                        const letter = String.fromCharCode(1570 + optIndex); // أ, ب, ج, د
-                        optionsHTML += `
-                            <div class="option" data-question="${q.id}" data-option="${optIndex}">
-                                <strong>${letter}-</strong> ${option}
-                            </div>
-                        `;
-                    });
-                    
-                    questionElement.innerHTML = `
-                        <div>
-                            <span class="question-number">${q.id}</span>
-                            <span class="question-text">${q.question}</span>
-                        </div>
-                        <div class="options">${optionsHTML}</div>
-                    `;
-                    
-                    questionsContainer.appendChild(questionElement);
-                });
-            }
-            
-            // إضافة مستمعين لاختيار الإجابات (صح/خطأ)
-            document.querySelectorAll('.tf-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    const questionId = this.getAttribute('data-question');
-                    const answer = this.getAttribute('data-answer');
-                    
-                    // إزالة التحديد من جميع خيارات هذا السؤال
-                    document.querySelectorAll(`[data-question="${questionId}"]`).forEach(opt => {
-                        opt.classList.remove('selected-true');
-                        opt.classList.remove('selected-false');
-                    });
-                    
-                    // تحديد الخيار المختار
-                    if (answer === 'true') {
-                        this.classList.add('selected-true');
-                    } else {
-                        this.classList.add('selected-false');
-                    }
-                    
-                    // حفظ الإجابة
-                    studentAnswers[questionId] = answer;
-                });
-            });
-            
-            // إضافة مستمعين لاختيار الإجابات (اختيار من متعدد)
-            document.querySelectorAll('.option').forEach(option => {
-                option.addEventListener('click', function() {
-                    const questionId = this.getAttribute('data-question');
-                    const optionIndex = parseInt(this.getAttribute('data-option'));
-                    
-                    // إزالة التحديد من جميع خيارات هذا السؤال
-                    document.querySelectorAll(`[data-question="${questionId}"]`).forEach(opt => {
-                        opt.classList.remove('selected');
-                    });
-                    
-                    // تحديد الخيار المختار
-                    this.classList.add('selected');
-                    
-                    // حفظ الإجابة
-                    studentAnswers[questionId] = optionIndex;
-                });
-            });
-        }
-        
-        // بدء الامتحان
-        function startExam() {
-            const name = studentNameInput.value.trim();
-            const code = studentCodeInput.value.trim();
-            
-            // التحقق من الاسم
-            if (!validateName(name)) {
-                showAlert('يرجى كتابة الاسم ثلاثي على الأقل (10 أحرف كحد أدنى) ويحتوي على مسافتين', 'danger');
+            // التحقق من صحة الكود (9 أرقام فقط)
+            if (!/^\d{9}$/.test(code)) {
+                codeError.style.display = 'block';
                 return;
             }
             
-            // التحقق من الكود
-            const codeValidation = validateCode(code);
-            if (!codeValidation.valid) {
-                showAlert(codeValidation.message, 'danger');
+            codeError.style.display = 'none';
+            studentCode = code;
+            
+            // التحقق من الوقت
+            if (checkTimeRestriction()) {
                 return;
             }
             
-            // يجب أن يكون الكود للصف السادس الابتدائي (رقم 6 في المركز السادس)
-            if (detectedGrade !== '6') {
-                showAlert('هذا الامتحان مخصص للصف السادس الابتدائي فقط. الكود لا يتطابق مع هذه المرحلة.', 'danger');
+            // التحقق من استخدام الكود على هذا الجهاز
+            if (!checkCodeUsage(code)) {
+                // إذا تم رفض الكود
+                showError("لقد استخدمت هذا الكود مسبقًا على هذا الجهاز.");
                 return;
             }
             
-            // التحقق من تكرار الكود
-            if (isCodeUsed(code)) {
-                showAlert('عذراً، هذا الكود أدى الامتحان مسبقاً', 'danger');
-                return;
-            }
-            
-            // حفظ بيانات الطالب في localStorage
-            saveStudentData(name, detectedGrade, code);
-            
-            // عرض بيانات الطالب
-            displayName.textContent = name;
-            displayGrade.textContent = getGradeName(detectedGrade);
-            displayCode.textContent = code;
-            
-            // تبديل الأقسام
-            loginSection.style.display = 'none';
-            questionsSection.style.display = 'block';
-            
-            // بدء المؤقت
-            startTimer();
-            examStarted = true;
+            // بدء الامتحان
+            startExam();
         }
         
-        // التحقق من الاسم
-        function validateName(name) {
-            // يجب أن يكون باللغة العربية
-            const arabicPattern = /^[\u0600-\u06FF\s]+$/;
-            if (!arabicPattern.test(name)) return false;
+        // التحقق من استخدام الكود على الجهاز
+        function checkCodeUsage(code) {
+            // إنشاء مفتاح فريد لهذا الجهاز
+            const deviceKey = generateDeviceKey();
             
-            // يجب أن يحتوي على مسافتين على الأقل (لاسم رباعي)
-            const spacesCount = (name.match(/\s/g) || []).length;
-            if (spacesCount < 2) return false;
+            // تخزين المعلومات في localStorage مع ترميز خاص لمنع التداخل
+            const examKey = `exam_${deviceKey}_${code}`;
+            const previousAttempt = localStorage.getItem(examKey);
             
-            // يجب أن يكون طول الاسم 10 أحرف على الأقل
-            if (name.length < 10) return false;
+            // إذا كان الكود مستخدمًا مسبقًا على هذا الجهاز
+            if (previousAttempt) {
+                return false;
+            }
+            
+            // التحقق من عدد المرات التي استخدم فيها هذا الهاتف الامتحان
+            const phoneUsageKey = `phone_${deviceKey}`;
+            let phoneUsage = localStorage.getItem(phoneUsageKey);
+            phoneUsage = phoneUsage ? parseInt(phoneUsage) : 0;
+            
+            // إذا استخدم الهاتف الامتحان مرتين بالفعل
+            if (phoneUsage >= 2) {
+                showError("لقد استخدمت هذا الهاتف لأداء الامتحان مرتين بالفعل.");
+                return false;
+            }
+            
+            // تسجيل محاولة جديدة
+            localStorage.setItem(examKey, 'attempted');
+            localStorage.setItem(phoneUsageKey, phoneUsage + 1);
+            
+            // تخزين معلومات إضافية مع ترميز مختلف
+            const encodedInfo = btoa(`${code}|${new Date().getTime()}|${deviceKey}|${Math.random()}`);
+            localStorage.setItem(`enc_${deviceKey}_${code}`, encodedInfo);
             
             return true;
         }
         
-        // التحقق من الكود
-        function validateCode(code) {
-            // يجب أن يكون الكود مكون من أرقام فقط
-            if (!/^\d+$/.test(code)) {
-                return { valid: false, message: 'الكود يجب أن يتكون من أرقام فقط' };
+        // إنشاء مفتاح فريد للجهاز
+        function generateDeviceKey() {
+            // محاولة الحصول على معرف فريد للجهاز من localStorage
+            let deviceKey = localStorage.getItem('device_key');
+            
+            if (!deviceKey) {
+                // إنشاء مفتاح عشوائي إذا لم يكن موجودًا
+                deviceKey = 'device_' + Math.random().toString(36).substring(2, 15) + 
+                           Math.random().toString(36).substring(2, 15);
+                localStorage.setItem('device_key', deviceKey);
             }
             
-            // يجب أن يكون طول الكود 9 أرقام
-            if (code.length !== 9) {
-                return { valid: false, message: 'الكود يجب أن يكون مكون من 9 أرقام' };
-            }
-            
-            // يجب أن يبدأ بـ 13520
-            if (!code.startsWith('13520')) {
-                return { valid: false, message: 'الكود يجب أن يبدأ بـ 13520' };
-            }
-            
-            // يجب أن يكون الرقم السادس بين 4 و 8
-            const gradeDigit = code.charAt(5);
-            if (!['4', '5', '6', '7', '8'].includes(gradeDigit)) {
-                return { valid: false, message: 'الكود غير صحيح، الرقم السادس يجب أن يكون بين 4 و 8' };
-            }
-            
-            return { valid: true, message: 'الكود صحيح' };
+            return deviceKey;
         }
         
-        // التحقق من تكرار الكود
-        function isCodeUsed(code) {
-            // الحصول على الكود الحالي من localStorage
-            const currentExam = localStorage.getItem('currentExamCode');
-            
-            // إذا كان الكود مستخدم في هذا الامتحان الحالي
-            if (currentExam === code) {
-                return true;
-            }
-            
-            return false;
+        // عرض رسالة الخطأ
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorSection').style.display = 'block';
+            document.getElementById('codeSection').style.display = 'none';
         }
         
-        // حفظ بيانات الطالب
-        function saveStudentData(name, grade, code) {
-            // حفظ بيانات الطالب الحالية
-            localStorage.setItem('currentStudentName', name);
-            localStorage.setItem('currentStudentGrade', grade);
-            localStorage.setItem('currentStudentCode', code);
-            localStorage.setItem('currentExamCode', code);
-            localStorage.setItem('examStartTime', new Date().toISOString());
+        // بدء الامتحان
+        function startExam() {
+            // إخفاء قسم الكود وإظهار قسم الامتحان
+            document.getElementById('codeSection').style.display = 'none';
+            document.getElementById('examSection').style.display = 'block';
+            
+            // بدء المؤقت
+            startTimer();
         }
         
         // بدء المؤقت
         function startTimer() {
-            clearInterval(timer);
-            timeLeft = examData.timeLimit * 60;
             updateTimerDisplay();
-            
-            timer = setInterval(() => {
+            timerInterval = setInterval(function() {
                 timeLeft--;
                 updateTimerDisplay();
                 
+                // إذا انتهى الوقت
                 if (timeLeft <= 0) {
-                    clearInterval(timer);
+                    clearInterval(timerInterval);
                     submitExam();
                 }
             }, 1000);
@@ -917,202 +592,129 @@
         function updateTimerDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
-            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('timer').textContent = 
+                `الوقت: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // تحديد إجابة
+        function selectOption(questionId, option) {
+            // إزالة التحديد من جميع خيارات هذا السؤال
+            const questionDiv = event.target.parentElement;
+            const options = questionDiv.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
             
-            // تغيير لون المؤقت إذا قل الوقت
-            if (timeLeft < 60) {
-                timerDisplay.style.color = '#ff5252';
-            }
+            // تحديد الخيار المختار
+            event.target.classList.add('selected');
+            
+            // حفظ الإجابة
+            studentAnswers[questionId] = option;
         }
         
         // تقديم الامتحان
         function submitExam() {
-            if (!examStarted) return;
-            
-            clearInterval(timer);
-            examStarted = false;
+            clearInterval(timerInterval);
             
             // حساب النتيجة
-            const result = calculateResult();
+            let score = 0;
+            let mistakes = [];
             
-            // عرض النتائج
-            showResults(result);
-            
-            // تبديل الأقسام
-            questionsSection.style.display = 'none';
-            resultsSection.style.display = 'block';
-        }
-        
-        // حساب النتيجة
-        function calculateResult() {
-            let correctCount = 0;
-            const totalQuestions = examData.questions.length;
-            const results = [];
-            
-            examData.questions.forEach(q => {
-                const userAnswer = studentAnswers[q.id];
-                let isCorrect = false;
-                
-                if (q.type === "true-false") {
-                    isCorrect = userAnswer === q.correctAnswer;
-                } else if (q.type === "multiple-choice") {
-                    isCorrect = userAnswer === q.correctAnswer;
+            for (let i = 1; i <= 10; i++) {
+                if (studentAnswers[i] === correctAnswers[i]) {
+                    score++;
+                } else {
+                    mistakes.push({
+                        question: i,
+                        selected: studentAnswers[i] || 'لم يتم الإجابة',
+                        correct: correctAnswers[i],
+                        explanation: mistakesExplanation[i]
+                    });
                 }
-                
-                if (isCorrect) correctCount++;
-                
-                results.push({
-                    questionId: q.id,
-                    questionText: q.question,
-                    type: q.type,
-                    userAnswer: getUserAnswerText(q, userAnswer),
-                    correctAnswer: getCorrectAnswerText(q),
-                    isCorrect: isCorrect,
-                    userAnswerValue: userAnswer
-                });
-            });
+            }
             
-            const score = (correctCount / totalQuestions) * 100;
+            // عرض النتيجة
+            showResults(score, mistakes);
             
-            return {
-                totalQuestions,
-                correctCount,
-                wrongCount: totalQuestions - correctCount,
-                score: Math.round(score),
-                results
+            // تسجيل أن الامتحان اكتمل
+            examCompleted = true;
+            
+            // تخزين النتيجة محليًا مع ترميز
+            const deviceKey = generateDeviceKey();
+            const resultKey = `result_${deviceKey}_${studentCode}`;
+            const resultData = {
+                score: score,
+                date: new Date().toISOString(),
+                code: studentCode
             };
-        }
-        
-        // الحصول على نص إجابة المستخدم
-        function getUserAnswerText(question, userAnswer) {
-            if (userAnswer === undefined || userAnswer === null) {
-                return 'لم يتم الإجابة';
-            }
             
-            if (question.type === "true-false") {
-                return userAnswer === 'true' ? 'صواب' : 'خطأ';
-            } else if (question.type === "multiple-choice") {
-                const letter = String.fromCharCode(1570 + parseInt(userAnswer)); // أ, ب, ج, د
-                return `${letter}- ${question.options[userAnswer]}`;
-            }
-            
-            return 'غير معروف';
-        }
-        
-        // الحصول على نص الإجابة الصحيحة
-        function getCorrectAnswerText(question) {
-            if (question.type === "true-false") {
-                return question.correctAnswer === 'true' ? 'صواب' : 'خطأ';
-            } else if (question.type === "multiple-choice") {
-                const letter = String.fromCharCode(1570 + question.correctAnswer); // أ, ب, ج, د
-                return `${letter}- ${question.options[question.correctAnswer]}`;
-            }
-            
-            return 'غير معروف';
+            localStorage.setItem(resultKey, JSON.stringify(resultData));
         }
         
         // عرض النتائج
-        function showResults(result) {
-            // عرض بيانات الطالب
-            resultName.textContent = localStorage.getItem('currentStudentName');
-            resultGrade.textContent = getGradeName(localStorage.getItem('currentStudentGrade'));
-            resultCode.textContent = localStorage.getItem('currentStudentCode');
-            finishTime.textContent = new Date().toLocaleTimeString('ar-EG');
+        function showResults(score, mistakes) {
+            // إخفاء قسم الامتحان وإظهار قسم النتائج
+            document.getElementById('examSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
             
             // عرض النتيجة
-            let scoreClass = 'success';
-            if (result.score < 50) scoreClass = 'danger';
-            else if (result.score < 75) scoreClass = 'warning';
+            document.getElementById('finalScore').textContent = `${score}/10`;
             
-            scoreDisplay.innerHTML = `
-                <div>النتيجة النهائية</div>
-                <div style="font-size: 24px; margin-top: 5px;">${result.score}%</div>
-                <div style="font-size: 14px; margin-top: 10px;">
-                    ${result.correctCount} إجابة صحيحة من ${result.totalQuestions}
-                </div>
-            `;
+            // عرض الأخطاء إن وجدت
+            const mistakesContainer = document.getElementById('mistakesContainer');
             
-            // عرض تفاصيل الإجابات
-            resultsDetails.innerHTML = '';
-            result.results.forEach(r => {
-                const resultItem = document.createElement('div');
-                resultItem.className = 'result-item';
+            if (mistakes.length > 0) {
+                let mistakesHTML = '<h4>التصحيح والأخطاء:</h4>';
                 
-                let answerStatus = '';
-                if (r.userAnswerValue === undefined) {
-                    answerStatus = '<span class="wrong-answer">لم يتم الإجابة</span>';
-                } else if (r.isCorrect) {
-                    answerStatus = '<span class="correct-answer">✓ إجابة صحيحة</span>';
-                } else {
-                    answerStatus = '<span class="wrong-answer">✗ إجابة خاطئة</span>';
-                }
+                mistakes.forEach(mistake => {
+                    mistakesHTML += `
+                        <div class="mistake-item">
+                            <div><strong>السؤال ${mistake.question}:</strong></div>
+                            <div>إجابتك: ${mistake.selected}</div>
+                            <div>الإجابة الصحيحة: ${mistake.correct}</div>
+                            <div class="small-text">${mistake.explanation}</div>
+                        </div>
+                    `;
+                });
                 
-                resultItem.innerHTML = `
-                    <div><strong>س ${r.questionId}:</strong> ${r.questionText}</div>
-                    <div>إجابتك: ${r.userAnswer} ${answerStatus}</div>
-                    <div>الإجابة الصحيحة: <span class="correct-answer">${r.correctAnswer}</span></div>
-                `;
-                
-                resultsDetails.appendChild(resultItem);
-            });
-            
-            // مسح بيانات الامتحان الحالي من localStorage
-            localStorage.removeItem('currentExamCode');
+                mistakesContainer.innerHTML = mistakesHTML;
+            } else {
+                mistakesContainer.innerHTML = '<p>مبروك! لقد أجبت على جميع الأسئلة بشكل صحيح.</p>';
+            }
         }
         
-        // إعادة تشغيل الامتحان
-        function restartExam() {
-            // مسح البيانات
+        // إعادة تعيين الامتحان
+        function resetExam() {
+            // إعادة تعيين المتغيرات
+            studentCode = '';
             studentAnswers = {};
-            studentNameInput.value = '';
-            studentCodeInput.value = '';
-            detectedGrade = '';
-            gradeInfo.style.display = 'none';
+            timeLeft = 30 * 60;
             
-            // إعادة تعيين الأسئلة
-            document.querySelectorAll('.tf-option').forEach(opt => {
-                opt.classList.remove('selected-true');
-                opt.classList.remove('selected-false');
-            });
+            // إعادة تعيين العرض
+            document.getElementById('codeSection').style.display = 'block';
+            document.getElementById('examSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('errorSection').style.display = 'none';
+            document.getElementById('timeRestriction').style.display = 'none';
+            document.getElementById('studentCode').value = '';
             
-            document.querySelectorAll('.option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
+            // إزالة التحديد من جميع الخيارات
+            const selectedOptions = document.querySelectorAll('.option.selected');
+            selectedOptions.forEach(option => option.classList.remove('selected'));
             
-            // تبديل الأقسام
-            resultsSection.style.display = 'none';
-            loginSection.style.display = 'block';
+            // إيقاف المؤقت إذا كان يعمل
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
             
-            // إخفاء التنبيه
-            loginAlert.style.display = 'none';
+            // إخفاء رسالة الخطأ
+            document.getElementById('codeError').style.display = 'none';
         }
         
-        // عرض التنبيهات
-        function showAlert(message, type) {
-            loginAlert.textContent = message;
-            loginAlert.className = `alert alert-${type}`;
-            loginAlert.style.display = 'block';
-            
-            // إخفاء التنبيه بعد 5 ثواني
-            setTimeout(() => {
-                loginAlert.style.display = 'none';
-            }, 5000);
-        }
-        
-        // الحصول على اسم الصف
-        function getGradeName(gradeCode) {
-            const grades = {
-                '4': 'الرابع الابتدائي',
-                '5': 'الخامس الابتدائي',
-                '6': 'السادس الابتدائي',
-                '7': 'الأول الإعدادي',
-                '8': 'الثاني الإعدادي'
-            };
-            return grades[gradeCode] || 'غير معروف';
-        }
-        
-        // تهيئة النظام عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', initSystem);
+        // التحقق من الوقت عند تحميل الصفحة
+        window.onload = function() {
+            if (checkTimeRestriction()) {
+                return;
+            }
+        };
     </script>
 </body>
 </html>
