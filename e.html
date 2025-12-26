@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Events & Appointments - Professional Organizer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,549 +18,108 @@
             --medium: #636e72;
             --light: #f8f9fa;
             --card-bg: #ffffff;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.12);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.12);
             --transition: all 0.3s ease;
-            --border-radius: 16px;
+            --border-radius: 12px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             color: var(--dark);
-            line-height: 1.6;
+            line-height: 1.5;
             background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
             min-height: 100vh;
-            padding: 20px;
-            font-size: 15px;
+            padding-bottom: 80px; /* Space for bottom navigation */
+            font-size: 14px;
         }
 
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+            z-index: 100;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--medium);
+            transition: var(--transition);
+            padding: 5px 10px;
+            border-radius: 10px;
+            min-width: 60px;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            background: rgba(106, 17, 203, 0.1);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .nav-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Main Container */
         .container {
-            max-width: 1400px;
+            max-width: 100%;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 350px 1fr 350px;
-            gap: 25px;
+            padding: 15px;
         }
 
-        @media (max-width: 1200px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Header */
+        /* Header - Simplified for Mobile */
         .header {
-            grid-column: 1 / -1;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border-radius: var(--border-radius);
-            padding: 30px 40px;
+            padding: 20px;
             box-shadow: var(--shadow);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            margin-bottom: 15px;
         }
 
         .app-icon {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            backdrop-filter: blur(10px);
-        }
-
-        h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .subtitle {
-            opacity: 0.9;
-            font-size: 0.95rem;
-            max-width: 600px;
-        }
-
-        .back-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            backdrop-filter: blur(10px);
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        /* Stats Cards */
-        .stats-container {
-            grid-column: 1 / -1;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 25px;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            transition: var(--transition);
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .stat-icon {
-            width: 60px;
-            height: 60px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-        }
-
-        .stat-1 .stat-icon { background: rgba(106, 17, 203, 0.1); color: var(--primary); }
-        .stat-2 .stat-icon { background: rgba(37, 117, 252, 0.1); color: var(--secondary); }
-        .stat-3 .stat-icon { background: rgba(255, 107, 107, 0.1); color: var(--accent); }
-        .stat-4 .stat-icon { background: rgba(76, 217, 100, 0.1); color: var(--success); }
-
-        .stat-info h3 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            font-weight: 700;
-        }
-
-        .stat-info p {
-            color: var(--medium);
-            font-size: 0.9rem;
-        }
-
-        /* Form Section */
-        .form-section {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 30px;
-            box-shadow: var(--shadow);
-            height: fit-content;
-            position: sticky;
-            top: 20px;
-        }
-
-        .section-title {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--primary);
             font-size: 1.5rem;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        .section-title i {
-            background: rgba(106, 17, 203, 0.1);
-            padding: 10px;
-            border-radius: 10px;
-            color: var(--primary);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--dark);
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .required::after {
-            content: " *";
-            color: var(--accent);
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #eaeaea;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            transition: var(--transition);
-            font-family: 'Poppins', sans-serif;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
-        }
-
-        .reminder-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .reminder-option {
-            padding: 10px;
-            border: 2px solid #eaeaea;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .reminder-option:hover {
-            border-color: var(--primary);
-        }
-
-        .reminder-option.active {
-            border-color: var(--primary);
-            background: rgba(106, 17, 203, 0.1);
-            color: var(--primary);
-        }
-
-        .add-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            border: none;
-            padding: 16px;
-            width: 100%;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .add-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(106, 17, 203, 0.3);
-        }
-
-        /* Events List */
-        .events-section {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 30px;
-            box-shadow: var(--shadow);
-        }
-
-        .events-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .filter-options {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 8px 18px;
-            border-radius: 20px;
-            border: 2px solid #eaeaea;
-            background: white;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-        }
-
-        .filter-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .events-list {
-            max-height: 600px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-
-        .events-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .events-list::-webkit-scrollbar-track {
-            background: #f0f0f0;
-            border-radius: 10px;
-        }
-
-        .events-list::-webkit-scrollbar-thumb {
-            background: var(--primary-light);
-            border-radius: 10px;
-        }
-
-        .event-item {
-            background: var(--light);
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--primary);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .event-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
-        }
-
-        .event-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .event-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .event-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .event-meta {
-            display: flex;
-            gap: 15px;
-            color: var(--medium);
-            font-size: 0.9rem;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
-        }
-
-        .event-date {
-            background: rgba(106, 17, 203, 0.1);
-            color: var(--primary);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .event-type {
-            background: rgba(37, 117, 252, 0.1);
-            color: var(--secondary);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-
-        .event-reminder {
-            background: rgba(255, 107, 107, 0.1);
-            color: var(--accent);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .event-description {
-            color: var(--dark);
-            margin-bottom: 20px;
-            line-height: 1.7;
-        }
-
-        .event-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .action-btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
-
-        .delete-btn {
-            background: rgba(255, 107, 107, 0.1);
-            color: var(--accent);
-        }
-
-        .delete-btn:hover {
-            background: var(--accent);
-            color: white;
-        }
-
-        .edit-btn {
-            background: rgba(37, 117, 252, 0.1);
-            color: var(--secondary);
-        }
-
-        .edit-btn:hover {
-            background: var(--secondary);
-            color: white;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: var(--medium);
-        }
-
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-
-        .empty-state h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--dark);
-        }
-
-        /* Upcoming Section */
-        .upcoming-section {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 30px;
-            box-shadow: var(--shadow);
-            height: fit-content;
-            position: sticky;
-            top: 20px;
-        }
-
-        .upcoming-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .upcoming-item {
-            background: var(--light);
-            border-radius: 10px;
-            padding: 20px;
-            border-left: 4px solid var(--primary);
-            transition: var(--transition);
-        }
-
-        .upcoming-item:hover {
-            transform: translateX(5px);
-        }
-
-        .upcoming-item.urgent {
-            border-left-color: var(--accent);
-            background: rgba(255, 107, 107, 0.05);
-        }
-
-        .upcoming-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 1rem;
-        }
-
-        .upcoming-time {
-            color: var(--medium);
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 5px;
-        }
-
-        .upcoming-countdown {
-            background: rgba(106, 17, 203, 0.1);
-            color: var(--primary);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 8px;
-        }
-
-        .urgent .upcoming-countdown {
-            background: rgba(255, 107, 107, 0.1);
-            color: var(--accent);
-        }
-
-        /* Notification Bell */
         .notification-bell {
             position: relative;
             cursor: pointer;
@@ -587,151 +146,628 @@
             font-weight: 600;
         }
 
-        /* Footer */
-        .footer {
-            grid-column: 1 / -1;
-            text-align: center;
-            margin-top: 40px;
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            opacity: 0.9;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quick-stat {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quick-stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .stat-1 .quick-stat-icon { background: rgba(106, 17, 203, 0.1); color: var(--primary); }
+        .stat-2 .quick-stat-icon { background: rgba(37, 117, 252, 0.1); color: var(--secondary); }
+
+        .quick-stat-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 2px;
+            font-weight: 700;
+        }
+
+        .quick-stat-info p {
             color: var(--medium);
+            font-size: 0.8rem;
+        }
+
+        /* Main Content Sections */
+        .section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            background: rgba(106, 17, 203, 0.1);
+            padding: 8px;
+            border-radius: 8px;
+            color: var(--primary);
+        }
+
+        /* Quick Action Buttons */
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .quick-actions::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .quick-action-btn {
+            flex-shrink: 0;
+            padding: 12px 18px;
+            border-radius: 10px;
+            border: none;
+            background: var(--card-bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            white-space: nowrap;
+        }
+
+        .quick-action-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .required::after {
+            content: " *";
+            color: var(--accent);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #eaeaea;
+            border-radius: 10px;
             font-size: 0.9rem;
-            padding-top: 20px;
-            border-top: 1px solid #eaeaea;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+            background: var(--light);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+        }
+
+        .reminder-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .reminder-option {
+            padding: 10px 5px;
+            border: 2px solid #eaeaea;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .reminder-option.active {
+            border-color: var(--primary);
+            background: rgba(106, 17, 203, 0.1);
+            color: var(--primary);
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            padding: 16px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .add-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Events List */
+        .events-list {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .events-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .events-list::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .events-list::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 10px;
+        }
+
+        .event-item {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .event-item.completed {
+            opacity: 0.8;
+            border-left-color: var(--success);
+        }
+
+        .event-item.urgent {
+            border-left-color: var(--accent);
+            background: rgba(255, 107, 107, 0.05);
+        }
+
+        .event-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .event-type {
+            background: rgba(37, 117, 252, 0.1);
+            color: var(--secondary);
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.7rem;
+        }
+
+        .event-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--medium);
+        }
+
+        .event-detail i {
+            width: 16px;
+            color: var(--primary);
+        }
+
+        .event-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.8rem;
+        }
+
+        .delete-btn {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--accent);
+        }
+
+        .edit-btn {
+            background: rgba(37, 117, 252, 0.1);
+            color: var(--secondary);
+        }
+
+        .complete-btn {
+            background: rgba(76, 217, 100, 0.1);
+            color: var(--success);
+        }
+
+        /* Swipe Actions */
+        .swipe-actions {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            border-radius: 0 10px 10px 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.2));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .event-item.swiping .swipe-actions {
+            opacity: 1;
+        }
+
+        /* Upcoming Events */
+        .upcoming-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .upcoming-item {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+        }
+
+        .upcoming-item.urgent {
+            border-left-color: var(--accent);
+            background: rgba(255, 107, 107, 0.05);
+        }
+
+        .upcoming-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .upcoming-time {
+            color: var(--medium);
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .upcoming-countdown {
+            background: rgba(106, 17, 203, 0.1);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--medium);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .empty-state p {
+            font-size: 0.9rem;
+        }
+
+        /* Today's Events Highlight */
+        .today-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        /* Modal for quick add */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         /* Responsive */
-        @media (max-width: 1200px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-section, .upcoming-section {
-                position: static;
-            }
-        }
-
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
             body {
-                padding: 15px;
+                padding-bottom: 0;
             }
             
-            .header {
-                padding: 25px;
-                flex-direction: column;
-                align-items: flex-start;
+            .bottom-nav {
+                display: none;
             }
             
-            .back-btn {
-                align-self: stretch;
-                justify-content: center;
-            }
-            
-            .events-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .filter-options {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .event-header {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .event-actions {
-                flex-wrap: wrap;
-            }
-            
-            .reminder-options {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-section, .events-section, .upcoming-section {
+            .container {
+                max-width: 768px;
                 padding: 20px;
             }
             
-            h1 {
-                font-size: 1.8rem;
+            .quick-stats {
+                grid-template-columns: repeat(4, 1fr);
             }
             
-            .section-title {
-                font-size: 1.3rem;
+            .section {
+                margin-bottom: 20px;
             }
-            
-            .reminder-options {
-                grid-template-columns: 1fr;
-            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section.active {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .event-item {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Swipe animation */
+        .event-item.swipe-left {
+            transform: translateX(-80px);
+        }
+
+        .event-item.swipe-right {
+            transform: translateX(80px);
         }
     </style>
 </head>
 <body>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active" data-section="overview">
+            <i class="fas fa-home nav-icon"></i>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="#" class="nav-item" data-section="events">
+            <i class="fas fa-calendar-alt nav-icon"></i>
+            <span class="nav-label">Events</span>
+        </a>
+        <a href="#" class="nav-item" data-section="add">
+            <i class="fas fa-plus-circle nav-icon"></i>
+            <span class="nav-label">Add</span>
+        </a>
+        <a href="#" class="nav-item" data-section="upcoming">
+            <i class="fas fa-clock nav-icon"></i>
+            <span class="nav-label">Upcoming</span>
+        </a>
+        <a href="#" class="nav-item" data-section="stats">
+            <i class="fas fa-chart-bar nav-icon"></i>
+            <span class="nav-label">Stats</span>
+        </a>
+    </nav>
+
+    <!-- Main Container -->
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <div class="logo-section">
+            <div class="header-top">
                 <div class="app-icon">
                     <i class="fas fa-calendar-alt"></i>
                 </div>
-                <div>
-                    <h1>Events & Appointments</h1>
-                    <p class="subtitle">Professional organizer for managing your events, appointments, and important dates with smart notifications</p>
+                <div class="notification-bell">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationCount">0</span>
                 </div>
             </div>
-            <a href="index.html" class="back-btn">
-                <i class="fas fa-arrow-left"></i> Back to Home
-            </a>
+            <h1>My Events</h1>
+            <p class="subtitle">Manage appointments, birthdays, meetings & reminders</p>
         </header>
 
-        <!-- Statistics -->
-        <div class="stats-container">
-            <div class="stat-card stat-1">
-                <div class="stat-icon">
-                    <i class="fas fa-calendar-check"></i>
+        <!-- Overview Section (Default) -->
+        <section id="overview" class="section active">
+            <h2 class="section-title">
+                <i class="fas fa-home"></i>
+                Today's Overview
+            </h2>
+            
+            <div class="quick-stats">
+                <div class="quick-stat stat-1">
+                    <div class="quick-stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="quick-stat-info">
+                        <h3 id="todayEvents">0</h3>
+                        <p>Today's Events</p>
+                    </div>
                 </div>
-                <div class="stat-info">
-                    <h3 id="totalEvents">0</h3>
-                    <p>Total Events</p>
-                </div>
-            </div>
-            <div class="stat-card stat-2">
-                <div class="stat-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="stat-info">
-                    <h3 id="upcomingEvents">0</h3>
-                    <p>Upcoming This Week</p>
-                </div>
-            </div>
-            <div class="stat-card stat-3">
-                <div class="stat-icon">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="stat-info">
-                    <h3 id="pendingReminders">0</h3>
-                    <p>Pending Reminders</p>
+                <div class="quick-stat stat-2">
+                    <div class="quick-stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="quick-stat-info">
+                        <h3 id="upcomingCount">0</h3>
+                        <p>Upcoming</p>
+                    </div>
                 </div>
             </div>
-            <div class="stat-card stat-4">
-                <div class="stat-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="stat-info">
-                    <h3 id="completedEvents">0</h3>
-                    <p>Completed Events</p>
-                </div>
+            
+            <div class="quick-actions">
+                <button class="quick-action-btn primary" id="quickAddBtn">
+                    <i class="fas fa-plus"></i> Quick Add
+                </button>
+                <button class="quick-action-btn" id="viewTodayBtn">
+                    <i class="fas fa-calendar-day"></i> Today
+                </button>
+                <button class="quick-action-btn" id="viewWeekBtn">
+                    <i class="fas fa-calendar-week"></i> This Week
+                </button>
             </div>
-        </div>
+            
+            <div class="section-title" style="margin-top: 25px;">
+                <i class="fas fa-list"></i>
+                Today's Events
+            </div>
+            
+            <div id="todayEventsList" class="events-list">
+                <!-- Today's events will be loaded here -->
+            </div>
+        </section>
 
-        <!-- Add Event Form -->
-        <section class="form-section">
+        <!-- Events List Section -->
+        <section id="events" class="section">
+            <div class="section-title">
+                <i class="fas fa-list"></i>
+                All Events
+                <span class="today-badge" id="totalEventsBadge">0</span>
+            </div>
+            
+            <div class="quick-actions">
+                <button class="quick-action-btn filter-btn active" data-filter="all">All</button>
+                <button class="quick-action-btn filter-btn" data-filter="upcoming">Upcoming</button>
+                <button class="quick-action-btn filter-btn" data-filter="today">Today</button>
+                <button class="quick-action-btn filter-btn" data-filter="completed">Completed</button>
+            </div>
+            
+            <div id="eventsList" class="events-list">
+                <!-- Events will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Add Event Section -->
+        <section id="add" class="section">
             <h2 class="section-title">
                 <i class="fas fa-plus-circle"></i>
                 Add New Event
@@ -742,7 +778,7 @@
                     <label for="eventTitle" class="required">
                         <i class="fas fa-heading"></i> Event Title
                     </label>
-                    <input type="text" id="eventTitle" placeholder="e.g., Business Meeting, Birthday Party" required>
+                    <input type="text" id="eventTitle" placeholder="Meeting with John, Birthday party..." required>
                 </div>
                 
                 <div class="form-group">
@@ -761,7 +797,7 @@
                 
                 <div class="form-group">
                     <label for="eventType" class="required">
-                        <i class="fas fa-tag"></i> Event Type
+                        <i class="fas fa-tag"></i> Type
                     </label>
                     <select id="eventType" required>
                         <option value="">Select Type</option>
@@ -769,22 +805,14 @@
                         <option value="appointment">Appointment</option>
                         <option value="birthday">Birthday</option>
                         <option value="anniversary">Anniversary</option>
-                        <option value="conference">Conference</option>
                         <option value="personal">Personal</option>
                         <option value="other">Other</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
-                    <label for="eventDescription">
-                        <i class="fas fa-align-left"></i> Description (Optional)
-                    </label>
-                    <textarea id="eventDescription" rows="3" placeholder="Add details about your event..."></textarea>
-                </div>
-                
-                <div class="form-group">
                     <label>
-                        <i class="fas fa-bell"></i> Reminder Before
+                        <i class="fas fa-bell"></i> Reminder
                     </label>
                     <div class="reminder-options">
                         <div class="reminder-option" data-minutes="0">None</div>
@@ -792,7 +820,6 @@
                         <div class="reminder-option active" data-minutes="30">30 min</div>
                         <div class="reminder-option" data-minutes="60">1 hour</div>
                         <div class="reminder-option" data-minutes="1440">1 day</div>
-                        <div class="reminder-option" data-minutes="10080">1 week</div>
                     </div>
                     <input type="hidden" id="reminderMinutes" value="30">
                 </div>
@@ -803,132 +830,216 @@
             </form>
         </section>
 
-        <!-- Events List -->
-        <section class="events-section">
-            <div class="events-header">
-                <h2 class="section-title">
-                    <i class="fas fa-list"></i>
-                    All Events
-                </h2>
-                
-                <div class="filter-options">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="upcoming">Upcoming</button>
-                    <button class="filter-btn" data-filter="today">Today</button>
-                    <button class="filter-btn" data-filter="completed">Completed</button>
-                </div>
-            </div>
-            
-            <div id="eventsList" class="events-list">
-                <div class="empty-state">
-                    <i class="fas fa-calendar-plus"></i>
-                    <h3>No events yet</h3>
-                    <p>Add your first event using the form on the left</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Upcoming Events -->
-        <section class="upcoming-section">
+        <!-- Upcoming Events Section -->
+        <section id="upcoming" class="section">
             <h2 class="section-title">
                 <i class="fas fa-hourglass-half"></i>
                 Upcoming Soon
             </h2>
             
             <div id="upcomingList" class="upcoming-list">
-                <div class="empty-state" style="padding: 20px; text-align: center; color: var(--medium);">
-                    <i class="fas fa-clock" style="font-size: 2rem;"></i>
-                    <p style="margin-top: 10px;">No upcoming events</p>
+                <!-- Upcoming events will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section id="stats" class="section">
+            <h2 class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                Statistics
+            </h2>
+            
+            <div class="quick-stats">
+                <div class="quick-stat stat-1">
+                    <div class="quick-stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="quick-stat-info">
+                        <h3 id="totalEvents">0</h3>
+                        <p>Total Events</p>
+                    </div>
+                </div>
+                <div class="quick-stat stat-2">
+                    <div class="quick-stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="quick-stat-info">
+                        <h3 id="upcomingEvents">0</h3>
+                        <p>Upcoming</p>
+                    </div>
+                </div>
+                <div class="quick-stat stat-1">
+                    <div class="quick-stat-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="quick-stat-info">
+                        <h3 id="pendingReminders">0</h3>
+                        <p>Reminders</p>
+                    </div>
+                </div>
+                <div class="quick-stat stat-2">
+                    <div class="quick-stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="quick-stat-info">
+                        <h3 id="completedEvents">0</h3>
+                        <p>Completed</p>
+                    </div>
                 </div>
             </div>
             
             <div style="margin-top: 25px;">
-                <h3 class="section-title" style="font-size: 1.2rem; margin-bottom: 15px;">
+                <h3 class="section-title" style="font-size: 1rem; margin-bottom: 15px;">
                     <i class="fas fa-cog"></i>
-                    Notification Settings
+                    Settings
                 </h3>
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
                     <input type="checkbox" id="enableNotifications" checked style="width: auto;">
-                    <label for="enableNotifications" style="margin: 0; font-weight: normal;">Enable browser notifications</label>
+                    <label for="enableNotifications" style="margin: 0; font-weight: normal;">Enable notifications</label>
                 </div>
                 <button id="testNotification" class="action-btn" style="width: 100%; background: rgba(106, 17, 203, 0.1); color: var(--primary);">
                     <i class="fas fa-bell"></i> Test Notification
                 </button>
             </div>
         </section>
+    </div>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p><i class="fas fa-heart" style="color: var(--accent);"></i> </p>
-        </footer>
+    <!-- Quick Add Modal -->
+    <div id="quickAddModal" class="modal">
+        <div class="modal-content">
+            <h2 class="section-title">
+                <i class="fas fa-plus"></i>
+                Quick Add Event
+            </h2>
+            <form id="quickEventForm">
+                <div class="form-group">
+                    <input type="text" id="quickEventTitle" placeholder="Event title" required>
+                </div>
+                <div class="form-group">
+                    <select id="quickEventType" required>
+                        <option value="meeting">Meeting</option>
+                        <option value="appointment">Appointment</option>
+                        <option value="personal">Personal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>When?</label>
+                    <div class="quick-actions">
+                        <button type="button" class="quick-action-btn time-option active" data-hours="1">1 hour</button>
+                        <button type="button" class="quick-action-btn time-option" data-hours="2">2 hours</button>
+                        <button type="button" class="quick-action-btn time-option" data-hours="24">Tomorrow</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="add-btn">
+                        <i class="fas fa-plus"></i> Add Quick Event
+                    </button>
+                    <button type="button" id="cancelQuickAdd" class="action-btn" style="margin-top: 10px; background: #f0f0f0; color: var(--medium);">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
         // DOM Elements
+        const bottomNavItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.section');
+        const quickAddBtn = document.getElementById('quickAddBtn');
+        const quickAddModal = document.getElementById('quickAddModal');
+        const cancelQuickAddBtn = document.getElementById('cancelQuickAdd');
         const eventForm = document.getElementById('eventForm');
-        const eventTitleInput = document.getElementById('eventTitle');
-        const eventDateInput = document.getElementById('eventDate');
-        const eventTimeInput = document.getElementById('eventTime');
-        const eventTypeInput = document.getElementById('eventType');
-        const eventDescriptionInput = document.getElementById('eventDescription');
-        const reminderOptions = document.querySelectorAll('.reminder-option');
-        const reminderMinutesInput = document.getElementById('reminderMinutes');
-        const eventsList = document.getElementById('eventsList');
-        const upcomingList = document.getElementById('upcomingList');
+        const quickEventForm = document.getElementById('quickEventForm');
         const filterButtons = document.querySelectorAll('.filter-btn');
-        const testNotificationBtn = document.getElementById('testNotification');
-        const enableNotificationsInput = document.getElementById('enableNotifications');
+        const timeOptions = document.querySelectorAll('.time-option');
+        const reminderOptions = document.querySelectorAll('.reminder-option');
         
         // Statistics elements
+        const todayEventsEl = document.getElementById('todayEvents');
+        const upcomingCountEl = document.getElementById('upcomingCount');
         const totalEventsEl = document.getElementById('totalEvents');
         const upcomingEventsEl = document.getElementById('upcomingEvents');
         const pendingRemindersEl = document.getElementById('pendingReminders');
         const completedEventsEl = document.getElementById('completedEvents');
+        const notificationCountEl = document.getElementById('notificationCount');
+        const totalEventsBadge = document.getElementById('totalEventsBadge');
         
-        // Set minimum date to today
-        const today = new Date().toISOString().split('T')[0];
-        eventDateInput.min = today;
-        eventDateInput.value = today;
-        
-        // Set default time to next hour
-        const nextHour = new Date();
-        nextHour.setHours(nextHour.getHours() + 1);
-        eventTimeInput.value = `${String(nextHour.getHours()).padStart(2, '0')}:${String(nextHour.getMinutes()).padStart(2, '0')}`;
-        
-        // Load events from localStorage or initialize empty array
+        // State
         let events = JSON.parse(localStorage.getItem('eventsData')) || [];
         let currentFilter = 'all';
-        let notificationInterval;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let currentEventId = null;
         
         // Initialize the app
         function initApp() {
-            // Check for notification permission
-            checkNotificationPermission();
-            
             // Set up event listeners
             setupEventListeners();
             
+            // Set default date/time
+            setDefaultDateTime();
+            
             // Load and render events
-            updateEventsDisplay();
+            updateAllDisplays();
+            
+            // Update statistics
+            updateStatistics();
             
             // Start notification checker
             startNotificationChecker();
             
-            // Update statistics
-            updateStatistics();
+            // Show overview by default
+            showSection('overview');
         }
         
         // Set up event listeners
         function setupEventListeners() {
+            // Bottom navigation
+            bottomNavItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.dataset.section;
+                    
+                    // Update active state
+                    bottomNavItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show the corresponding section
+                    showSection(sectionId);
+                });
+            });
+            
+            // Quick add button
+            quickAddBtn.addEventListener('click', () => {
+                quickAddModal.classList.add('active');
+            });
+            
+            // Cancel quick add
+            cancelQuickAddBtn.addEventListener('click', () => {
+                quickAddModal.classList.remove('active');
+            });
+            
             // Event form submission
             eventForm.addEventListener('submit', addEvent);
             
-            // Reminder option selection
+            // Quick event form submission
+            quickEventForm.addEventListener('submit', addQuickEvent);
+            
+            // Time options for quick add
+            timeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    timeOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Reminder options
             reminderOptions.forEach(option => {
                 option.addEventListener('click', function() {
                     reminderOptions.forEach(opt => opt.classList.remove('active'));
                     this.classList.add('active');
-                    reminderMinutesInput.value = this.dataset.minutes;
+                    document.getElementById('reminderMinutes').value = this.dataset.minutes;
                 });
             });
             
@@ -942,40 +1053,156 @@
                 });
             });
             
-            // Test notification button
-            testNotificationBtn.addEventListener('click', function() {
-                if (enableNotificationsInput.checked) {
-                    showTestNotification();
-                } else {
-                    alert('Please enable notifications first');
-                }
+            // View today button
+            document.getElementById('viewTodayBtn').addEventListener('click', () => {
+                showSection('events');
+                document.querySelector('[data-filter="today"]').click();
             });
             
-            // Notification toggle
-            enableNotificationsInput.addEventListener('change', function() {
+            // View week button
+            document.getElementById('viewWeekBtn').addEventListener('click', () => {
+                showSection('upcoming');
+            });
+            
+            // Test notification button
+            document.getElementById('testNotification').addEventListener('click', showTestNotification);
+            
+            // Enable notifications toggle
+            document.getElementById('enableNotifications').addEventListener('change', function() {
                 if (this.checked) {
                     requestNotificationPermission();
                 }
             });
+            
+            // Close modal when clicking outside
+            quickAddModal.addEventListener('click', (e) => {
+                if (e.target === quickAddModal) {
+                    quickAddModal.classList.remove('active');
+                }
+            });
         }
         
-        // Add new event
+        // Show a specific section
+        function showSection(sectionId) {
+            sections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === sectionId) {
+                    section.classList.add('active');
+                    
+                    // Update the display for this section
+                    if (sectionId === 'overview') {
+                        updateTodayEvents();
+                    } else if (sectionId === 'events') {
+                        updateEventsDisplay();
+                    } else if (sectionId === 'upcoming') {
+                        updateUpcomingList();
+                    } else if (sectionId === 'stats') {
+                        updateStatistics();
+                    }
+                }
+            });
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Set default date and time
+        function setDefaultDateTime() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('eventDate').value = today;
+            document.getElementById('eventDate').min = today;
+            
+            // Set time to next hour
+            const nextHour = new Date();
+            nextHour.setHours(nextHour.getHours() + 1, 0, 0, 0);
+            document.getElementById('eventTime').value = 
+                `${String(nextHour.getHours()).padStart(2, '0')}:${String(nextHour.getMinutes()).padStart(2, '0')}`;
+        }
+        
+        // Add event from main form
         function addEvent(e) {
             e.preventDefault();
             
-            const title = eventTitleInput.value.trim();
-            const date = eventDateInput.value;
-            const time = eventTimeInput.value;
-            const type = eventTypeInput.value;
-            const description = eventDescriptionInput.value.trim();
-            const reminderMinutes = parseInt(reminderMinutesInput.value);
+            const title = document.getElementById('eventTitle').value.trim();
+            const date = document.getElementById('eventDate').value;
+            const time = document.getElementById('eventTime').value;
+            const type = document.getElementById('eventType').value;
+            const reminderMinutes = parseInt(document.getElementById('reminderMinutes').value);
             
             if (!title || !date || !time || !type) {
-                alert('Please fill in all required fields');
+                showFeedback('Please fill in all required fields', 'error');
                 return;
             }
             
-            // Create event object
+            createEvent({
+                title,
+                date,
+                time,
+                type,
+                reminderMinutes
+            });
+            
+            // Reset form
+            eventForm.reset();
+            setDefaultDateTime();
+            document.getElementById('eventType').value = '';
+            
+            // Reset reminder options
+            reminderOptions.forEach(opt => opt.classList.remove('active'));
+            document.querySelector('.reminder-option[data-minutes="30"]').classList.add('active');
+            document.getElementById('reminderMinutes').value = "30";
+            
+            // Show confirmation and go to events list
+            showFeedback(`"${title}" added successfully!`);
+            setTimeout(() => {
+                showSection('events');
+            }, 1500);
+        }
+        
+        // Add quick event
+        function addQuickEvent(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('quickEventTitle').value.trim();
+            const type = document.getElementById('quickEventType').value;
+            const timeOption = document.querySelector('.time-option.active');
+            
+            if (!title || !type || !timeOption) {
+                showFeedback('Please fill in all fields', 'error');
+                return;
+            }
+            
+            const hoursFromNow = parseInt(timeOption.dataset.hours);
+            const eventTime = new Date();
+            eventTime.setHours(eventTime.getHours() + hoursFromNow);
+            
+            // Format date and time
+            const date = eventTime.toISOString().split('T')[0];
+            const time = `${String(eventTime.getHours()).padStart(2, '0')}:${String(eventTime.getMinutes()).padStart(2, '0')}`;
+            
+            createEvent({
+                title,
+                date,
+                time,
+                type,
+                reminderMinutes: 30 // Default reminder
+            });
+            
+            // Reset and close modal
+            quickEventForm.reset();
+            quickAddModal.classList.remove('active');
+            
+            // Show confirmation
+            showFeedback(`"${title}" added for ${hoursFromNow === 24 ? 'tomorrow' : `in ${hoursFromNow} hour${hoursFromNow !== 1 ? 's' : ''}`}`);
+            
+            // Update displays
+            updateAllDisplays();
+        }
+        
+        // Create event object and save
+        function createEvent(eventData) {
+            const { title, date, time, type, reminderMinutes = 30, description = '' } = eventData;
+            
             const eventDateTime = new Date(`${date}T${time}`);
             const reminderTime = new Date(eventDateTime.getTime() - (reminderMinutes * 60000));
             
@@ -1001,89 +1228,30 @@
             saveEvents();
             
             // Update UI
-            updateEventsDisplay();
+            updateAllDisplays();
             updateStatistics();
-            
-            // Reset form
-            eventForm.reset();
-            eventDateInput.value = today;
-            eventTimeInput.value = `${String(nextHour.getHours()).padStart(2, '0')}:${String(nextHour.getMinutes()).padStart(2, '0')}`;
-            eventTypeInput.value = '';
-            
-            // Reset reminder options
-            reminderOptions.forEach(opt => opt.classList.remove('active'));
-            document.querySelector('.reminder-option[data-minutes="30"]').classList.add('active');
-            reminderMinutesInput.value = "30";
-            
-            // Show confirmation
-            showFeedback(`Event "${title}" added successfully!`);
         }
         
-        // Delete an event
-        function deleteEvent(eventId) {
-            if (confirm('Are you sure you want to delete this event?')) {
-                events = events.filter(event => event.id !== eventId);
-                saveEvents();
-                updateEventsDisplay();
-                updateStatistics();
-                showFeedback('Event deleted successfully');
-            }
-        }
-        
-        // Toggle event completion status
-        function toggleEventComplete(eventId) {
-            const eventIndex = events.findIndex(event => event.id === eventId);
-            if (eventIndex !== -1) {
-                events[eventIndex].completed = !events[eventIndex].completed;
-                saveEvents();
-                updateEventsDisplay();
-                updateStatistics();
-                showFeedback(`Event marked as ${events[eventIndex].completed ? 'completed' : 'incomplete'}`);
-            }
-        }
-        
-        // Edit an event
-        function editEvent(eventId) {
-            const event = events.find(event => event.id === eventId);
-            if (!event) return;
-            
-            // Populate form with event data
-            eventTitleInput.value = event.title;
-            eventDateInput.value = event.date;
-            eventTimeInput.value = event.time;
-            eventTypeInput.value = event.type;
-            eventDescriptionInput.value = event.description || '';
-            
-            // Set reminder option
-            reminderOptions.forEach(opt => opt.classList.remove('active'));
-            const reminderOption = document.querySelector(`.reminder-option[data-minutes="${event.reminderMinutes}"]`);
-            if (reminderOption) {
-                reminderOption.classList.add('active');
-                reminderMinutesInput.value = event.reminderMinutes;
-            }
-            
-            // Scroll to form
-            document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
-            
-            // Remove the event (user will re-add it)
-            events = events.filter(e => e.id !== eventId);
-            saveEvents();
+        // Update all displays
+        function updateAllDisplays() {
             updateEventsDisplay();
+            updateTodayEvents();
+            updateUpcomingList();
             updateStatistics();
-            
-            showFeedback('Event loaded for editing. Update the details and click "Add Event"');
         }
         
         // Update events display
         function updateEventsDisplay() {
+            const eventsList = document.getElementById('eventsList');
+            const todayStr = new Date().toISOString().split('T')[0];
+            const now = Date.now();
+            
             // Filter events based on current filter
             let filteredEvents = [...events];
             
             if (currentFilter === 'upcoming') {
-                const now = new Date().getTime();
                 filteredEvents = events.filter(event => !event.completed && event.dateTime > now);
             } else if (currentFilter === 'today') {
-                const todayStr = new Date().toISOString().split('T')[0];
                 filteredEvents = events.filter(event => event.date === todayStr);
             } else if (currentFilter === 'completed') {
                 filteredEvents = events.filter(event => event.completed);
@@ -1103,7 +1271,7 @@
                     <div class="empty-state">
                         <i class="fas fa-calendar-plus"></i>
                         <h3>No events found</h3>
-                        <p>${currentFilter === 'all' ? 'Add your first event using the form' : 'No events match the selected filter'}</p>
+                        <p>${currentFilter === 'all' ? 'Add your first event' : 'No events match the selected filter'}</p>
                     </div>
                 `;
             } else {
@@ -1111,11 +1279,19 @@
                 
                 filteredEvents.forEach(event => {
                     const eventDate = new Date(event.dateTime);
+                    const timeUntilEvent = event.dateTime - Date.now();
+                    const isToday = event.date === todayStr;
+                    const isUrgent = timeUntilEvent < 24 * 60 * 60 * 1000 && !event.completed;
+                    
+                    const eventElement = document.createElement('div');
+                    eventElement.className = `event-item ${event.completed ? 'completed' : ''} ${isUrgent ? 'urgent' : ''}`;
+                    eventElement.dataset.id = event.id;
+                    
+                    // Format time display
                     const formattedDate = eventDate.toLocaleDateString('en-US', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
+                        month: 'short',
+                        day: 'numeric',
+                        year: isToday ? undefined : 'numeric'
                     });
                     
                     const formattedTime = eventDate.toLocaleTimeString('en-US', {
@@ -1123,76 +1299,155 @@
                         minute: '2-digit'
                     });
                     
-                    const timeUntilEvent = event.dateTime - Date.now();
-                    const daysUntil = Math.floor(timeUntilEvent / (1000 * 60 * 60 * 24));
-                    const hoursUntil = Math.floor((timeUntilEvent % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    
+                    // Time until event
                     let timeDisplay = '';
-                    if (daysUntil > 0) {
-                        timeDisplay = `${daysUntil} day${daysUntil !== 1 ? 's' : ''} from now`;
-                    } else if (hoursUntil > 0) {
-                        timeDisplay = `${hoursUntil} hour${hoursUntil !== 1 ? 's' : ''} from now`;
-                    } else if (timeUntilEvent > 0) {
-                        timeDisplay = 'Less than an hour from now';
-                    } else if (!event.completed) {
-                        timeDisplay = 'Event in progress or passed';
-                    } else {
+                    if (event.completed) {
                         timeDisplay = 'Completed';
+                    } else if (timeUntilEvent > 0) {
+                        const days = Math.floor(timeUntilEvent / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((timeUntilEvent % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        
+                        if (days > 0) {
+                            timeDisplay = `${days}d ${hours}h`;
+                        } else if (hours > 0) {
+                            timeDisplay = `${hours}h`;
+                        } else {
+                            timeDisplay = '<1h';
+                        }
+                    } else {
+                        timeDisplay = 'Passed';
                     }
                     
-                    const reminderText = event.reminderMinutes === 0 ? 'No reminder' : 
-                                        event.reminderMinutes < 60 ? `${event.reminderMinutes} min before` :
-                                        event.reminderMinutes < 1440 ? `${Math.floor(event.reminderMinutes/60)} hour${Math.floor(event.reminderMinutes/60) !== 1 ? 's' : ''} before` :
-                                        `${Math.floor(event.reminderMinutes/1440)} day${Math.floor(event.reminderMinutes/1440) !== 1 ? 's' : ''} before`;
-                    
-                    const eventElement = document.createElement('div');
-                    eventElement.className = `event-item ${event.completed ? 'completed' : ''}`;
                     eventElement.innerHTML = `
-                        <div class="event-header">
-                            <div>
-                                <h3 class="event-title">${event.title}</h3>
-                                <div class="event-meta">
-                                    <div class="event-date">
-                                        <i class="fas fa-calendar"></i> ${formattedDate} at ${formattedTime}
-                                    </div>
-                                    <div class="event-type">${event.type}</div>
-                                    <div class="event-reminder">
-                                        <i class="fas fa-bell"></i> ${reminderText}
-                                    </div>
-                                </div>
-                                ${event.description ? `<p class="event-description">${event.description}</p>` : ''}
-                                <div style="margin-top: 10px; color: ${event.completed ? 'var(--success)' : 'var(--primary)'}; font-weight: 600;">
-                                    <i class="fas ${event.completed ? 'fa-check-circle' : 'fa-clock'}"></i> 
-                                    ${event.completed ? 'Completed' : timeDisplay}
-                                </div>
+                        <div class="event-title">
+                            <span>${event.title}</span>
+                            <span class="event-type">${event.type}</span>
+                        </div>
+                        <div class="event-details">
+                            <div class="event-detail">
+                                <i class="fas fa-calendar"></i>
+                                <span>${formattedDate} at ${formattedTime}</span>
                             </div>
+                            <div class="event-detail">
+                                <i class="fas fa-clock"></i>
+                                <span>${timeDisplay} ${event.completed ? '' : 'left'}</span>
+                            </div>
+                            ${event.reminderMinutes > 0 ? `
+                            <div class="event-detail">
+                                <i class="fas fa-bell"></i>
+                                <span>Reminder: ${event.reminderMinutes < 60 ? `${event.reminderMinutes} min before` : 
+                                    event.reminderMinutes < 1440 ? `${Math.floor(event.reminderMinutes/60)}h before` : 
+                                    `${Math.floor(event.reminderMinutes/1440)}d before`}</span>
+                            </div>` : ''}
                         </div>
                         <div class="event-actions">
+                            <button class="action-btn complete-btn" onclick="toggleEventComplete(${event.id})">
+                                <i class="fas ${event.completed ? 'fa-undo' : 'fa-check'}"></i>
+                                ${event.completed ? 'Undo' : 'Complete'}
+                            </button>
                             <button class="action-btn edit-btn" onclick="editEvent(${event.id})">
                                 <i class="fas fa-edit"></i> Edit
                             </button>
                             <button class="action-btn delete-btn" onclick="deleteEvent(${event.id})">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
-                            <button class="action-btn" onclick="toggleEventComplete(${event.id})" 
-                                    style="background: ${event.completed ? 'rgba(76, 217, 100, 0.1)' : 'rgba(255, 209, 102, 0.1)'}; 
-                                           color: ${event.completed ? 'var(--success)' : 'var(--warning)'}">
-                                <i class="fas ${event.completed ? 'fa-undo' : 'fa-check'}"></i> 
-                                ${event.completed ? 'Mark Incomplete' : 'Mark Complete'}
-                            </button>
                         </div>
                     `;
                     
                     eventsList.appendChild(eventElement);
+                    
+                    // Add touch events for swipe actions
+                    addSwipeEvents(eventElement, event.id);
                 });
             }
-            
-            // Update upcoming list
-            updateUpcomingList();
         }
         
-        // Update upcoming events list
+        // Update today's events display
+        function updateTodayEvents() {
+            const todayEventsList = document.getElementById('todayEventsList');
+            const todayStr = new Date().toISOString().split('T')[0];
+            const now = Date.now();
+            
+            // Filter today's events (not completed)
+            const todaysEvents = events.filter(event => 
+                event.date === todayStr && !event.completed
+            );
+            
+            // Sort by time
+            todaysEvents.sort((a, b) => a.dateTime - b.dateTime);
+            
+            // Update count
+            todayEventsEl.textContent = todaysEvents.length;
+            
+            // Display today's events
+            if (todaysEvents.length === 0) {
+                todayEventsList.innerHTML = `
+                    <div class="empty-state" style="padding: 20px;">
+                        <i class="fas fa-calendar-day"></i>
+                        <h3>No events today</h3>
+                        <p>Add an event for today using the quick add button</p>
+                    </div>
+                `;
+            } else {
+                todayEventsList.innerHTML = '';
+                
+                todaysEvents.forEach(event => {
+                    const eventDate = new Date(event.dateTime);
+                    const timeUntilEvent = event.dateTime - now;
+                    const isUrgent = timeUntilEvent < 2 * 60 * 60 * 1000; // Less than 2 hours
+                    
+                    const eventElement = document.createElement('div');
+                    eventElement.className = `event-item ${isUrgent ? 'urgent' : ''}`;
+                    
+                    const formattedTime = eventDate.toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    // Time until event
+                    let timeDisplay = '';
+                    if (timeUntilEvent > 0) {
+                        const hours = Math.floor(timeUntilEvent / (1000 * 60 * 60));
+                        const minutes = Math.floor((timeUntilEvent % (1000 * 60 * 60)) / (1000 * 60));
+                        
+                        if (hours > 0) {
+                            timeDisplay = `in ${hours}h ${minutes}m`;
+                        } else {
+                            timeDisplay = `in ${minutes}m`;
+                        }
+                    } else {
+                        timeDisplay = 'Now';
+                    }
+                    
+                    eventElement.innerHTML = `
+                        <div class="event-title">
+                            <span>${event.title}</span>
+                            <span class="event-type">${event.type}</span>
+                        </div>
+                        <div class="event-details">
+                            <div class="event-detail">
+                                <i class="fas fa-clock"></i>
+                                <span>${formattedTime} (${timeDisplay})</span>
+                            </div>
+                        </div>
+                        <div class="event-actions">
+                            <button class="action-btn complete-btn" onclick="toggleEventComplete(${event.id})">
+                                <i class="fas fa-check"></i> Complete
+                            </button>
+                            <button class="action-btn" onclick="showEventDetails(${event.id})" style="background: rgba(106, 17, 203, 0.1); color: var(--primary);">
+                                <i class="fas fa-info-circle"></i> Details
+                            </button>
+                        </div>
+                    `;
+                    
+                    todayEventsList.appendChild(eventElement);
+                });
+            }
+        }
+        
+        // Update upcoming list
         function updateUpcomingList() {
+            const upcomingList = document.getElementById('upcomingList');
             const now = Date.now();
             const oneWeekFromNow = now + (7 * 24 * 60 * 60 * 1000);
             
@@ -1206,11 +1461,15 @@
             // Sort by date (closest first)
             upcomingEvents.sort((a, b) => a.dateTime - b.dateTime);
             
+            // Update count
+            upcomingCountEl.textContent = upcomingEvents.length;
+            
             if (upcomingEvents.length === 0) {
                 upcomingList.innerHTML = `
-                    <div class="empty-state" style="padding: 20px; text-align: center; color: var(--medium);">
-                        <i class="fas fa-clock" style="font-size: 2rem;"></i>
-                        <p style="margin-top: 10px;">No upcoming events</p>
+                    <div class="empty-state" style="padding: 20px;">
+                        <i class="fas fa-clock"></i>
+                        <h3>No upcoming events</h3>
+                        <p>Events in the next 7 days will appear here</p>
                     </div>
                 `;
             } else {
@@ -1220,7 +1479,18 @@
                     const eventDate = new Date(event.dateTime);
                     const timeUntilEvent = event.dateTime - now;
                     const hoursUntil = Math.floor(timeUntilEvent / (1000 * 60 * 60));
-                    const minutesUntil = Math.floor((timeUntilEvent % (1000 * 60 * 60)) / (1000 * 60));
+                    const isUrgent = hoursUntil < 24;
+                    
+                    const formattedDate = eventDate.toLocaleDateString('en-US', {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                    
+                    const formattedTime = eventDate.toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
                     
                     let countdownText = '';
                     if (hoursUntil > 24) {
@@ -1229,23 +1499,17 @@
                     } else if (hoursUntil > 0) {
                         countdownText = `${hoursUntil} hour${hoursUntil !== 1 ? 's' : ''}`;
                     } else {
-                        countdownText = `${minutesUntil} minute${minutesUntil !== 1 ? 's' : ''}`;
+                        const minutes = Math.floor((timeUntilEvent % (1000 * 60 * 60)) / (1000 * 60));
+                        countdownText = `${minutes} minute${minutes !== 1 ? 's' : ''}`;
                     }
-                    
-                    const formattedTime = eventDate.toLocaleTimeString('en-US', {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
-                    
-                    const isUrgent = hoursUntil < 24;
                     
                     const upcomingItem = document.createElement('div');
                     upcomingItem.className = `upcoming-item ${isUrgent ? 'urgent' : ''}`;
                     upcomingItem.innerHTML = `
                         <h4 class="upcoming-title">${event.title}</h4>
                         <div class="upcoming-time">
-                            <i class="fas fa-clock"></i>
-                            ${eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at ${formattedTime}
+                            <i class="fas fa-calendar"></i>
+                            ${formattedDate} at ${formattedTime}
                         </div>
                         <div class="upcoming-time">
                             <i class="fas fa-tag"></i>
@@ -1253,7 +1517,7 @@
                         </div>
                         <div class="upcoming-countdown">
                             <i class="fas ${isUrgent ? 'fa-exclamation-triangle' : 'fa-hourglass-half'}"></i>
-                            ${isUrgent ? 'URGENT: ' : ''}${countdownText} left
+                            ${countdownText} left
                         </div>
                     `;
                     
@@ -1266,6 +1530,7 @@
         function updateStatistics() {
             const now = Date.now();
             const oneWeekFromNow = now + (7 * 24 * 60 * 60 * 1000);
+            const todayStr = new Date().toISOString().split('T')[0];
             
             const totalEvents = events.length;
             const completedEvents = events.filter(event => event.completed).length;
@@ -1273,6 +1538,10 @@
                 !event.completed && 
                 event.dateTime > now && 
                 event.dateTime <= oneWeekFromNow
+            ).length;
+            
+            const todayEventsCount = events.filter(event => 
+                event.date === todayStr && !event.completed
             ).length;
             
             // Count pending reminders (not yet notified and reminder time has passed)
@@ -1283,9 +1552,165 @@
             ).length;
             
             totalEventsEl.textContent = totalEvents;
+            totalEventsBadge.textContent = totalEvents;
             upcomingEventsEl.textContent = upcomingThisWeek;
             pendingRemindersEl.textContent = pendingReminders;
             completedEventsEl.textContent = completedEvents;
+            todayEventsEl.textContent = todayEventsCount;
+            upcomingCountEl.textContent = upcomingThisWeek;
+            
+            // Update notification badge
+            notificationCountEl.textContent = pendingReminders;
+            notificationCountEl.style.display = pendingReminders > 0 ? 'flex' : 'none';
+        }
+        
+        // Add swipe events for event items
+        function addSwipeEvents(element, eventId) {
+            let touchStartX = 0;
+            let isSwiping = false;
+            
+            element.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                element.classList.add('swiping');
+            }, { passive: true });
+            
+            element.addEventListener('touchmove', (e) => {
+                if (!touchStartX) return;
+                
+                const touchX = e.touches[0].clientX;
+                const diff = touchX - touchStartX;
+                
+                // Only consider horizontal swipes
+                if (Math.abs(diff) > 10) {
+                    isSwiping = true;
+                    
+                    // Limit swipe distance
+                    const maxSwipe = 80;
+                    const swipeDistance = Math.max(-maxSwipe, Math.min(maxSwipe, diff));
+                    
+                    element.style.transform = `translateX(${swipeDistance}px)`;
+                    
+                    // Show/hide swipe actions
+                    const swipeActions = element.querySelector('.swipe-actions');
+                    if (!swipeActions) {
+                        const actions = document.createElement('div');
+                        actions.className = 'swipe-actions';
+                        actions.innerHTML = `
+                            <button class="action-btn delete-btn" onclick="deleteEvent(${eventId})" style="margin-right: 5px;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="action-btn complete-btn" onclick="toggleEventComplete(${eventId})">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        `;
+                        element.appendChild(actions);
+                    }
+                }
+            }, { passive: true });
+            
+            element.addEventListener('touchend', () => {
+                if (isSwiping) {
+                    // Reset position with animation
+                    element.style.transition = 'transform 0.3s ease';
+                    element.style.transform = 'translateX(0)';
+                    
+                    // Remove swipe actions after animation
+                    setTimeout(() => {
+                        element.classList.remove('swiping');
+                        element.style.transition = '';
+                        const swipeActions = element.querySelector('.swipe-actions');
+                        if (swipeActions) {
+                            swipeActions.remove();
+                        }
+                    }, 300);
+                } else {
+                    element.classList.remove('swiping');
+                }
+                
+                touchStartX = 0;
+                isSwiping = false;
+            });
+        }
+        
+        // Event actions
+        function deleteEvent(eventId) {
+            if (confirm('Delete this event?')) {
+                events = events.filter(event => event.id !== eventId);
+                saveEvents();
+                updateAllDisplays();
+                showFeedback('Event deleted');
+            }
+        }
+        
+        function toggleEventComplete(eventId) {
+            const eventIndex = events.findIndex(event => event.id === eventId);
+            if (eventIndex !== -1) {
+                events[eventIndex].completed = !events[eventIndex].completed;
+                saveEvents();
+                updateAllDisplays();
+                showFeedback(`Event marked as ${events[eventIndex].completed ? 'completed' : 'incomplete'}`);
+            }
+        }
+        
+        function editEvent(eventId) {
+            const event = events.find(event => event.id === eventId);
+            if (!event) return;
+            
+            // Populate form with event data
+            document.getElementById('eventTitle').value = event.title;
+            document.getElementById('eventDate').value = event.date;
+            document.getElementById('eventTime').value = event.time;
+            document.getElementById('eventType').value = event.type;
+            
+            // Set reminder option
+            reminderOptions.forEach(opt => opt.classList.remove('active'));
+            const reminderOption = document.querySelector(`.reminder-option[data-minutes="${event.reminderMinutes}"]`);
+            if (reminderOption) {
+                reminderOption.classList.add('active');
+                document.getElementById('reminderMinutes').value = event.reminderMinutes;
+            }
+            
+            // Remove the event (user will re-add it)
+            events = events.filter(e => e.id !== eventId);
+            saveEvents();
+            updateAllDisplays();
+            
+            // Show add section
+            showSection('add');
+            
+            showFeedback('Event loaded for editing');
+        }
+        
+        function showEventDetails(eventId) {
+            const event = events.find(event => event.id === eventId);
+            if (!event) return;
+            
+            const eventDate = new Date(event.dateTime);
+            const formattedDate = eventDate.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            const formattedTime = eventDate.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            alert(
+                `Event Details:\n\n` +
+                `Title: ${event.title}\n` +
+                `Date: ${formattedDate}\n` +
+                `Time: ${formattedTime}\n` +
+                `Type: ${event.type}\n` +
+                `${event.description ? `Description: ${event.description}\n` : ''}` +
+                `Status: ${event.completed ? 'Completed' : 'Upcoming'}\n` +
+                `Reminder: ${event.reminderMinutes === 0 ? 'None' : 
+                    event.reminderMinutes < 60 ? `${event.reminderMinutes} minutes before` :
+                    event.reminderMinutes < 1440 ? `${Math.floor(event.reminderMinutes/60)} hours before` :
+                    `${Math.floor(event.reminderMinutes/1440)} days before`}`
+            );
         }
         
         // Save events to localStorage
@@ -1293,34 +1718,21 @@
             localStorage.setItem('eventsData', JSON.stringify(events));
         }
         
-        // Check for notification permission
-        function checkNotificationPermission() {
-            if ('Notification' in window) {
-                if (Notification.permission === 'granted') {
-                    enableNotificationsInput.checked = true;
-                } else if (Notification.permission === 'denied') {
-                    enableNotificationsInput.checked = false;
-                }
-            }
-        }
-        
-        // Request notification permission
+        // Notification functions
         function requestNotificationPermission() {
             if ('Notification' in window) {
                 Notification.requestPermission().then(permission => {
                     if (permission === 'granted') {
-                        enableNotificationsInput.checked = true;
                         showFeedback('Notifications enabled!');
                     }
                 });
             }
         }
         
-        // Show test notification
         function showTestNotification() {
             if ('Notification' in window && Notification.permission === 'granted') {
                 new Notification('Events Organizer', {
-                    body: 'This is a test notification! Your reminder system is working.',
+                    body: 'This is a test notification!',
                     icon: 'https://cdn-icons-png.flaticon.com/512/3652/3652191.png'
                 });
                 showFeedback('Test notification sent!');
@@ -1329,25 +1741,19 @@
             }
         }
         
-        // Start notification checker
         function startNotificationChecker() {
-            // Clear any existing interval
-            if (notificationInterval) {
-                clearInterval(notificationInterval);
-            }
-            
             // Check for notifications every minute
-            notificationInterval = setInterval(() => {
+            setInterval(() => {
                 checkForNotifications();
-            }, 60000); // Every minute
+            }, 60000);
             
             // Also check immediately
             checkForNotifications();
         }
         
-        // Check for due reminders
         function checkForNotifications() {
-            if (!enableNotificationsInput.checked) return;
+            const enableNotifications = document.getElementById('enableNotifications').checked;
+            if (!enableNotifications) return;
             
             const now = Date.now();
             let hasNewNotifications = false;
@@ -1368,7 +1774,7 @@
                         });
                         
                         new Notification('Event Reminder', {
-                            body: `${event.title} at ${timeString}\n${event.description || ''}`,
+                            body: `${event.title} at ${timeString}`,
                             icon: 'https://cdn-icons-png.flaticon.com/512/3652/3652191.png',
                             tag: `event-${event.id}`
                         });
@@ -1379,60 +1785,63 @@
             if (hasNewNotifications) {
                 saveEvents();
                 updateStatistics();
-                showFeedback('New reminder notifications sent!');
             }
         }
         
         // Show feedback message
-        function showFeedback(message) {
+        function showFeedback(message, type = 'success') {
             // Create feedback element
             const feedback = document.createElement('div');
             feedback.style.cssText = `
                 position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: var(--primary);
+                bottom: 80px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${type === 'error' ? 'var(--accent)' : 'var(--primary)'};
                 color: white;
-                padding: 15px 25px;
+                padding: 12px 20px;
                 border-radius: 10px;
                 box-shadow: var(--shadow-hover);
                 z-index: 1000;
                 font-weight: 600;
-                font-size: 0.95rem;
-                animation: slideIn 0.3s ease-out;
+                font-size: 0.9rem;
+                animation: slideInUp 0.3s ease-out;
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                max-width: 350px;
+                max-width: 90%;
+                text-align: center;
             `;
             
             feedback.innerHTML = `
-                <i class="fas fa-check-circle"></i>
+                <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
                 <span>${message}</span>
             `;
             
             document.body.appendChild(feedback);
             
-            // Remove after 4 seconds
+            // Remove after 3 seconds
             setTimeout(() => {
-                feedback.style.animation = 'slideOut 0.3s ease-out forwards';
+                feedback.style.animation = 'slideOutDown 0.3s ease-out forwards';
                 setTimeout(() => {
-                    document.body.removeChild(feedback);
+                    if (document.body.contains(feedback)) {
+                        document.body.removeChild(feedback);
+                    }
                 }, 300);
-            }, 4000);
+            }, 3000);
         }
         
         // Add CSS animations for feedback
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
+            @keyframes slideInUp {
+                from { transform: translate(-50%, 100%); opacity: 0; }
+                to { transform: translate(-50%, 0); opacity: 1; }
             }
             
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
+            @keyframes slideOutDown {
+                from { transform: translate(-50%, 0); opacity: 1; }
+                to { transform: translate(-50%, 100%); opacity: 0; }
             }
         `;
         document.head.appendChild(style);
