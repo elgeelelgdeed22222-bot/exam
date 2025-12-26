@@ -3,87 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>امتحان العلوم - الصف الرابع الابتدائي</title>
+    <title>امتحان الرياضيات - الصف الخامس الابتدائي</title>
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
             margin: 0;
-            padding: 0;
+            padding: 20px;
             background-color: #f5f9ff;
             color: #333;
             line-height: 1.6;
             font-size: 14px;
         }
         
-        .container {
-            max-width: 100%;
-            padding: 10px;
-        }
-        
         .header {
             text-align: center;
-            background: linear-gradient(to right, #2c3e50, #3498db);
+            background: linear-gradient(135deg, #1a5fb4, #2d7cd6);
             color: white;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
         .header h1 {
-            margin: 5px 0;
-            font-size: 18px;
+            margin: 0;
+            font-size: 22px;
         }
         
         .header h2 {
-            margin: 5px 0;
-            font-size: 16px;
+            margin: 10px 0 0 0;
+            font-size: 18px;
+            font-weight: normal;
         }
         
-        .code-entry {
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .card {
             background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
-            text-align: center;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            display: none;
+        }
+        
+        .active {
+            display: block;
         }
         
         .code-input {
             width: 100%;
-            padding: 12px;
-            font-size: 16px;
+            padding: 15px;
+            font-size: 20px;
             text-align: center;
             border: 2px solid #ddd;
-            border-radius: 6px;
-            margin: 10px 0;
-            direction: ltr;
+            border-radius: 8px;
+            margin: 15px 0;
+            letter-spacing: 5px;
+            font-family: monospace;
         }
         
         .code-input:focus {
-            border-color: #3498db;
+            border-color: #1a5fb4;
             outline: none;
         }
         
         .btn {
-            background-color: #3498db;
+            background-color: #1a5fb4;
             color: white;
             border: none;
             padding: 12px 25px;
-            border-radius: 6px;
-            font-size: 15px;
+            border-radius: 8px;
+            font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s;
             width: 100%;
             margin-top: 10px;
+            transition: background-color 0.3s;
         }
         
         .btn:hover {
-            background-color: #2980b9;
+            background-color: #155aa0;
         }
         
         .btn:disabled {
@@ -91,215 +97,160 @@
             cursor: not-allowed;
         }
         
-        .exam-container {
-            display: none;
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
+        .question {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
         }
         
-        .question {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px dashed #eee;
+        .question:last-child {
+            border-bottom: none;
         }
         
         .question-number {
-            background-color: #2c3e50;
+            font-weight: bold;
+            color: #1a5fb4;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .options {
+            margin-top: 10px;
+        }
+        
+        .option {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option:hover {
+            background-color: #f0f7ff;
+            border-color: #a0c8ff;
+        }
+        
+        .option.selected {
+            background-color: #e1f0ff;
+            border-color: #1a5fb4;
+        }
+        
+        .option-label {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-color: #1a5fb4;
             color: white;
-            width: 30px;
-            height: 30px;
             border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
+            line-height: 25px;
             margin-left: 8px;
             font-weight: bold;
         }
         
-        .question-text {
-            font-weight: bold;
-            margin: 10px 0;
-            font-size: 15px;
+        .result {
+            text-align: center;
+            padding: 20px;
         }
         
-        .section-title {
-            background-color: #ecf0f1;
-            padding: 10px;
-            border-radius: 6px;
+        .grade {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a5fb4;
             margin: 20px 0;
-            text-align: center;
-            font-weight: bold;
-            color: #2c3e50;
-            border-right: 4px solid #3498db;
         }
         
-        .true-false-options {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .true-false-btn {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            cursor: pointer;
-            background-color: white;
-        }
-        
-        .true-false-btn.selected {
-            font-weight: bold;
-        }
-        
-        .true-false-btn.true.selected {
-            background-color: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-        }
-        
-        .true-false-btn.false.selected {
-            background-color: #f8d7da;
-            border-color: #dc3545;
-            color: #721c24;
-        }
-        
-        .mcq-options {
-            margin-top: 10px;
-        }
-        
-        .mcq-option {
-            margin-bottom: 8px;
-            padding: 10px;
-            border-radius: 6px;
-            background-color: #f9f9f9;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            border: 1px solid #eee;
-        }
-        
-        .mcq-option:hover {
-            background-color: #f0f0f0;
-        }
-        
-        .mcq-option.selected {
-            background-color: #d1ecf1;
-            border-right: 4px solid #17a2b8;
-        }
-        
-        .results-container {
-            display: none;
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
-        }
-        
-        .results-header {
-            text-align: center;
-            background-color: #2c3e50;
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        
-        .score {
-            font-size: 24px;
-            font-weight: bold;
-            color: #3498db;
-            text-align: center;
-            margin: 15px 0;
-        }
-        
-        .mistakes-list {
-            margin-top: 20px;
+        .mistakes {
+            text-align: right;
+            margin-top: 30px;
+            font-size: 14px;
         }
         
         .mistake-item {
+            background-color: #fff5f5;
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 6px;
-            background-color: #f8f9fa;
-            border-right: 4px solid #dc3545;
+            border-right: 4px solid #e53e3e;
         }
         
         .correct-answer {
-            color: #28a745;
+            color: #38a169;
             font-weight: bold;
         }
         
-        .user-answer {
-            color: #dc3545;
+        .student-answer {
+            color: #c53030;
             font-weight: bold;
-        }
-        
-        .message {
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: bold;
-        }
-        
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-right: 4px solid #dc3545;
-        }
-        
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border-right: 4px solid #28a745;
-        }
-        
-        .warning {
-            background-color: #fff3cd;
-            color: #856404;
-            border-right: 4px solid #ffc107;
         }
         
         .timer {
             text-align: center;
-            font-weight: bold;
-            color: #2c3e50;
-            margin: 10px 0;
-            padding: 8px;
-            background-color: #e9f5ff;
+            font-size: 16px;
+            color: #4a5568;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #edf2f7;
             border-radius: 6px;
         }
         
-        .footer {
+        .error-message {
+            background-color: #fed7d7;
+            color: #c53030;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
             text-align: center;
-            margin-top: 20px;
-            padding: 10px;
-            color: #666;
-            font-size: 12px;
-            border-top: 1px solid #eee;
+            display: none;
         }
         
-        @media (min-width: 768px) {
+        .success-message {
+            background-color: #c6f6d5;
+            color: #22543d;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .rules {
+            background-color: #e6f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 14px;
+            border-right: 4px solid #1a5fb4;
+        }
+        
+        .rules h3 {
+            margin-top: 0;
+            color: #1a5fb4;
+        }
+        
+        @media (max-width: 480px) {
             body {
-                font-size: 15px;
+                padding: 10px;
+                font-size: 13px;
             }
             
-            .container {
-                max-width: 600px;
-                margin: 0 auto;
+            .header h1 {
+                font-size: 18px;
             }
             
-            .btn {
-                width: auto;
+            .header h2 {
+                font-size: 16px;
+            }
+            
+            .card {
+                padding: 15px;
             }
             
             .code-input {
-                width: 80%;
+                font-size: 18px;
+                padding: 12px;
             }
         }
     </style>
@@ -308,558 +259,580 @@
     <div class="container">
         <div class="header">
             <h1>مدرسة الجيل الجديد الخاصة</h1>
-            <h2>امتحان العلوم للصف الرابع الابتدائي</h2>
-            <div class="timer" id="timeDisplay"></div>
+            <h2>امتحان الرياضيات للصف الخامس الابتدائي</h2>
         </div>
         
-        <div class="code-entry" id="codeEntry">
-            <h3>أدخل كود الامتحان</h3>
-            <input type="text" id="studentCode" class="code-input" placeholder="أدخل 9 أرقام" maxlength="9" inputmode="numeric">
-            <button id="startExamBtn" class="btn">الدخول إلى الامتحان</button>
-            <div id="codeMessage" class="message"></div>
+        <!-- شاشة إدخال الكود -->
+        <div id="code-screen" class="card active">
+            <div class="rules">
+                <h3>تعليمات الدخول:</h3>
+                <ul>
+                    <li>أدخل الكود المكون من 9 أرقام إنجليزية فقط</li>
+                    <li>يمكن لكل كود الدخول للامتحان مرة واحدة فقط</li>
+                    <li>يمكن لكل هاتف دخول الامتحان مرتين فقط بكودين مختلفين</li>
+                    <li>الامتحان متاح حتى الساعة 12 منتصف الليل فقط</li>
+                    <li>بعد الانتهاء من الإجابة سيتم تصحيح الامتحان وعرض النتيجة</li>
+                </ul>
+            </div>
+            
+            <div id="time-error" class="error-message">
+                لا يمكن الدخول للامتحان بعد الساعة 12 منتصف الليل. حاول مرة أخرى في اليوم التالي.
+            </div>
+            
+            <div id="code-error" class="error-message">
+                الكود الذي أدخلته غير صحيح أو تم استخدامه من قبل على هذا الهاتف.
+            </div>
+            
+            <div id="phone-limit-error" class="error-message">
+                لقد تجاوزت الحد المسموح به لدخول الامتحان من هذا الهاتف (مرتين فقط).
+            </div>
+            
+            <div id="code-success" class="success-message">
+                تم التحقق من الكود بنجاح! جاهز للبدء.
+            </div>
+            
+            <div class="timer" id="current-time"></div>
+            
+            <label for="student-code">أدخل الكود المكون من 9 أرقام:</label>
+            <input type="text" id="student-code" class="code-input" maxlength="9" placeholder="123456789" inputmode="numeric">
+            <button id="start-exam" class="btn">بدء الامتحان</button>
         </div>
         
-        <div class="exam-container" id="examContainer">
-            <div class="section-title">السؤال الأول: ضع علامة (✓) أو علامة (X) أمام الجمل الآتية</div>
+        <!-- شاشة الامتحان -->
+        <div id="exam-screen" class="card">
+            <div class="timer" id="exam-timer">الوقت المتبقي: <span id="time-left">30:00</span></div>
             
-            <div class="question">
-                <div><span class="question-number">1</span> <span class="question-text">بعد تصادم السيارة، تنكمش الوسائد الهوائية بنفس سرعة انتفاخها.</span></div>
-                <div class="true-false-options">
-                    <div class="true-false-btn true" data-question="1" data-answer="true">✓</div>
-                    <div class="true-false-btn false" data-question="1" data-answer="false">X</div>
-                </div>
-            </div>
+            <form id="exam-form">
+                <!-- الأسئلة سيتم إضافتها ديناميكياً -->
+            </form>
             
-            <div class="question">
-                <div><span class="question-number">2</span> <span class="question-text">إذا ضربت الكرة بالمضرب يحدث تصادم وانتقال للطاقة.</span></div>
-                <div class="true-false-options">
-                    <div class="true-false-btn true" data-question="2" data-answer="true">✓</div>
-                    <div class="true-false-btn false" data-question="2" data-answer="false">X</div>
-                </div>
-            </div>
-            
-            <div class="question">
-                <div><span class="question-number">3</span> <span class="question-text">يعمل مستشعر السيارة على بداية انتفاخ الوسادة الهوائية.</span></div>
-                <div class="true-false-options">
-                    <div class="true-false-btn true" data-question="3" data-answer="true">✓</div>
-                    <div class="true-false-btn false" data-question="3" data-answer="false">X</div>
-                </div>
-            </div>
-            
-            <div class="question">
-                <div><span class="question-number">4</span> <span class="question-text">عندما يصطدم جسم بآخر ينتقل إليه بعضاً من قوته.</span></div>
-                <div class="true-false-options">
-                    <div class="true-false-btn true" data-question="4" data-answer="true">✓</div>
-                    <div class="true-false-btn false" data-question="4" data-answer="false">X</div>
-                </div>
-            </div>
-            
-            <div class="question">
-                <div><span class="question-number">5</span> <span class="question-text">لا تؤثر كتلة الأجسام في طاقة حركتها.</span></div>
-                <div class="true-false-options">
-                    <div class="true-false-btn true" data-question="5" data-answer="true">✓</div>
-                    <div class="true-false-btn false" data-question="5" data-answer="false">X</div>
-                </div>
-            </div>
-            
-            <div class="question">
-                <div><span class="question-number">6</span> <span class="question-text">تُقاس السرعة بوحدة كم / س أو م / ث.</span></div>
-                <div class="true-false-options">
-                    <div class="true-false-btn true" data-question="6" data-answer="true">✓</div>
-                    <div class="true-false-btn false" data-question="6" data-answer="false">X</div>
-                </div>
-            </div>
-            
-            <div class="question">
-                <div><span class="question-number">7</span> <span class="question-text">لحساب السرعة يجب معرفة المسافة والزمن.</span></div>
-                <div class="true-false-options">
-                    <div class="true-false-btn true" data-question="7" data-answer="true">✓</div>
-                    <div class="true-false-btn false" data-question="7" data-answer="false">X</div>
-                </div>
-            </div>
-            
-            <div class="question">
-                <div><span class="question-number">8</span> <span class="question-text">لا تؤثر كتلة الجسم في الحركة أو السرعة.</span></div>
-                <div class="true-false-options">
-                    <div class="true-false-btn true" data-question="8" data-answer="true">✓</div>
-                    <div class="true-false-btn false" data-question="8" data-answer="false">X</div>
-                </div>
-            </div>
-            
-            <div class="section-title">السؤال الثاني: اختر الإجابة الصحيحة مما يأتي</div>
-            
-            <div class="question">
-                <div><span class="question-number">9</span> <span class="question-text">عند توقف السيارة فجأة، فإن الركاب تتحرك ............</span></div>
-                <div class="mcq-options">
-                    <div class="mcq-option" data-question="9" data-option="للأمام">للأمام</div>
-                    <div class="mcq-option" data-question="9" data-option="للخلف">للخلف</div>
-                </div>
-            </div>
-            
-            <div class="question">
-                <div><span class="question-number">10</span> <span class="question-text">عند تصادم الأجسام فإن ............ تنتقل بينهم.</span></div>
-                <div class="mcq-options">
-                    <div class="mcq-option" data-question="10" data-option="المسافة">المسافة</div>
-                    <div class="mcq-option" data-question="10" data-option="الطاقة">الطاقة</div>
-                </div>
-            </div>
-            
-            <div class="question">
-                <div><span class="question-number">11</span> <span class="question-text">عند حدوث تصادم بين جسمين فإن الطاقة ............</span></div>
-                <div class="mcq-options">
-                    <div class="mcq-option" data-question="11" data-option="تفنى">تفنى</div>
-                    <div class="mcq-option" data-question="11" data-option="تزيد">تزيد</div>
-                    <div class="mcq-option" data-question="11" data-option="تنتقل">تنتقل</div>
-                </div>
-            </div>
-            
-            <div class="question">
-                <div><span class="question-number">12</span> <span class="question-text">عندما يصطدم جسمان يحدث بينهما ............ للطاقة.</span></div>
-                <div class="mcq-options">
-                    <div class="mcq-option" data-question="12" data-option="انتقال">انتقال</div>
-                    <div class="mcq-option" data-question="12" data-option="تراجع">تراجع</div>
-                </div>
-            </div>
-            
-            <div class="question">
-                <div><span class="question-number">13</span> <span class="question-text">عندما يصطدم جسمان يتم تبادل ............</span></div>
-                <div class="mcq-options">
-                    <div class="mcq-option" data-question="13" data-option="الطاقة">الطاقة</div>
-                    <div class="mcq-option" data-question="13" data-option="الحرارة">الحرارة</div>
-                </div>
-            </div>
-            
-            <div class="question">
-                <div><span class="question-number">14</span> <span class="question-text">سرعة الجسم = المسافة ÷ ............</span></div>
-                <div class="mcq-options">
-                    <div class="mcq-option" data-question="14" data-option="القوة">القوة</div>
-                    <div class="mcq-option" data-question="14" data-option="الزمن">الزمن</div>
-                    <div class="mcq-option" data-question="14" data-option="المتر">المتر</div>
-                </div>
-            </div>
-            
-            <button id="submitExamBtn" class="btn">إنهاء الامتحان وتصحيح الإجابات</button>
-            <div id="examMessage" class="message"></div>
+            <button id="submit-exam" class="btn">إنهاء الامتحان وتصحيح الإجابات</button>
         </div>
         
-        <div class="results-container" id="resultsContainer">
-            <div class="results-header">
-                <h2>نتيجة امتحان العلوم</h2>
-                <p>الصف الرابع الابتدائي</p>
+        <!-- شاشة النتيجة -->
+        <div id="result-screen" class="card">
+            <div class="result">
+                <h2>نتيجة امتحان الرياضيات</h2>
+                <div class="grade">الدرجة: <span id="final-grade">0</span>/10</div>
+                <p>تم الانتهاء من تصحيح الامتحان</p>
+                
+                <div id="mistakes-container" class="mistakes">
+                    <!-- الأخطاء ستظهر هنا -->
+                </div>
+                
+                <button id="restart-btn" class="btn" style="background-color: #38a169; margin-top: 30px;">عودة للرئيسية</button>
             </div>
-            
-            <div class="score" id="finalScore"></div>
-            
-            <div id="mistakesList" class="mistakes-list"></div>
-            
-            <button id="backToCodeBtn" class="btn">عودة لصفحة الدخول</button>
-        </div>
-        
-        <div class="footer">
-            <p>مدرسة الجيل الجديد الخاصة - امتحان العلوم الإلكتروني للصف الرابع الابتدائي</p>
         </div>
     </div>
 
     <script>
-        // إجابات الامتحان الصحيحة للصف الرابع
-        const correctAnswers = {
-            1: true,   // ✓
-            2: true,   // ✓
-            3: true,   // ✓
-            4: true,   // ✓
-            5: false,  // X
-            6: true,   // ✓
-            7: true,   // ✓
-            8: false,  // X
-            9: "للأمام",
-            10: "الطاقة",
-            11: "تنتقل",
-            12: "انتقال",
-            13: "الطاقة",
-            14: "الزمن"
+        // بيانات الأسئلة والإجابات الصحيحة - تم تغيير الأرقام إلى الإنجليزية
+        const examData = {
+            title: "امتحان الرياضيات للصف الخامس الابتدائي",
+            questions: [
+                {
+                    id: 1,
+                    text: "1. الخطوة الأولى في إيجاد قيمة التعبير العددي 35 ÷ 7 + 5 - 2 هي..................",
+                    options: [
+                        "الضرب",
+                        "القسمة", 
+                        "الجمع",
+                        "الطرح"
+                    ],
+                    correctAnswer: 1 // الفهرس 1 يعني الخيار الثاني (ب)
+                },
+                {
+                    id: 2,
+                    text: "2. العدد التالي مباشرة في النمط 5، 10، 20، 40، ... هو..............",
+                    options: [
+                        "80",
+                        "60",
+                        "55",
+                        "45"
+                    ],
+                    correctAnswer: 0 // الفهرس 0 يعني الخيار الأول (أ)
+                },
+                {
+                    id: 3,
+                    text: "3. 35 ÷ (6 - (5 - 4)) = ......",
+                    options: [
+                        "6",
+                        "7",
+                        "5",
+                        "8"
+                    ],
+                    correctAnswer: 1 // الفهرس 1 يعني الخيار الثاني (ب)
+                },
+                {
+                    id: 4,
+                    text: "4. إذا كان المدخل 7 والقاعدة هي ن × 5 فإن المخرج هو .................",
+                    options: [
+                        "12",
+                        "35",
+                        "57",
+                        "75"
+                    ],
+                    correctAnswer: 1 // الفهرس 1 يعني الخيار الثاني (ب)
+                },
+                {
+                    id: 5,
+                    text: "5. قاعدة النمط 7، 12، 17، 22، ... هي .................",
+                    options: [
+                        "جمع 5",
+                        "طرح 5",
+                        "جمع 6",
+                        "ضرب 2"
+                    ],
+                    correctAnswer: 0 // الفهرس 0 يعني الخيار الأول (أ)
+                },
+                {
+                    id: 6,
+                    text: "6. خارج قسمة 2.5 ÷ 0.5 يساوي.....................",
+                    options: [
+                        "5",
+                        "8",
+                        "22",
+                        "10"
+                    ],
+                    correctAnswer: 0 // الفهرس 0 يعني الخيار الأول (أ)
+                },
+                {
+                    id: 7,
+                    text: "7. 3.5 ÷ 0.1 = ......",
+                    options: [
+                        "35",
+                        "3500",
+                        "3.5",
+                        "0.35"
+                    ],
+                    correctAnswer: 0 // الفهرس 0 يعني الخيار الأول (أ)
+                },
+                {
+                    id: 8,
+                    text: "8. 512 جم = ................... كجم",
+                    options: [
+                        "5.12",
+                        "512",
+                        "51.20",
+                        "0.512"
+                    ],
+                    correctAnswer: 3 // الفهرس 3 يعني الخيار الرابع (د)
+                },
+                {
+                    id: 9,
+                    text: "9. المقسوم عليه في مسألة القسمة 2499 ÷ 51 = 49 هو..................",
+                    options: [
+                        "49",
+                        "2499",
+                        "51",
+                        "0"
+                    ],
+                    correctAnswer: 2 // الفهرس 2 يعني الخيار الثالث (ج)
+                },
+                {
+                    id: 10,
+                    text: "10. 0.7 × ...... = 70",
+                    options: [
+                        "1",
+                        "10",
+                        "100",
+                        "1000"
+                    ],
+                    correctAnswer: 2 // الفهرس 2 يعني الخيار الثالث (ج)
+                }
+            ]
         };
+
+        // متغيرات النظام
+        let currentScreen = 'code';
+        let studentAnswers = {};
+        let examTime = 30 * 60; // 30 دقيقة بالثواني
+        let timerInterval;
+        let currentCode = '';
         
-        // تعريف المتغيرات الأساسية
-        let userAnswers = {};
-        let studentCode = "";
-        let deviceId = "";
-        
-        // إنشاء معرّف فريد للجهاز
-        function generateDeviceId() {
-            // إنشاء معرّف فريد للجهاز باستخدام معلومات المتصفح
-            const navigatorInfo = JSON.stringify({
-                userAgent: navigator.userAgent,
-                language: navigator.language,
-                platform: navigator.platform
-            });
-            
-            // إنشاء رمز فريد للجهاز باستخدام دالة تجزئة بسيطة
-            let hash = 0;
-            for (let i = 0; i < navigatorInfo.length; i++) {
-                const char = navigatorInfo.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash = hash & hash; // تحويل إلى قيمة 32-bit
-            }
-            
-            // إضافة رمز مميز عشوائي لمنع التكرار
-            const randomToken = Math.random().toString(36).substring(2, 10);
-            return `DEV${Math.abs(hash).toString(16).substring(0, 6).toUpperCase()}${randomToken}`;
-        }
-        
-        // إنشاء مفتاح تخزين فريد لهذا الامتحان
-        function getExamStorageKey(code) {
-            // إنشاء مفتاح مشفر باستخدام مزيج من الكود والمعرف الفريد للامتحان
-            const examId = "SCIENCE_EXAM_4TH_GRADE";
-            return `EXAM_${btoa(code + "_" + examId).substring(0, 20)}`;
-        }
-        
-        // إنشاء مفتاح تخزين فريد لهذا الهاتف
-        function getPhoneStorageKey() {
-            return `PHONE_CODE_${deviceId}`;
-        }
-        
-        // التحقق من صحة الكود المدخل
-        function isValidCode(code) {
-            return /^\d{9}$/.test(code);
-        }
-        
-        // التحقق من وقت الدخول (يمنع بعد الساعة 12 منتصف الليل)
-        function isWithinAllowedTime() {
-            const now = new Date();
-            const currentHour = now.getHours();
-            // السماح بالدخول قبل الساعة 12 منتصف الليل (أي قبل الساعة 24)
-            return currentHour < 24;
-        }
-        
-        // التحقق من إمكانية الدخول بهذا الكود من هذا الجهاز
-        function canTakeExam(code) {
-            // الحصول على معرف الجهاز
-            deviceId = localStorage.getItem("device_id") || generateDeviceId();
-            localStorage.setItem("device_id", deviceId);
-            
-            // الحصول على قائمة الكودات التي استخدمها هذا الجهاز
-            const phoneKey = getPhoneStorageKey();
-            const deviceCodes = JSON.parse(localStorage.getItem(phoneKey) || "[]");
-            
-            // التحقق إذا كان الكود قد استخدم من قبل على هذا الجهاز
-            const existingCode = deviceCodes.find(item => item.code === code);
-            if (existingCode) {
-                return { allowed: false, reason: "هذا الكود تم استخدامه من قبل" };
-            }
-            
-            // التحقق من عدد الكودات المستخدمة على هذا الجهاز (الحد الأقصى 2)
-            if (deviceCodes.length >= 2) {
-                return { allowed: false, reason: "تم استخدام الحد الأقصى المسموح به للاختبارات على هذا الجهاز" };
-            }
-            
-            // التحقق من الوقت المسموح
-            if (!isWithinAllowedTime()) {
-                return { allowed: false, reason: "الامتحان غير متاح بعد الساعة 12 منتصف الليل" };
-            }
-            
-            return { allowed: true };
-        }
-        
-        // تسجيل الدخول الناجح
-        function registerExamAttempt(code) {
-            // الحصول على معرف الجهاز
-            deviceId = localStorage.getItem("device_id") || generateDeviceId();
-            localStorage.setItem("device_id", deviceId);
-            
-            // تحديث قائمة الكودات المستخدمة على هذا الجهاز
-            const phoneKey = getPhoneStorageKey();
-            const deviceCodes = JSON.parse(localStorage.getItem(phoneKey) || "[]");
-            
-            // إنشاء رمز فريد لهذه المحاولة
-            const attemptId = `ATT${Date.now()}${Math.random().toString(36).substring(2, 7)}`;
-            
-            // إضافة المحاولة الجديدة
-            deviceCodes.push({
-                code: code,
-                attemptId: attemptId,
-                timestamp: new Date().toISOString(),
-                deviceSymbol: `📱${deviceId.substring(3, 7)}`,
-                codeSymbol: `🔢${code.substring(0, 3)}`,
-                uniqueToken: Math.random().toString(36).substring(2, 15)
-            });
-            
-            localStorage.setItem(phoneKey, JSON.stringify(deviceCodes));
-            
-            // تسجيل محاولة الامتحان باستخدام مفتاح فريد
-            const examKey = getExamStorageKey(code);
-            const examRecord = {
-                code: code,
-                deviceId: deviceId,
-                attemptId: attemptId,
-                timestamp: new Date().toISOString(),
-                completed: false,
-                deviceSymbol: `📱${deviceId.substring(3, 7)}`,
-                codeSymbol: `🔢${code.substring(0, 3)}`
-            };
-            localStorage.setItem(examKey, JSON.stringify(examRecord));
-            
-            // تسجيل إشارة مميزة على الجهاز برموز مختلفة
-            const uniqueKey = `EXAM_${attemptId}`;
-            const uniqueRecord = {
-                examCode: code,
-                deviceId: deviceId,
-                timestamp: new Date().toISOString(),
-                token: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
-                deviceMark: `📱${deviceId.substring(3, 7)}`,
-                codeMark: `🔢${code.substring(3, 6)}`,
-                securityHash: btoa(`${code}_${deviceId}_${Date.now()}`).substring(0, 20)
-            };
-            localStorage.setItem(uniqueKey, JSON.stringify(uniqueRecord));
-        }
-        
-        // تحديث الوقت والعرض
-        function updateTimeDisplay() {
-            const now = new Date();
-            const timeDisplay = document.getElementById('timeDisplay');
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            timeDisplay.textContent = `الوقت الحالي: ${hours}:${minutes}`;
-            
-            // التحقق إذا كان الوقت بعد الساعة 12 منتصف الليل
-            if (!isWithinAllowedTime()) {
-                document.getElementById('startExamBtn').disabled = true;
-                document.getElementById('studentCode').disabled = true;
-                document.getElementById('codeMessage').textContent = "الامتحان غير متاح بعد الساعة 12 منتصف الليل";
-                document.getElementById('codeMessage').className = "message error";
-            }
-        }
-        
-        // تهيئة الصفحة
+        // تهيئة النظام
         document.addEventListener('DOMContentLoaded', function() {
-            // تحديث الوقت كل دقيقة
-            updateTimeDisplay();
-            setInterval(updateTimeDisplay, 60000);
+            // تحديث الوقت الحالي
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 1000);
             
-            // إضافة أحداث للأزرار
-            document.getElementById('startExamBtn').addEventListener('click', startExam);
-            document.getElementById('submitExamBtn').addEventListener('click', submitExam);
-            document.getElementById('backToCodeBtn').addEventListener('click', backToCodeEntry);
+            // أحداث الأزرار
+            document.getElementById('start-exam').addEventListener('click', startExam);
+            document.getElementById('submit-exam').addEventListener('click', submitExam);
+            document.getElementById('restart-btn').addEventListener('click', restartSystem);
             
-            // السماح بالدخول عند الضغط على Enter في حقل الكود
-            document.getElementById('studentCode').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
+            // التحقق من الكود عند الضغط على Enter
+            document.getElementById('student-code').addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
                     startExam();
                 }
             });
             
-            // إضافة أحداث لأسئلة الصح والخطأ
-            document.querySelectorAll('.true-false-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const questionNum = this.getAttribute('data-question');
-                    const answer = this.getAttribute('data-answer') === 'true';
-                    
-                    // إزالة التحديد من جميع أزرار هذا السؤال
-                    document.querySelectorAll(`.true-false-btn[data-question="${questionNum}"]`).forEach(b => {
-                        b.classList.remove('selected');
-                    });
-                    
-                    // تحديد الزر الحالي
-                    this.classList.add('selected');
-                    
-                    // حفظ الإجابة
-                    userAnswers[questionNum] = answer;
+            // إعداد الأسئلة
+            setupExamQuestions();
+            
+            // التحقق من الوقت الحالي
+            checkCurrentTime();
+        });
+        
+        // تحديث الوقت الحالي
+        function updateCurrentTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ar-EG');
+            document.getElementById('current-time').textContent = `الوقت الحالي: ${timeString}`;
+        }
+        
+        // التحقق من الوقت الحالي (لا يسمح بعد منتصف الليل)
+        function checkCurrentTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            
+            if (hours >= 24 || hours < 6) { // بعد منتصف الليل حتى 6 صباحًا
+                document.getElementById('time-error').style.display = 'block';
+                document.getElementById('start-exam').disabled = true;
+                return false;
+            }
+            return true;
+        }
+        
+        // بدء الامتحان بعد التحقق من الكود
+        function startExam() {
+            // التحقق من الوقت أولاً
+            if (!checkCurrentTime()) {
+                return;
+            }
+            
+            const codeInput = document.getElementById('student-code');
+            const code = codeInput.value.trim();
+            
+            // التحقق من صحة الكود
+            if (!isValidCode(code)) {
+                showError('code-error');
+                return;
+            }
+            
+            // حفظ الكود الحالي
+            currentCode = code;
+            
+            // التحقق من استخدام الكود من قبل على هذا الهاتف
+            if (isCodeUsed(code)) {
+                showError('code-error');
+                return;
+            }
+            
+            // التحقق من عدد المرات التي استخدم فيها الهاتف
+            if (isPhoneLimitReached()) {
+                showError('phone-limit-error');
+                return;
+            }
+            
+            // تسجيل الكود والهاتف
+            registerCodeAndPhone(code);
+            
+            // إخفاء أي رسائل خطأ
+            hideAllErrors();
+            
+            // عرض رسالة نجاح
+            document.getElementById('code-success').style.display = 'block';
+            
+            // الانتقال للامتحان بعد تأخير قصير
+            setTimeout(() => {
+                switchScreen('exam');
+                startTimer();
+            }, 1000);
+        }
+        
+        // التحقق من صحة الكود (9 أرقام إنجليزية فقط)
+        function isValidCode(code) {
+            const codeRegex = /^\d{9}$/;
+            return codeRegex.test(code);
+        }
+        
+        // التحقق من استخدام الكود من قبل على هذا الهاتف
+        function isCodeUsed(code) {
+            // إنشاء معرف فريد للهاتف باستخدام مزيج من خصائص المتصفح
+            const phoneId = generatePhoneId();
+            
+            // إنشاء مفتاح تخزين مميز لهذا الامتحان
+            const storageKey = `math_exam_5th_${phoneId}`;
+            
+            // محاولة قراءة البيانات المخزنة
+            const storedData = localStorage.getItem(storageKey);
+            
+            if (storedData) {
+                try {
+                    const data = JSON.parse(storedData);
+                    // التحقق إذا كان الكود موجود في القائمة
+                    if (data.codes && data.codes.includes(code)) {
+                        return true;
+                    }
+                } catch (e) {
+                    // في حالة وجود خطأ في البيانات، نعتبر أنها غير موجودة
+                    return false;
+                }
+            }
+            
+            return false;
+        }
+        
+        // التحقق من وصول الهاتف للحد الأقصى (مرتين فقط)
+        function isPhoneLimitReached() {
+            const phoneId = generatePhoneId();
+            const storageKey = `math_exam_5th_${phoneId}`;
+            
+            const storedData = localStorage.getItem(storageKey);
+            
+            if (storedData) {
+                try {
+                    const data = JSON.parse(storedData);
+                    if (data.codes && data.codes.length >= 2) {
+                        return true;
+                    }
+                } catch (e) {
+                    return false;
+                }
+            }
+            
+            return false;
+        }
+        
+        // تسجيل الكود والهاتف
+        function registerCodeAndPhone(code) {
+            const phoneId = generatePhoneId();
+            const storageKey = `math_exam_5th_${phoneId}`;
+            
+            let data = {
+                codes: [],
+                lastAccess: new Date().toISOString()
+            };
+            
+            const storedData = localStorage.getItem(storageKey);
+            if (storedData) {
+                try {
+                    data = JSON.parse(storedData);
+                } catch (e) {
+                    // تجاهل الخطأ ونبدأ من جديد
+                }
+            }
+            
+            // إضافة الكود الجديد إذا لم يكن موجودًا
+            if (!data.codes.includes(code)) {
+                data.codes.push(code);
+                data.lastAccess = new Date().toISOString();
+                
+                // حفظ البيانات
+                localStorage.setItem(storageKey, JSON.stringify(data));
+            }
+        }
+        
+        // إنشاء معرف فريد للهاتف
+        function generatePhoneId() {
+            // استخدام مزيج من خصائص المتصفح لإنشاء معرف فريد
+            const userAgent = navigator.userAgent;
+            const language = navigator.language;
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            
+            // إنشاء هاش بسيط
+            let hash = 0;
+            const str = `${userAgent}|${language}|${timezone}`;
+            
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // تحويل إلى 32-bit integer
+            }
+            
+            // إضافة بادئة مميزة لهذا الامتحان
+            return `exam5_${Math.abs(hash).toString(16).substring(0, 8)}`;
+        }
+        
+        // إعداد أسئلة الامتحان
+        function setupExamQuestions() {
+            const examForm = document.getElementById('exam-form');
+            const arabicLetters = ['أ', 'ب', 'ج', 'د'];
+            
+            examData.questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                let optionsHTML = '';
+                question.options.forEach((option, optIndex) => {
+                    optionsHTML += `
+                        <div class="option" data-question="${question.id}" data-option="${optIndex}">
+                            <span class="option-label">${arabicLetters[optIndex]}</span>
+                            ${option}
+                        </div>
+                    `;
                 });
+                
+                questionDiv.innerHTML = `
+                    <div class="question-number">${question.text}</div>
+                    <div class="options" id="options-${question.id}">
+                        ${optionsHTML}
+                    </div>
+                `;
+                
+                examForm.appendChild(questionDiv);
             });
             
-            // إضافة أحداث لأسئلة الاختيار من متعدد
-            document.querySelectorAll('.mcq-option').forEach(option => {
+            // إضافة أحداث لخيارات الأسئلة
+            document.querySelectorAll('.option').forEach(option => {
                 option.addEventListener('click', function() {
-                    const questionNum = this.getAttribute('data-question');
-                    const selectedOption = this.getAttribute('data-option');
+                    const questionId = parseInt(this.getAttribute('data-question'));
+                    const optionIndex = parseInt(this.getAttribute('data-option'));
                     
                     // إزالة التحديد من جميع خيارات هذا السؤال
-                    document.querySelectorAll(`.mcq-option[data-question="${questionNum}"]`).forEach(opt => {
-                        opt.classList.remove('selected');
-                    });
+                    const allOptions = document.querySelectorAll(`[data-question="${questionId}"]`);
+                    allOptions.forEach(opt => opt.classList.remove('selected'));
                     
                     // تحديد الخيار الحالي
                     this.classList.add('selected');
                     
-                    // حفظ الإجابة
-                    userAnswers[questionNum] = selectedOption;
+                    // حفظ إجابة الطالب
+                    studentAnswers[questionId] = optionIndex;
                 });
             });
-            
-            // التحقق من وجود محاولة سابقة (عند تحديث الصفحة أثناء الامتحان)
-            const savedCode = sessionStorage.getItem('current_exam_code');
-            if (savedCode) {
-                studentCode = savedCode;
-                showExam();
-            }
-        });
-        
-        // بدء الامتحان
-        function startExam() {
-            const codeInput = document.getElementById('studentCode');
-            const code = codeInput.value.trim();
-            const messageDiv = document.getElementById('codeMessage');
-            
-            // التحقق من صحة الكود
-            if (!isValidCode(code)) {
-                messageDiv.textContent = "الكود يجب أن يتكون من 9 أرقام (باللغة الإنجليزية فقط)";
-                messageDiv.className = "message error";
-                return;
-            }
-            
-            // التحقق من إمكانية الدخول
-            const checkResult = canTakeExam(code);
-            if (!checkResult.allowed) {
-                messageDiv.textContent = checkResult.reason;
-                messageDiv.className = "message error";
-                return;
-            }
-            
-            // تسجيل محاولة الدخول
-            registerExamAttempt(code);
-            studentCode = code;
-            
-            // حفظ الكود في session storage للاستمرار في حالة تحديث الصفحة
-            sessionStorage.setItem('current_exam_code', code);
-            
-            // عرض الامتحان
-            showExam();
         }
         
-        // عرض قسم الامتحان
-        function showExam() {
-            document.getElementById('codeEntry').style.display = 'none';
-            document.getElementById('examContainer').style.display = 'block';
-            document.getElementById('resultsContainer').style.display = 'none';
+        // بدء المؤقت
+        function startTimer() {
+            clearInterval(timerInterval);
             
-            // مسح أي إجابات سابقة
-            userAnswers = {};
-            document.querySelectorAll('.true-false-btn.selected').forEach(btn => btn.classList.remove('selected'));
-            document.querySelectorAll('.mcq-option.selected').forEach(opt => opt.classList.remove('selected'));
-            
-            // إعادة تعيين رسالة الامتحان
-            document.getElementById('examMessage').textContent = "";
-            document.getElementById('examMessage').className = "message";
+            timerInterval = setInterval(() => {
+                examTime--;
+                
+                const minutes = Math.floor(examTime / 60);
+                const seconds = examTime % 60;
+                
+                document.getElementById('time-left').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // انتهاء الوقت
+                if (examTime <= 0) {
+                    clearInterval(timerInterval);
+                    submitExam();
+                }
+            }, 1000);
         }
         
-        // تصحيح الامتحان
+        // تقديم الامتحان
         function submitExam() {
-            // التحقق من أن جميع الأسئلة تمت الإجابة عليها
-            const totalQuestions = Object.keys(correctAnswers).length;
-            const answeredQuestions = Object.keys(userAnswers).length;
+            clearInterval(timerInterval);
             
-            if (answeredQuestions < totalQuestions) {
-                document.getElementById('examMessage').textContent = `يرجى الإجابة على جميع الأسئلة. لديك ${answeredQuestions} من أصل ${totalQuestions} إجابة.`;
-                document.getElementById('examMessage').className = "message warning";
-                return;
-            }
+            // حساب النتيجة
+            const result = calculateResult();
             
-            // حساب الدرجات
+            // عرض النتيجة
+            showResult(result);
+            
+            // الانتقال لشاشة النتيجة
+            switchScreen('result');
+        }
+        
+        // حساب النتيجة
+        function calculateResult() {
             let score = 0;
             const mistakes = [];
+            const arabicLetters = ['أ', 'ب', 'ج', 'د'];
             
-            for (let i = 1; i <= totalQuestions; i++) {
-                const userAnswer = userAnswers[i];
-                const correctAnswer = correctAnswers[i];
+            examData.questions.forEach(question => {
+                const studentAnswer = studentAnswers[question.id];
+                const correctAnswer = question.correctAnswer;
                 
-                if (userAnswer === correctAnswer) {
+                if (studentAnswer === correctAnswer) {
                     score++;
                 } else {
-                    // تسجيل الخطأ
-                    let userAnswerText = userAnswer;
-                    let correctAnswerText = correctAnswer;
-                    
-                    if (typeof userAnswer === 'boolean') {
-                        userAnswerText = userAnswer ? '✓' : 'X';
-                    }
-                    
-                    if (typeof correctAnswer === 'boolean') {
-                        correctAnswerText = correctAnswer ? '✓' : 'X';
-                    }
+                    const studentLetter = studentAnswer !== undefined ? 
+                        arabicLetters[studentAnswer] : 'لم يتم الإجابة';
+                    const correctLetter = arabicLetters[correctAnswer];
                     
                     mistakes.push({
-                        question: i,
-                        userAnswer: userAnswerText,
-                        correctAnswer: correctAnswerText
+                        question: question.text,
+                        studentAnswer: studentLetter + '. ' + (studentAnswer !== undefined ? 
+                            question.options[studentAnswer] : 'لم يتم الإجابة'),
+                        correctAnswer: correctLetter + '. ' + question.options[correctAnswer]
                     });
                 }
-            }
+            });
             
-            // حساب النسبة المئوية
-            const percentage = Math.round((score / totalQuestions) * 100);
-            
-            // عرض النتائج
-            showResults(score, totalQuestions, percentage, mistakes);
-            
-            // تحديث سجل الامتحان في التخزين المحلي
-            const examKey = getExamStorageKey(studentCode);
-            const examRecord = JSON.parse(localStorage.getItem(examKey) || "{}");
-            examRecord.completed = true;
-            examRecord.score = score;
-            examRecord.totalQuestions = totalQuestions;
-            examRecord.percentage = percentage;
-            examRecord.completedAt = new Date().toISOString();
-            localStorage.setItem(examKey, JSON.stringify(examRecord));
-            
-            // مسح كود الجلسة الحالية
-            sessionStorage.removeItem('current_exam_code');
+            return {
+                score: score,
+                total: examData.questions.length,
+                mistakes: mistakes
+            };
         }
         
-        // عرض النتائج
-        function showResults(score, totalQuestions, percentage, mistakes) {
-            document.getElementById('codeEntry').style.display = 'none';
-            document.getElementById('examContainer').style.display = 'none';
-            document.getElementById('resultsContainer').style.display = 'block';
+        // عرض النتيجة
+        function showResult(result) {
+            document.getElementById('final-grade').textContent = `${result.score}/${result.total}`;
             
-            // عرض الدرجة
-            document.getElementById('finalScore').textContent = `الدرجة: ${score}/${totalQuestions} (${percentage}%)`;
+            const mistakesContainer = document.getElementById('mistakes-container');
             
-            // عرض الأخطاء إذا وجدت
-            const mistakesList = document.getElementById('mistakesList');
-            mistakesList.innerHTML = "";
-            
-            if (mistakes.length === 0) {
-                mistakesList.innerHTML = '<div class="message success">ممتاز! لم ترتكب أي أخطاء.</div>';
+            if (result.mistakes.length === 0) {
+                mistakesContainer.innerHTML = '<p style="color: #38a169; font-weight: bold;">تهانينا! لم ترتكب أي أخطاء.</p>';
             } else {
-                mistakesList.innerHTML = '<h3>الأخطاء التي وقعت فيها:</h3>';
+                let mistakesHTML = '<h3>الأخطاء التي وقعت فيها:</h3>';
                 
-                mistakes.forEach(mistake => {
-                    const mistakeItem = document.createElement('div');
-                    mistakeItem.className = 'mistake-item';
-                    
-                    // الحصول على نص السؤال
-                    let questionText = "";
-                    if (mistake.question <= 8) {
-                        const questionElement = document.querySelector(`.question:nth-child(${mistake.question + 1}) .question-text`);
-                        questionText = questionElement ? questionElement.textContent : `السؤال ${mistake.question}`;
-                    } else {
-                        const questionElement = document.querySelector(`.question:nth-child(${mistake.question + 2}) .question-text`);
-                        questionText = questionElement ? questionElement.textContent : `السؤال ${mistake.question}`;
-                    }
-                    
-                    mistakeItem.innerHTML = `
-                        <p><strong>السؤال ${mistake.question}:</strong> ${questionText}</p>
-                        <p>إجابتك: <span class="user-answer">${mistake.userAnswer}</span></p>
-                        <p>الإجابة الصحيحة: <span class="correct-answer">${mistake.correctAnswer}</span></p>
+                result.mistakes.forEach((mistake, index) => {
+                    mistakesHTML += `
+                        <div class="mistake-item">
+                            <p><strong>السؤال:</strong> ${mistake.question}</p>
+                            <p><strong>إجابتك:</strong> <span class="student-answer">${mistake.studentAnswer}</span></p>
+                            <p><strong>الإجابة الصحيحة:</strong> <span class="correct-answer">${mistake.correctAnswer}</span></p>
+                        </div>
                     `;
-                    
-                    mistakesList.appendChild(mistakeItem);
                 });
+                
+                mistakesContainer.innerHTML = mistakesHTML;
             }
         }
         
-        // العودة إلى صفحة إدخال الكود
-        function backToCodeEntry() {
-            document.getElementById('codeEntry').style.display = 'block';
-            document.getElementById('examContainer').style.display = 'none';
-            document.getElementById('resultsContainer').style.display = 'none';
+        // تبديل الشاشات
+        function switchScreen(screen) {
+            // إخفاء جميع الشاشات
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
             
-            // مسح حقل الإدخال وإعادة التركيز عليه
-            document.getElementById('studentCode').value = "";
-            document.getElementById('studentCode').focus();
+            // إظهار الشاشة المطلوبة
+            document.getElementById(`${screen}-screen`).classList.add('active');
+            currentScreen = screen;
+        }
+        
+        // إعادة تشغيل النظام
+        function restartSystem() {
+            // إعادة تعيين المتغيرات
+            studentAnswers = {};
+            examTime = 30 * 60;
+            currentCode = '';
             
-            // إعادة تعيين رسالة الكود
-            document.getElementById('codeMessage').textContent = "";
-            document.getElementById('codeMessage').className = "message";
+            // إعادة تعيين النموذج
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // إعادة تعيين حقل الكود
+            document.getElementById('student-code').value = '';
+            
+            // إخفاء الرسائل
+            hideAllErrors();
+            document.getElementById('code-success').style.display = 'none';
+            
+            // العودة لشاشة الكود
+            switchScreen('code');
+        }
+        
+        // عرض رسالة خطأ
+        function showError(errorId) {
+            hideAllErrors();
+            document.getElementById(errorId).style.display = 'block';
+        }
+        
+        // إخفاء جميع رسائل الخطأ
+        function hideAllErrors() {
+            document.querySelectorAll('.error-message, .success-message').forEach(msg => {
+                msg.style.display = 'none';
+            });
         }
     </script>
 </body>
