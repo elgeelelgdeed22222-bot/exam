@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>امتحان الرياضيات - الصف الخامس الابتدائي</title>
+    <title>امتحان الرياضيات - الصف الرابع الابتدائي</title>
     <style>
         * {
             box-sizing: border-box;
@@ -13,15 +13,16 @@
         body {
             margin: 0;
             padding: 20px;
-            background-color: #f5f9ff;
+            background-color: #f8f9fa;
             color: #333;
             line-height: 1.6;
-            font-size: 14px;
+            font-size: 15px;
+            min-height: 100vh;
         }
         
         .header {
             text-align: center;
-            background: linear-gradient(135deg, #1a5fb4, #2d7cd6);
+            background: linear-gradient(135deg, #2b6cb0, #4299e1);
             color: white;
             padding: 15px;
             border-radius: 10px;
@@ -68,15 +69,16 @@
             margin: 15px 0;
             letter-spacing: 5px;
             font-family: monospace;
+            direction: ltr;
         }
         
         .code-input:focus {
-            border-color: #1a5fb4;
+            border-color: #2b6cb0;
             outline: none;
         }
         
         .btn {
-            background-color: #1a5fb4;
+            background-color: #2b6cb0;
             color: white;
             border: none;
             padding: 12px 25px;
@@ -89,7 +91,7 @@
         }
         
         .btn:hover {
-            background-color: #155aa0;
+            background-color: #2c5282;
         }
         
         .btn:disabled {
@@ -109,9 +111,10 @@
         
         .question-number {
             font-weight: bold;
-            color: #1a5fb4;
-            margin-bottom: 8px;
+            color: #2b6cb0;
+            margin-bottom: 12px;
             font-size: 16px;
+            line-height: 1.5;
         }
         
         .options {
@@ -120,34 +123,42 @@
         
         .option {
             margin-bottom: 10px;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ddd;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
         }
         
         .option:hover {
-            background-color: #f0f7ff;
-            border-color: #a0c8ff;
+            background-color: #ebf8ff;
+            border-color: #90cdf4;
         }
         
         .option.selected {
-            background-color: #e1f0ff;
-            border-color: #1a5fb4;
+            background-color: #bee3f8;
+            border-color: #2b6cb0;
+            border-width: 2px;
         }
         
         .option-label {
             display: inline-block;
-            width: 25px;
-            height: 25px;
-            background-color: #1a5fb4;
+            width: 30px;
+            height: 30px;
+            background-color: #2b6cb0;
             color: white;
             border-radius: 50%;
             text-align: center;
-            line-height: 25px;
-            margin-left: 8px;
+            line-height: 30px;
+            margin-left: 12px;
             font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .option-text {
+            flex-grow: 1;
         }
         
         .result {
@@ -156,10 +167,15 @@
         }
         
         .grade {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
-            color: #1a5fb4;
-            margin: 20px 0;
+            color: #2b6cb0;
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #ebf8ff;
+            border-radius: 10px;
+            display: inline-block;
+            min-width: 150px;
         }
         
         .mistakes {
@@ -170,20 +186,30 @@
         
         .mistake-item {
             background-color: #fff5f5;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
             border-right: 4px solid #e53e3e;
         }
         
         .correct-answer {
             color: #38a169;
             font-weight: bold;
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #f0fff4;
+            border-radius: 4px;
+            margin-right: 5px;
         }
         
         .student-answer {
             color: #c53030;
             font-weight: bold;
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #fff5f5;
+            border-radius: 4px;
+            margin-right: 5px;
         }
         
         .timer {
@@ -191,49 +217,75 @@
             font-size: 16px;
             color: #4a5568;
             margin: 15px 0;
-            padding: 10px;
+            padding: 12px;
             background-color: #edf2f7;
-            border-radius: 6px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e0;
         }
         
         .error-message {
             background-color: #fed7d7;
             color: #c53030;
-            padding: 12px;
-            border-radius: 6px;
+            padding: 15px;
+            border-radius: 8px;
             margin: 15px 0;
             text-align: center;
             display: none;
+            border-right: 4px solid #e53e3e;
         }
         
         .success-message {
             background-color: #c6f6d5;
             color: #22543d;
-            padding: 12px;
-            border-radius: 6px;
+            padding: 15px;
+            border-radius: 8px;
             margin: 15px 0;
             text-align: center;
             display: none;
+            border-right: 4px solid #38a169;
         }
         
         .rules {
-            background-color: #e6f7ff;
-            padding: 15px;
-            border-radius: 8px;
+            background-color: #ebf8ff;
+            padding: 20px;
+            border-radius: 10px;
             margin: 20px 0;
             font-size: 14px;
-            border-right: 4px solid #1a5fb4;
+            border-right: 4px solid #2b6cb0;
         }
         
         .rules h3 {
             margin-top: 0;
-            color: #1a5fb4;
+            color: #2b6cb0;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .rules ul {
+            padding-right: 20px;
+            margin: 0;
+        }
+        
+        .rules li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .code-info {
+            background-color: #f7fafc;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            text-align: center;
+            border: 1px dashed #cbd5e0;
+            font-size: 13px;
+            color: #4a5568;
         }
         
         @media (max-width: 480px) {
             body {
                 padding: 10px;
-                font-size: 13px;
+                font-size: 14px;
             }
             
             .header h1 {
@@ -252,6 +304,62 @@
                 font-size: 18px;
                 padding: 12px;
             }
+            
+            .option {
+                padding: 10px;
+            }
+            
+            .option-label {
+                width: 26px;
+                height: 26px;
+                line-height: 26px;
+                margin-left: 8px;
+            }
+            
+            .grade {
+                font-size: 26px;
+                padding: 12px;
+                min-width: 120px;
+            }
+        }
+        
+        .score-details {
+            background-color: #f0fff4;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #9ae6b4;
+        }
+        
+        .congrats {
+            color: #22543d;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .no-mistakes {
+            color: #22543d;
+            padding: 15px;
+            background-color: #c6f6d5;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .warning {
+            color: #d69e2e;
+            background-color: #fefcbf;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            text-align: center;
+            border-right: 4px solid #d69e2e;
+        }
+        
+        .math-symbol {
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            font-size: 18px;
         }
     </style>
 </head>
@@ -259,24 +367,29 @@
     <div class="container">
         <div class="header">
             <h1>مدرسة الجيل الجديد الخاصة</h1>
-            <h2>امتحان الرياضيات للصف الخامس الابتدائي</h2>
+            <h2>امتحان الرياضيات للصف الرابع الابتدائي</h2>
         </div>
         
         <!-- شاشة إدخال الكود -->
         <div id="code-screen" class="card active">
             <div class="rules">
-                <h3>تعليمات الدخول:</h3>
+                <h3>تعليمات الدخول للامتحان:</h3>
                 <ul>
-                    <li>أدخل الكود المكون من 9 أرقام إنجليزية فقط</li>
+                    <li>أدخل الكود المكون من 9 أرقام إنجليزية فقط (0-9)</li>
                     <li>يمكن لكل كود الدخول للامتحان مرة واحدة فقط</li>
                     <li>يمكن لكل هاتف دخول الامتحان مرتين فقط بكودين مختلفين</li>
                     <li>الامتحان متاح حتى الساعة 12 منتصف الليل فقط</li>
+                    <li>مدة الامتحان: 30 دقيقة</li>
                     <li>بعد الانتهاء من الإجابة سيتم تصحيح الامتحان وعرض النتيجة</li>
                 </ul>
             </div>
             
+            <div class="code-info">
+                
+            </div>
+            
             <div id="time-error" class="error-message">
-                لا يمكن الدخول للامتحان بعد الساعة 12 منتصف الليل. حاول مرة أخرى في اليوم التالي.
+                لا يمكن الدخول للامتحان بعد الساعة 12 منتصف الليل. يرجى المحاولة في اليوم التالي.
             </div>
             
             <div id="code-error" class="error-message">
@@ -288,19 +401,25 @@
             </div>
             
             <div id="code-success" class="success-message">
-                تم التحقق من الكود بنجاح! جاهز للبدء.
+                تم التحقق من الكود بنجاح! جاهز للبدء في الامتحان.
             </div>
             
             <div class="timer" id="current-time"></div>
             
-            <label for="student-code">أدخل الكود المكون من 9 أرقام:</label>
-            <input type="text" id="student-code" class="code-input" maxlength="9" placeholder="123456789" inputmode="numeric">
+            <label for="student-code" style="font-weight: bold; display: block; margin-bottom: 8px; color: #2b6cb0;">
+                أدخل الكود المكون من 9 أرقام:
+            </label>
+            <input type="text" id="student-code" class="code-input" maxlength="9" placeholder="" inputmode="numeric">
             <button id="start-exam" class="btn">بدء الامتحان</button>
         </div>
         
         <!-- شاشة الامتحان -->
         <div id="exam-screen" class="card">
             <div class="timer" id="exam-timer">الوقت المتبقي: <span id="time-left">30:00</span></div>
+            
+            <div class="warning" id="time-warning" style="display: none;">
+                ⚠️ الوقت المتبقي أقل من 5 دقائق!
+            </div>
             
             <form id="exam-form">
                 <!-- الأسئلة سيتم إضافتها ديناميكياً -->
@@ -312,9 +431,12 @@
         <!-- شاشة النتيجة -->
         <div id="result-screen" class="card">
             <div class="result">
-                <h2>نتيجة امتحان الرياضيات</h2>
+                <h2>نتيجة امتحان الرياضيات - الصف الرابع الابتدائي</h2>
                 <div class="grade">الدرجة: <span id="final-grade">0</span>/10</div>
-                <p>تم الانتهاء من تصحيح الامتحان</p>
+                
+                <div id="score-details" class="score-details" style="display: none;">
+                    <!-- تفاصيل النتيجة ستظهر هنا -->
+                </div>
                 
                 <div id="mistakes-container" class="mistakes">
                     <!-- الأخطاء ستظهر هنا -->
@@ -326,119 +448,114 @@
     </div>
 
     <script>
-        // بيانات الأسئلة والإجابات الصحيحة - تم تغيير الأرقام إلى الإنجليزية
+        // بيانات الأسئلة والإجابات الصحيحة للصف الرابع الابتدائي
         const examData = {
-            title: "امتحان الرياضيات للصف الخامس الابتدائي",
+            title: "امتحان الرياضيات للصف الرابع الابتدائي",
             questions: [
                 {
                     id: 1,
-                    text: "1. الخطوة الأولى في إيجاد قيمة التعبير العددي 35 ÷ 7 + 5 - 2 هي..................",
+                    text: "١. مستطيل طوله L وعرضه W فإن محيطه = ............",
                     options: [
-                        "الضرب",
-                        "القسمة", 
-                        "الجمع",
-                        "الطرح"
+                        "L+W",
+                        "(L+W) × 2",
+                        "(2 × L) + W"
                     ],
-                    correctAnswer: 1 // الفهرس 1 يعني الخيار الثاني (ب)
+                    correctAnswer: 1 // الفهرس 1 يعني الخيار الثاني (ب) - (L+W) × 2
                 },
                 {
                     id: 2,
-                    text: "2. العدد التالي مباشرة في النمط 5، 10، 20، 40، ... هو..............",
+                    text: "٢. 10 أمثال العدد 5 = ............",
                     options: [
-                        "80",
-                        "60",
-                        "55",
-                        "45"
+                        "500",
+                        "50",
+                        "55,000",
+                        "550,000"
                     ],
-                    correctAnswer: 0 // الفهرس 0 يعني الخيار الأول (أ)
+                    correctAnswer: 1 // الفهرس 1 يعني الخيار الثاني (ب) - 50
                 },
                 {
                     id: 3,
-                    text: "3. 35 ÷ (6 - (5 - 4)) = ......",
+                    text: "٣. من عوامل العدد 25 هو ............",
                     options: [
+                        "3",
                         "6",
-                        "7",
-                        "5",
-                        "8"
+                        "5"
                     ],
-                    correctAnswer: 1 // الفهرس 1 يعني الخيار الثاني (ب)
+                    correctAnswer: 2 // الفهرس 2 يعني الخيار الثالث (ج) - 5
                 },
                 {
                     id: 4,
-                    text: "4. إذا كان المدخل 7 والقاعدة هي ن × 5 فإن المخرج هو .................",
+                    text: "٤. أي من الأعداد الآتية من الأعداد الأولية؟",
                     options: [
                         "12",
-                        "35",
-                        "57",
-                        "75"
+                        "10",
+                        "11"
                     ],
-                    correctAnswer: 1 // الفهرس 1 يعني الخيار الثاني (ب)
+                    correctAnswer: 2 // الفهرس 2 يعني الخيار الثالث (ج) - 11
                 },
                 {
                     id: 5,
-                    text: "5. قاعدة النمط 7، 12، 17، 22، ... هي .................",
+                    text: "٥. قيمة الرقم 4 في العدد 645,763 هي ............",
                     options: [
-                        "جمع 5",
-                        "طرح 5",
-                        "جمع 6",
-                        "ضرب 2"
+                        "400",
+                        "4,000",
+                        "40,000",
+                        "400,000"
                     ],
-                    correctAnswer: 0 // الفهرس 0 يعني الخيار الأول (أ)
+                    correctAnswer: 2 // الفهرس 2 يعني الخيار الثالث (ج) - 40,000
                 },
                 {
                     id: 6,
-                    text: "6. خارج قسمة 2.5 ÷ 0.5 يساوي.....................",
+                    text: "٦. القيمة المكانية للرقم 6 في العدد 24,625 هي ............",
                     options: [
-                        "5",
-                        "8",
-                        "22",
-                        "10"
+                        "عشرات",
+                        "مئات",
+                        "ألوف",
+                        "آحاد"
                     ],
-                    correctAnswer: 0 // الفهرس 0 يعني الخيار الأول (أ)
+                    correctAnswer: 1 // الفهرس 1 يعني الخيار الثاني (ب) - مئات
                 },
                 {
                     id: 7,
-                    text: "7. 3.5 ÷ 0.1 = ......",
+                    text: "٧. المليون هو أصغر عدد مكون من ............ أرقام.",
                     options: [
-                        "35",
-                        "3500",
-                        "3.5",
-                        "0.35"
+                        "5",
+                        "6",
+                        "7"
                     ],
-                    correctAnswer: 0 // الفهرس 0 يعني الخيار الأول (أ)
+                    correctAnswer: 2 // الفهرس 2 يعني الخيار الثالث (ج) - 7
                 },
                 {
                     id: 8,
-                    text: "8. 512 جم = ................... كجم",
+                    text: "٨. مستطيل طوله 7 سم وعرضه 5 سم، فإن مساحته = ............ سم مربع.",
                     options: [
-                        "5.12",
-                        "512",
-                        "51.20",
-                        "0.512"
+                        "35",
+                        "42",
+                        "12"
                     ],
-                    correctAnswer: 3 // الفهرس 3 يعني الخيار الرابع (د)
+                    correctAnswer: 0 // الفهرس 0 يعني الخيار الأول (أ) - 35
                 },
                 {
                     id: 9,
-                    text: "9. المقسوم عليه في مسألة القسمة 2499 ÷ 51 = 49 هو..................",
+                    text: "٩. تقريب العدد 34,089 لأقرب عشرة آلاف هو ............",
                     options: [
-                        "49",
-                        "2499",
-                        "51",
-                        "0"
+                        "30,000",
+                        "34,000",
+                        "34,090",
+                        "35,000"
                     ],
-                    correctAnswer: 2 // الفهرس 2 يعني الخيار الثالث (ج)
+                    correctAnswer: 0 // الفهرس 0 يعني الخيار الأول (أ) - 30,000
                 },
                 {
                     id: 10,
-                    text: "10. 0.7 × ...... = 70",
+                    text: "١٠. 13 + 0 = 13 تسمى خاصية ............",
                     options: [
-                        "1",
-                        "10",
-                        "100",
-                        "1000"
+                        "الدمج",
+                        "الإبدال",
+                        "المحايد الجمعي",
+                        "لا شيء مما سبق"
                     ],
-                    correctAnswer: 2 // الفهرس 2 يعني الخيار الثالث (ج)
+                    correctAnswer: 2 // الفهرس 2 يعني الخيار الثالث (ج) - المحايد الجمعي
                 }
             ]
         };
@@ -466,6 +583,9 @@
                 if (event.key === 'Enter') {
                     startExam();
                 }
+                
+                // السماح فقط بالأرقام الإنجليزية
+                this.value = this.value.replace(/[^\d]/g, '');
             });
             
             // إعداد الأسئلة
@@ -486,8 +606,10 @@
         function checkCurrentTime() {
             const now = new Date();
             const hours = now.getHours();
+            const minutes = now.getMinutes();
             
-            if (hours >= 24 || hours < 6) { // بعد منتصف الليل حتى 6 صباحًا
+            // منع الدخول بعد منتصف الليل (00:00) حتى 6 صباحًا
+            if ((hours >= 0 && hours < 6) || (hours === 0 && minutes === 0)) {
                 document.getElementById('time-error').style.display = 'block';
                 document.getElementById('start-exam').disabled = true;
                 return false;
@@ -554,7 +676,7 @@
             const phoneId = generatePhoneId();
             
             // إنشاء مفتاح تخزين مميز لهذا الامتحان
-            const storageKey = `math_exam_5th_${phoneId}`;
+            const storageKey = `math_exam_4th_primary_${phoneId}`;
             
             // محاولة قراءة البيانات المخزنة
             const storedData = localStorage.getItem(storageKey);
@@ -578,7 +700,7 @@
         // التحقق من وصول الهاتف للحد الأقصى (مرتين فقط)
         function isPhoneLimitReached() {
             const phoneId = generatePhoneId();
-            const storageKey = `math_exam_5th_${phoneId}`;
+            const storageKey = `math_exam_4th_primary_${phoneId}`;
             
             const storedData = localStorage.getItem(storageKey);
             
@@ -599,11 +721,12 @@
         // تسجيل الكود والهاتف
         function registerCodeAndPhone(code) {
             const phoneId = generatePhoneId();
-            const storageKey = `math_exam_5th_${phoneId}`;
+            const storageKey = `math_exam_4th_primary_${phoneId}`;
             
             let data = {
                 codes: [],
-                lastAccess: new Date().toISOString()
+                lastAccess: new Date().toISOString(),
+                examTitle: "امتحان الرياضيات للصف الرابع الابتدائي"
             };
             
             const storedData = localStorage.getItem(storageKey);
@@ -630,11 +753,12 @@
             // استخدام مزيج من خصائص المتصفح لإنشاء معرف فريد
             const userAgent = navigator.userAgent;
             const language = navigator.language;
+            const platform = navigator.platform;
             const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             
             // إنشاء هاش بسيط
             let hash = 0;
-            const str = `${userAgent}|${language}|${timezone}`;
+            const str = `math4prim_${userAgent}_${language}_${platform}_${timezone}`;
             
             for (let i = 0; i < str.length; i++) {
                 const char = str.charCodeAt(i);
@@ -643,7 +767,7 @@
             }
             
             // إضافة بادئة مميزة لهذا الامتحان
-            return `exam5_${Math.abs(hash).toString(16).substring(0, 8)}`;
+            return `math4prim_${Math.abs(hash).toString(16).substring(0, 10)}`;
         }
         
         // إعداد أسئلة الامتحان
@@ -657,16 +781,28 @@
                 
                 let optionsHTML = '';
                 question.options.forEach((option, optIndex) => {
+                    // معالجة الرموز الرياضية
+                    let optionText = option;
+                    if (option.includes('×')) {
+                        optionText = option.replace('×', '<span class="math-symbol">×</span>');
+                    }
+                    
                     optionsHTML += `
                         <div class="option" data-question="${question.id}" data-option="${optIndex}">
                             <span class="option-label">${arabicLetters[optIndex]}</span>
-                            ${option}
+                            <span class="option-text">${optionText}</span>
                         </div>
                     `;
                 });
                 
+                // معالجة الرموز الرياضية في نص السؤال
+                let questionText = question.text;
+                if (questionText.includes('×')) {
+                    questionText = questionText.replace('×', '<span class="math-symbol">×</span>');
+                }
+                
                 questionDiv.innerHTML = `
-                    <div class="question-number">${question.text}</div>
+                    <div class="question-number">${questionText}</div>
                     <div class="options" id="options-${question.id}">
                         ${optionsHTML}
                     </div>
@@ -707,6 +843,14 @@
                 document.getElementById('time-left').textContent = 
                     `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
+                // تغيير لون المؤقت عندما يقل الوقت عن 5 دقائق
+                if (minutes < 5 && minutes >= 0) {
+                    document.getElementById('exam-timer').style.backgroundColor = '#fff5f5';
+                    document.getElementById('exam-timer').style.color = '#c53030';
+                    document.getElementById('exam-timer').style.borderColor = '#fc8181';
+                    document.getElementById('time-warning').style.display = 'block';
+                }
+                
                 // انتهاء الوقت
                 if (examTime <= 0) {
                     clearInterval(timerInterval);
@@ -746,11 +890,17 @@
                         arabicLetters[studentAnswer] : 'لم يتم الإجابة';
                     const correctLetter = arabicLetters[correctAnswer];
                     
+                    // إزالة العلامات HTML من الإجابات لعرضها كنص عادي
+                    const studentFullAnswer = studentAnswer !== undefined ? 
+                        question.options[studentAnswer].replace(/<\/?[^>]+(>|$)/g, "") : 'لم يتم الإجابة';
+                    const correctFullAnswer = question.options[correctAnswer].replace(/<\/?[^>]+(>|$)/g, "");
+                    
                     mistakes.push({
-                        question: question.text,
-                        studentAnswer: studentLetter + '. ' + (studentAnswer !== undefined ? 
-                            question.options[studentAnswer] : 'لم يتم الإجابة'),
-                        correctAnswer: correctLetter + '. ' + question.options[correctAnswer]
+                        question: question.text.replace(/<\/?[^>]+(>|$)/g, ""),
+                        studentAnswer: studentLetter,
+                        studentFullAnswer: studentFullAnswer,
+                        correctAnswer: correctLetter,
+                        correctFullAnswer: correctFullAnswer
                     });
                 }
             });
@@ -758,18 +908,51 @@
             return {
                 score: score,
                 total: examData.questions.length,
+                percentage: Math.round((score / examData.questions.length) * 100),
                 mistakes: mistakes
             };
         }
         
         // عرض النتيجة
         function showResult(result) {
+            // عرض الدرجة النهائية
             document.getElementById('final-grade').textContent = `${result.score}/${result.total}`;
             
+            // عرض تفاصيل النتيجة
+            const scoreDetails = document.getElementById('score-details');
+            let detailsHTML = '';
+            
+            if (result.percentage >= 90) {
+                detailsHTML = `
+                    <div class="congrats">🎉 ممتاز! أداء رائع</div>
+                    <p>لقد حصلت على ${result.percentage}% من إجمالي الدرجات</p>
+                `;
+            } else if (result.percentage >= 75) {
+                detailsHTML = `
+                    <div class="congrats">👏 جيد جداً! أحسنت</div>
+                    <p>لقد حصلت على ${result.percentage}% من إجمالي الدرجات</p>
+                `;
+            } else if (result.percentage >= 50) {
+                detailsHTML = `
+                    <div class="congrats">👍 مقبول، يمكنك التحسين</div>
+                    <p>لقد حصلت على ${result.percentage}% من إجمالي الدرجات</p>
+                `;
+            } else {
+                detailsHTML = `
+                    <div class="congrats">📚 تحتاج للمزيد من المراجعة</div>
+                    <p>لقد حصلت على ${result.percentage}% من إجمالي الدرجات</p>
+                    <p style="margin-top: 10px; color: #718096;">راجع دروس: المحيط والمساحة، القيمة المكانية، الأعداد الأولية، وتقريب الأعداد</p>
+                `;
+            }
+            
+            scoreDetails.innerHTML = detailsHTML;
+            scoreDetails.style.display = 'block';
+            
+            // عرض الأخطاء
             const mistakesContainer = document.getElementById('mistakes-container');
             
             if (result.mistakes.length === 0) {
-                mistakesContainer.innerHTML = '<p style="color: #38a169; font-weight: bold;">تهانينا! لم ترتكب أي أخطاء.</p>';
+                mistakesContainer.innerHTML = '<div class="no-mistakes">🎉 تهانينا! لم ترتكب أي أخطاء. لقد أجبت على جميع الأسئلة بشكل صحيح.</div>';
             } else {
                 let mistakesHTML = '<h3>الأخطاء التي وقعت فيها:</h3>';
                 
@@ -777,8 +960,8 @@
                     mistakesHTML += `
                         <div class="mistake-item">
                             <p><strong>السؤال:</strong> ${mistake.question}</p>
-                            <p><strong>إجابتك:</strong> <span class="student-answer">${mistake.studentAnswer}</span></p>
-                            <p><strong>الإجابة الصحيحة:</strong> <span class="correct-answer">${mistake.correctAnswer}</span></p>
+                            <p><strong>إجابتك:</strong> <span class="student-answer">${mistake.studentAnswer}. ${mistake.studentFullAnswer}</span></p>
+                            <p><strong>الإجابة الصحيحة:</strong> <span class="correct-answer">${mistake.correctAnswer}. ${mistake.correctFullAnswer}</span></p>
                         </div>
                     `;
                 });
@@ -814,12 +997,21 @@
             // إعادة تعيين حقل الكود
             document.getElementById('student-code').value = '';
             
+            // إعادة تعيين المؤقت
+            clearInterval(timerInterval);
+            
+            // إخفاء رسائل التحذير
+            document.getElementById('time-warning').style.display = 'none';
+            
             // إخفاء الرسائل
             hideAllErrors();
             document.getElementById('code-success').style.display = 'none';
             
             // العودة لشاشة الكود
             switchScreen('code');
+            
+            // التحقق من الوقت الحالي
+            checkCurrentTime();
         }
         
         // عرض رسالة خطأ
